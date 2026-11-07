@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { business } from "@/config/business";
+import { BrandLogo } from "@/components/site/BrandLogo";
 import { Button } from "@/components/ui/button";
 
 const links = [
@@ -104,13 +104,15 @@ export function SiteHeader() {
       <div
         className={`mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-5 motion-safe:transition-[padding] motion-safe:duration-200 md:grid-cols-[1fr_auto_1fr] ${compact ? "py-2" : "py-3"}`}
       >
-        <a href="#" onClick={() => setOpen(false)} className="flex min-w-0 items-center gap-2.5">
-          <span
-            className={`grid shrink-0 place-items-center rounded-xl border border-industrial-yellow/30 bg-white/5 text-xs font-bold text-industrial-yellow motion-safe:transition-[width,height] ${compact ? "size-8" : "size-9"}`}
-          >
-            RG
-          </span>
-          <span className="truncate text-[15px] font-bold text-warm-white">{business.name}</span>
+        <a
+          href="#"
+          onClick={() => setOpen(false)}
+          aria-label="KING CENTRAL GRÚAS — inicio"
+          className="flex min-w-0 items-center"
+        >
+          <BrandLogo
+            className={`w-auto shrink-0 motion-safe:transition-[height] motion-safe:duration-200 ${compact ? "h-9" : "h-11"}`}
+          />
         </a>
 
         <nav
