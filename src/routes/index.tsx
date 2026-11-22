@@ -362,7 +362,10 @@ function Index() {
           <div className="hero-steel-band" aria-hidden />
           <div className="hero-layout relative z-10 mx-auto grid max-w-7xl items-center gap-7 px-4 pb-9 pt-5 sm:px-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:gap-0 lg:pb-11 lg:pt-8">
             <div className="hero-copy">
-              <BrandLogo className="hero-logo hero-logo--official" />
+              <BrandLogo
+                className="hero-logo hero-logo--official"
+                priority="high"
+              />
               <h1 id="hero-title" className="hero-title">
                 <span className="hero-title__line">A la altura de</span>{" "}
                 <span className="hero-title__line hero-title-accent">

@@ -50,7 +50,6 @@ export function SiteHeader() {
   const [compact, setCompact] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string | null>("inicio");
-  const [heroLogoVisible, setHeroLogoVisible] = useState(true);
   const quoteHref =
     whatsAppUrl("Hola, quiero cotizar un servicio de grúa.") ?? "#cotizar";
 
@@ -77,28 +76,6 @@ export function SiteHeader() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("keydown", onKey);
     };
-  }, []);
-
-  useEffect(() => {
-    const heroLogo = document.querySelector<HTMLElement>(".hero-logo");
-    if (!heroLogo) {
-      setHeroLogoVisible(false);
-      return;
-    }
-
-    const header = document.querySelector<HTMLElement>(".industrial-header");
-    const headerBottom = header?.getBoundingClientRect().bottom ?? 0;
-    const initialRect = heroLogo.getBoundingClientRect();
-    setHeroLogoVisible(
-      initialRect.bottom > headerBottom && initialRect.top < window.innerHeight,
-    );
-
-    const observer = new IntersectionObserver(
-      ([entry]) => setHeroLogoVisible(!!entry?.isIntersecting),
-      { rootMargin: "-96px 0px 0px 0px", threshold: 0.15 },
-    );
-    observer.observe(heroLogo);
-    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -135,10 +112,8 @@ export function SiteHeader() {
           href="#inicio"
           onClick={() => setOpen(false)}
           aria-label="Rey Central Grúas — inicio"
-          aria-hidden={heroLogoVisible || undefined}
-          tabIndex={heroLogoVisible ? -1 : 0}
           data-header-logo
-          className={`flex min-w-0 items-center justify-self-start rounded-lg motion-safe:transition-[width,opacity] motion-safe:duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-industrial-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-industrial-dark ${compact ? "w-16 sm:w-[4.5rem] lg:w-20" : "w-[4.5rem] sm:w-20 lg:w-24"} ${heroLogoVisible ? "pointer-events-none opacity-0" : "opacity-100"}`}
+          className={`flex min-w-0 items-center justify-self-start rounded-lg motion-safe:transition-[width] motion-safe:duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-industrial-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-industrial-dark ${compact ? "w-14 sm:w-16 lg:w-20" : "w-16 sm:w-20 lg:w-24"}`}
         >
           <BrandLogo className="w-full h-auto" />
         </a>
