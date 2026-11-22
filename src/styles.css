@@ -498,6 +498,11 @@
   filter: drop-shadow(0 14px 22px rgb(0 0 0 / 55%));
 }
 
+.hero-logo--official {
+  max-width: 100%;
+  object-fit: contain;
+}
+
 .hero-title {
   margin-top: var(--hero-gap-logo);
   font-family: "Poppins", var(--font-sans);
