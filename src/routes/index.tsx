@@ -106,6 +106,11 @@ const benefits = [
 
 /** Distintivos del Hero (mockup final): palomita + texto, en una sola línea en escritorio. */
 const heroHighlights = ["Renta de grúas", "Cobertura nacional"] as const;
+const serviceModes = [
+  "Turno diurno",
+  "Proyecto nocturno",
+  "Renta por semana/mes",
+] as const;
 
 const rentalSteps = [
   [
@@ -162,6 +167,10 @@ function CraneLineArt({ className }: { className?: string }) {
 
 function Index() {
   const [quoteOpen, setQuoteOpen] = useState(false);
+  const [quoteContext, setQuoteContext] = useState<{
+    unit: string;
+    mode: string;
+  } | null>(null);
   const quoteToggleRef = useRef<HTMLAnchorElement>(null);
   // Sin selección hasta que el visitante pulse «Ver ficha»: no hay unidad marcada por defecto.
   const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null);
@@ -376,6 +385,11 @@ function Index() {
                 </span>
               </h1>
               <p className="hero-subtitle">Seguridad, precisión y confianza.</p>
+              <ul className="hero-proof-strip" aria-label="Indicadores de confianza">
+                <li>Operadores certificados DC-3 y Licencia Tipo E</li>
+                <li>Cotización en menos de 15 min</li>
+                <li>Cobertura en CDMX, EdoMex y alrededores</li>
+              </ul>
               <ul className="hero-checks">
                 {heroHighlights.map((item) => (
                   <li key={item} className="hero-checks__item">
@@ -540,6 +554,25 @@ function Index() {
             title="Nuestras unidades"
             intro="Conoce nuestra flotilla de grúas, equipada para facilitar el acceso y desarrollo de trabajos en altura."
           >
+            <div className="fleet-mode-picker" role="group" aria-label="Modalidad de servicio">
+              <span className="fleet-mode-picker__label">Modalidad del servicio</span>
+              <div className="fleet-mode-picker__options">
+                {serviceModes.map((mode) => (
+                  <button
+                    key={mode}
+                    type="button"
+                    aria-pressed={quoteContext?.mode === mode}
+                    onClick={() => setQuoteContext((current) => ({
+                      unit: current?.unit ?? "",
+                      mode,
+                    }))}
+                    className="fleet-mode-picker__option"
+                  >
+                    {mode}
+                  </button>
+                ))}
+              </div>
+            </div>
             <div
               className={`fleet-grid grid gap-4 ${publicFleetUnits.length === 1 ? "fleet-grid--single" : "md:grid-cols-2 lg:grid-cols-3"}`}
             >
@@ -603,7 +636,13 @@ function Index() {
                           {isSelected ? "Ocultar ficha" : "Ver ficha"}
                         </button>
                         <a
-                          href={`?unidad=${encodeURIComponent(unit.name)}#cotizar`}
+                          href="#cotizar"
+                          onClick={() =>
+                            setQuoteContext({
+                              unit: unit.name,
+                              mode: quoteContext?.mode ?? serviceModes[0],
+                            })
+                          }
                           className="fleet-card__button fleet-card__button--primary"
                         >
                           Cotizar esta unidad
@@ -729,7 +768,10 @@ function Index() {
                     Cerrar formulario
                   </button>
                 </div>
-                <QuoteWizard />
+                <QuoteWizard
+                  selectedUnit={quoteContext?.unit}
+                  selectedMode={quoteContext?.mode}
+                />
               </div>
             </div>
           </Section>

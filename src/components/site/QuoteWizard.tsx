@@ -33,10 +33,9 @@ const empty: Solicitud = {
   telefono: "",
   email: "",
 };
-const steps = ["Trabajo", "Lugar y fotos", "Contacto", "Revisar"];
+const steps = ["Maniobra y altura", "Ubicación y turno", "Vista previa"];
 const PLACE_STEP = 1;
-const CONTACT_STEP = 2;
-const REVIEW_STEP = 3;
+const REVIEW_STEP = 2;
 
 // Solicitudes guardadas con el catálogo anterior de servicios se traducen a los tipos actuales.
 const LEGACY_WORK: Partial<Record<string, string>> = {
@@ -79,7 +78,7 @@ function stepErrors(step: number, data: Solicitud): string[] {
     return ["Describe brevemente el trabajo que necesitas realizar."];
   if (step === PLACE_STEP && !data.ubicacion.trim())
     return ["Escribe la ciudad o municipio del servicio para continuar."];
-  if (step !== CONTACT_STEP) return [];
+  if (step !== PLACE_STEP) return [];
   const errors: string[] = [];
   if (!data.nombre?.trim()) errors.push("Escribe tu nombre.");
   if (!isValidPhone(data.telefono ?? "")) {
@@ -121,7 +120,13 @@ const contextual: Partial<Record<string, ContextualConfig>> = {
   },
 };
 
-export function QuoteWizard() {
+export function QuoteWizard({
+  selectedUnit,
+  selectedMode,
+}: {
+  selectedUnit?: string;
+  selectedMode?: string;
+}) {
   const [step, setStep] = useState(0);
   const [data, setData] = useState<Solicitud>(empty);
   const [images, setImages] = useState<ImagenSolicitud[]>([]);
@@ -164,6 +169,15 @@ export function QuoteWizard() {
     }
     setLoaded(true);
   }, []);
+  useEffect(() => {
+    if (!selectedUnit && !selectedMode) return;
+    setData((current) => ({
+      ...current,
+      unidad: selectedUnit || current.unidad,
+      duracion: selectedMode || current.duracion,
+    }));
+    setStep(0);
+  }, [selectedMode, selectedUnit]);
   useEffect(() => {
     if (loaded) sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   }, [data, loaded]);
@@ -309,7 +323,7 @@ export function QuoteWizard() {
       PLACE_STEP,
     ],
     ["Fecha estimada", data.fecha, PLACE_STEP],
-    ["Duración", data.duracion, PLACE_STEP],
+    ["Turno o modalidad", data.duracion, PLACE_STEP],
     ["Condiciones", data.observaciones, PLACE_STEP],
     [
       "Fotografías",
@@ -321,10 +335,10 @@ export function QuoteWizard() {
       analysis ? `${analysis.analyses.length} foto(s) analizada(s)` : "",
       PLACE_STEP,
     ],
-    ["Nombre", data.nombre ?? "", CONTACT_STEP],
-    ["Teléfono / WhatsApp", data.telefono ?? "", CONTACT_STEP],
-    ["Empresa", data.empresa ?? "", CONTACT_STEP],
-    ["Correo", data.email ?? "", CONTACT_STEP],
+    ["Nombre", data.nombre ?? "", PLACE_STEP],
+    ["Teléfono / WhatsApp", data.telefono ?? "", PLACE_STEP],
+    ["Empresa", data.empresa ?? "", PLACE_STEP],
+    ["Correo", data.email ?? "", PLACE_STEP],
   ];
 
   return (
@@ -400,6 +414,16 @@ export function QuoteWizard() {
                 NO_PREFERENCE,
               ]}
             />
+            <Field id="q-altura" t="Altura requerida (aproximada)">
+              <input
+                id="q-altura"
+                className="field"
+                inputMode="numeric"
+                placeholder="Ej. 12 m"
+                value={data.altura}
+                onChange={set("altura")}
+              />
+            </Field>
           </>
         )}
         {step === PLACE_STEP && (
@@ -443,7 +467,7 @@ export function QuoteWizard() {
                   onChange={set("fecha")}
                 />
               </Field>
-              <Field id="q-duracion" t="Duración aproximada (opcional)">
+              <Field id="q-duracion" t="Turno o modalidad (opcional)">
                 <select
                   id="q-duracion"
                   className="field"
@@ -451,6 +475,9 @@ export function QuoteWizard() {
                   onChange={set("duracion")}
                 >
                   <option value="">Selecciona una opción</option>
+                  <option value="Turno diurno">Turno diurno</option>
+                  <option value="Proyecto nocturno">Proyecto nocturno</option>
+                  <option value="Renta por semana/mes">Renta por semana/mes</option>
                   {DURATIONS.map((duration) => (
                     <option key={duration} value={duration}>
                       {duration}
@@ -654,7 +681,7 @@ export function QuoteWizard() {
             </div>
           </>
         )}
-        {step === CONTACT_STEP && (
+        {step === PLACE_STEP && (
           <>
             <div>
               <p className="font-bold text-card-foreground">
@@ -739,6 +766,10 @@ export function QuoteWizard() {
             <p className="mt-3 text-xs text-muted-foreground">
               Confirmamos contigo disponibilidad y detalles antes de agendar.
             </p>
+            <div className="quote-message-preview" aria-live="polite">
+              <p>Mensaje que se abrirá en WhatsApp</p>
+              <pre>{message}</pre>
+            </div>
             {analysis && (
               <p className="mt-2 rounded-xl border border-primary/35 bg-primary/5 px-4 py-3 text-xs leading-relaxed text-muted-foreground">
                 La IA analizó {analysis.analyses.length} fotografía(s). Sus
@@ -823,7 +854,7 @@ export function QuoteWizard() {
             onClick={goNext}
             className="btn-hero min-h-11 px-6 text-sm"
           >
-            {step === CONTACT_STEP ? "Revisar solicitud" : "Continuar"}
+            {step === PLACE_STEP ? "Ver vista previa" : "Continuar"}
           </button>
         )}
       </div>

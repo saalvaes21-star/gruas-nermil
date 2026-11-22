@@ -49,7 +49,7 @@ function NavLink({
 export function SiteHeader() {
   const [compact, setCompact] = useState(false);
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState<string | null>(null);
+  const [active, setActive] = useState<string | null>("inicio");
   const [heroLogoVisible, setHeroLogoVisible] = useState(true);
   const quoteHref =
     whatsAppUrl("Hola, quiero cotizar un servicio de grúa.") ?? "#cotizar";
@@ -107,17 +107,19 @@ export function SiteHeader() {
     ).filter((el): el is HTMLElement => !!el);
     if (!sections.length) return;
     const observer = new IntersectionObserver(
-      (entries) => {
-        setActive((current) => {
-          const entering = entries.find((entry) => entry.isIntersecting);
-          if (entering) return entering.target.id;
-          const currentLeft = entries.some(
-            (entry) => !entry.isIntersecting && entry.target.id === current,
+      () => {
+        const headerOffset = document.querySelector<HTMLElement>(
+          ".industrial-header",
+        )?.offsetHeight ?? 0;
+        const current = sections.reduce((closest, section) => {
+          const distance = Math.abs(
+            section.getBoundingClientRect().top - headerOffset - 24,
           );
-          return currentLeft ? null : current;
-        });
+          return distance < closest.distance ? { id: section.id, distance } : closest;
+        }, { id: "inicio", distance: Number.POSITIVE_INFINITY });
+        setActive(current.id);
       },
-      { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
+      { rootMargin: "-20% 0px -65% 0px", threshold: 0 },
     );
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
