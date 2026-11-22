@@ -4278,3 +4278,36 @@
   border-top: 0;
   background: linear-gradient(90deg, transparent, rgb(206 222 232 / 55%) 18%, rgb(255 255 255 / 80%) 50%, rgb(206 222 232 / 55%) 82%, transparent) top / 100% 1px no-repeat;
 }
+
+/* Header fijo y capa de acero neutra: no altera los recursos de placa ni sus relieves. */
+.industrial-header {
+  width: 100%;
+  background-color: #121418;
+  border-bottom: 1px solid rgb(249 115 22 / 72%);
+  box-shadow: 0 2px 12px rgb(0 0 0 / 28%);
+}
+
+.industrial-header[data-compact="true"] { background-color: #121418; }
+
+.hero-industrial {
+  background-color: #16181c;
+  background-image:
+    linear-gradient(180deg, rgb(255 255 255 / 8%), rgb(34 37 44 / 38%)),
+    radial-gradient(64% 54% at 18% 28%, rgb(249 115 22 / 12%), transparent 72%),
+    radial-gradient(52% 44% at 82% 14%, rgb(255 255 255 / 8%), transparent 72%),
+    url("/assets/industrial/steel-light-variation.svg"),
+    url("/assets/industrial/steel-tread-plate-gastado-definido.webp");
+  background-blend-mode: normal, screen, normal, normal, luminosity;
+}
+
+.hero-steel-band {
+  background:
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 8%) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg, #d6d8dc, #a4a8ae 18%, #61666e 48%, #363a40 76%, #1c1f24);
+}
+
+.hero-layout { padding-bottom: 3.5rem; }
+
+@media (min-width: 1024px) {
+  .hero-layout { padding-bottom: 4.25rem; }
+}

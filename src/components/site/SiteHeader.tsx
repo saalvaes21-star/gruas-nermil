@@ -104,7 +104,7 @@ export function SiteHeader() {
 
   return (
     <header
-      className="industrial-header sticky top-0 z-40"
+      className="industrial-header sticky top-0 z-50 w-full"
       data-compact={compact}
     >
       <div className="industrial-header__bar relative mx-auto grid h-(--site-header-h) max-w-7xl grid-cols-[5rem_1fr_auto] items-center gap-3 px-4 sm:grid-cols-[6rem_1fr_auto] sm:px-5 lg:grid-cols-[7rem_1fr_auto]">
