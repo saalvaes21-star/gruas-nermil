@@ -9,16 +9,16 @@ export function BrandLogo({
 }) {
   return (
     <picture>
-      <source srcSet="/logo-rey-central-oficial.webp" type="image/webp" />
+      <source srcSet="/logo-rey-central-v4.webp" type="image/webp" />
       <img
-        src="/logo-rey-central-oficial.png"
+        src="/logo-rey-central-v4.png"
         alt="Rey Central de Grúas"
-        width={1261}
-        height={1016}
+        width={1297}
+        height={1043}
         decoding="async"
         fetchPriority={priority}
         sizes="(min-width: 1024px) 280px, 80px"
-        className={cn("block w-full h-auto object-contain", className)}
+        className={cn("block h-auto w-full overflow-visible object-contain", className)}
       />
     </picture>
   );
