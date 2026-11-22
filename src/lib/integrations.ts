@@ -7,11 +7,19 @@ export const makeFolio = () => "SOL-" + Date.now().toString(36).toUpperCase().sl
 /** Mensaje estructurado para WhatsApp. */
 export function buildWhatsAppMessage(s: Partial<Solicitud> & { fotos?: number }, folio?: string) {
   const lines = [
-    "Hola, quiero cotizar la grúa con canastilla.",
+    "Hola, quiero cotizar la renta de una grúa con canastilla.",
     folio && `Solicitud: ${folio}`,
-    s.servicio && `Servicio: ${s.servicio}`,
-    s.ubicacion && `Ubicación: ${s.ubicacion}`,
-    s.fecha && `Fecha: ${s.fecha}`,
+    s.nombre && `Nombre: ${s.nombre}`,
+    s.empresa && `Empresa: ${s.empresa}`,
+    s.telefono && `Teléfono / WhatsApp: ${s.telefono}`,
+    s.email && `Correo: ${s.email}`,
+    s.unidad && `Unidad de interés: ${s.unidad}`,
+    s.servicio && `Trabajo: ${s.servicio}`,
+    s.servicioDetalle && `Detalle del trabajo: ${s.servicioDetalle}`,
+    s.ubicacion && `Ciudad o municipio: ${s.ubicacion}`,
+    s.direccion && `Dirección o referencia: ${s.direccion}`,
+    s.referencias && `Referencias del lugar: ${s.referencias}`,
+    s.fecha && `Fecha estimada: ${s.fecha}`,
     s.altura && `Altura aprox.: ${s.altura}`,
     s.personas && `Personas: ${s.personas}`,
     s.duracion && `Duración: ${s.duracion}`,
@@ -19,8 +27,11 @@ export function buildWhatsAppMessage(s: Partial<Solicitud> & { fotos?: number },
     s.obstaculos && `Obstáculos visibles: ${s.obstaculos}`,
     s.estabilizadores &&
       `Espacio para estabilizadores: ${{ si: "Sí", no: "No", "no-se": "No estoy seguro" }[s.estabilizadores]}`,
-    s.fotos ? `Fotografías: ${s.fotos} (las envío en este chat)` : null,
-    s.observaciones && `Observaciones: ${s.observaciones}`,
+    s.observaciones &&
+      `Condiciones de acceso / descripción: ${s.observaciones}`,
+    s.fotos
+      ? `Tengo ${s.fotos} fotografía(s) del lugar; las adjunto en este chat.`
+      : null,
   ].filter(Boolean);
   return lines.join("\n");
 }

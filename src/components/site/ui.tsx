@@ -24,7 +24,7 @@ export function Band({
   const toneClass = tone === "light" ? "section-light" : tone === "soft" ? "section-soft" : "";
   return (
     <section className={`industrial-band ${toneClass} ${className}`}>
-      <div className="mx-auto max-w-5xl px-4 py-5 sm:px-5 md:py-7">{children}</div>
+      <div className="mx-auto max-w-6xl px-4 py-5 sm:px-5 sm:py-6 lg:py-8">{children}</div>
     </section>
   );
 }
@@ -46,16 +46,16 @@ export function Section({
     <section
       id={id}
       tabIndex={id ? -1 : undefined}
-      className="scroll-mt-24 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-industrial-yellow"
+      className="scroll-mt-24 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-      <h2 className="mt-1.5 text-xl font-extrabold tracking-tight sm:text-2xl">{title}</h2>
+      <h2 className="mt-1 text-2xl font-extrabold tracking-tight sm:text-[1.75rem]">{title}</h2>
       {intro && (
-        <p className="mt-2 max-w-prose text-[15px] leading-relaxed text-muted-foreground">
+        <p className="mt-1.5 max-w-prose text-[15px] leading-relaxed text-muted-foreground">
           {intro}
         </p>
       )}
-      <div className="mt-3.5">{children}</div>
+      <div className="mt-4">{children}</div>
     </section>
   );
 }
@@ -109,7 +109,7 @@ export function FeatureItem({
 }) {
   return (
     <div className="flex items-start gap-3">
-      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-industrial-yellow/15 text-industrial-yellow">
+      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-accent text-accent-foreground">
         <Icon className="size-5" aria-hidden />
       </span>
       <div className="min-w-0">
@@ -128,9 +128,6 @@ const SLOT_ICON: Record<string, LucideIcon> = {
   "service-camaras": Camera,
   "service-industrial": Truck,
   "why-choose-us": CheckCircle2,
-  "example-fachada": ImageIcon,
-  "example-anuncio": ImageIcon,
-  "example-altura": ImageIcon,
 };
 
 /**

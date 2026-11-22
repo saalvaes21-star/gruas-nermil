@@ -1,0 +1,18 @@
+Backup created: 2026-11-07 17:51:39 CST
+Reason: before integrating approved rey-central-gruas-exacto.svg
+Project: /Users/saulvargas/Documents/Proyectos-Traccion-Digital/gruas-nermil
+Branch: main
+HEAD: ca51386dc35dfee5b6d2b50a4c8fb742d3d0497c
+
+Files backed up:
+- src/components/site/BrandLogo.tsx -> BrandLogo.tsx.bak
+- src/components/site/SiteHeader.tsx -> SiteHeader.tsx.bak
+- src/routes/__root.tsx -> __root.tsx.bak
+- vite.config.ts -> vite.config.ts.bak
+- src/lib/cloudflare-workers-shim.ts -> cloudflare-workers-shim.ts.bak
+
+Also saved: pre-logo-exacto.diff, git-status.txt, branch.txt, head.txt, source-svg.sha256, backup-files.sha256
+
+Restore example:
+  cp .backup/20261107-175139/BrandLogo.tsx.bak src/components/site/BrandLogo.tsx
+  cp .backup/20261107-175139/SiteHeader.tsx.bak src/components/site/SiteHeader.tsx

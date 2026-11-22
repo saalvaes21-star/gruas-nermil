@@ -78,18 +78,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Renta de Grúa CDMX" },
-      { name: "description", content: "Renta de grúa con canastilla en CDMX y zona metropolitana." },
+      {
+        title: "Rey Central Grúas | Renta de Grúas de Canastilla en CDMX y EdoMex",
+      },
+      {
+        name: "description",
+        content:
+          "Renta de grúas con canastilla para trabajos en altura en CDMX, EdoMex y cobertura nacional.",
+      },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Anton&family=Poppins:ital,wght@1,700;1,800&family=Rajdhani:wght@500;600;700&family=Sora:wght@400;500;600;700;800&display=swap",
+      },
       {
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
     ],
   }),
   shellComponent: RootShell,
@@ -105,10 +114,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-primary-foreground"
-        >
+        <a href="#main-content" className="skip-link">
           Saltar al contenido
         </a>
         {children}

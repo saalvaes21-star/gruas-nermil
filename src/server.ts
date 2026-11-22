@@ -18,6 +18,7 @@ type Env = {
 
 const MAX_IMAGES = 3;
 const MAX_IMAGE_BYTES = 2_000_000;
+const ALLOWED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 function json(body: unknown, status = 200) {
   return Response.json(body, {
@@ -170,8 +171,8 @@ async function handleImageAnalysis(request: Request, env: Env): Promise<Response
     .filter((value): value is File => value instanceof File)
     .slice(0, MAX_IMAGES);
   if (!images.length) return json({ error: "Selecciona al menos una fotografía." }, 400);
-  if (images.some((file) => !file.type.startsWith("image/") || file.size > MAX_IMAGE_BYTES)) {
-    return json({ error: "Cada fotografía debe ser una imagen de máximo 2 MB." }, 400);
+  if (images.some((file) => !ALLOWED_IMAGE_TYPES.has(file.type) || file.size > MAX_IMAGE_BYTES)) {
+    return json({ error: "Cada fotografía debe ser JPEG, PNG o WebP de máximo 2 MB." }, 400);
   }
 
   const prompt = `Analiza esta fotografía como apoyo preliminar para cotizar una grúa con canastilla.

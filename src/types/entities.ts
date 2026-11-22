@@ -3,8 +3,14 @@
 export type Solicitud = {
   id?: string;
   folio?: string;
+  unidad?: string;
   servicio: string;
+  /** Descripción libre cuando el trabajo es «Otro trabajo». */
+  servicioDetalle?: string;
   ubicacion: string;
+  // Detalle opcional del lugar (paso "Lugar" del cotizador).
+  direccion?: string;
+  referencias?: string;
   fecha: string;
   altura: string;
   personas: string;
@@ -13,6 +19,11 @@ export type Solicitud = {
   obstaculos: string;
   estabilizadores: "si" | "no" | "no-se" | "";
   observaciones: string;
+  // Datos de contacto del cliente (paso "Contacto" del cotizador).
+  nombre?: string;
+  empresa?: string;
+  telefono?: string;
+  email?: string;
 };
 export type ImagenSolicitud = { id?: string; solicitudId?: string; file: File; previewUrl: string };
 export type Cliente = { id?: string; nombre: string; telefono: string; email?: string };

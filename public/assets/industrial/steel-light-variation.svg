@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="640" viewBox="0 0 640 640">
+  <!-- Capa de variación de luz para la placa de acero: manchas amplias de sombra y brillo
+       (ruido fractal de baja frecuencia) que rompen la uniformidad del patrón repetido. -->
+  <defs>
+    <filter id="blotches" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.0055" numOctaves="3" seed="11" stitchTiles="stitch" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0.01  0 0 0 0 0.03  0 0 0 0 0.07  1.5 0 0 0 -0.55" />
+    </filter>
+    <filter id="sheen" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.004 0.012" numOctaves="2" seed="4" stitchTiles="stitch" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0.62  0 0 0 0 0.74  0 0 0 0 0.88  0 0 1.3 0 -0.68" />
+    </filter>
+  </defs>
+  <rect width="640" height="640" filter="url(#blotches)" opacity="0.55" />
+  <rect width="640" height="640" filter="url(#sheen)" opacity="0.35" />
+</svg>

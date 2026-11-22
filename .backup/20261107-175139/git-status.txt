@@ -1,0 +1,6 @@
+ M src/components/site/BrandLogo.tsx
+ M src/components/site/SiteHeader.tsx
+ M src/routes/__root.tsx
+ M vite.config.ts
+?? .backup/
+?? src/lib/cloudflare-workers-shim.ts

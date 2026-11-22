@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <!-- Placa diamantada (tread plate): relieves alternados en damero ±45°, como en la lámina real.
+       La sombra se aplica en coordenadas de pantalla para que la luz venga siempre de arriba a la izquierda. -->
+  <defs>
+    <linearGradient id="lugMetal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c3d1dc" />
+      <stop offset="0.3" stop-color="#7f93a3" />
+      <stop offset="0.62" stop-color="#3e5264" />
+      <stop offset="1" stop-color="#15253a" />
+    </linearGradient>
+    <pattern id="plateGrain" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(-18)">
+      <rect width="3" height="1" fill="#9fb4c6" opacity="0.035" />
+    </pattern>
+    <path id="lugShape" d="M-9.5 0 Q0 -4.6 9.5 0 Q0 4.6 -9.5 0Z" />
+    <g id="lugBody">
+      <use href="#lugShape" fill="url(#lugMetal)" />
+      <path d="M-7.4 -0.7 Q0 -3.9 7.4 -0.7" fill="none" stroke="#eef5fa" stroke-opacity="0.6" stroke-width="0.7" stroke-linecap="round" />
+      <path d="M-7.4 0.9 Q0 3.9 7.4 0.9" fill="none" stroke="#040910" stroke-opacity="0.6" stroke-width="0.6" stroke-linecap="round" />
+    </g>
+  </defs>
+  <rect width="48" height="48" fill="#0c1828" />
+  <rect width="48" height="48" fill="url(#plateGrain)" />
+  <g fill="#02060c" opacity="0.8">
+    <use href="#lugShape" transform="translate(13.3 13.6) rotate(-45)" />
+    <use href="#lugShape" transform="translate(37.3 13.6) rotate(45)" />
+    <use href="#lugShape" transform="translate(13.3 37.6) rotate(45)" />
+    <use href="#lugShape" transform="translate(37.3 37.6) rotate(-45)" />
+  </g>
+  <use href="#lugBody" transform="translate(12 12) rotate(-45)" />
+  <use href="#lugBody" transform="translate(36 12) rotate(45)" />
+  <use href="#lugBody" transform="translate(12 36) rotate(45)" />
+  <use href="#lugBody" transform="translate(36 36) rotate(-45)" />
+</svg>

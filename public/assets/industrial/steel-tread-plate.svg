@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
+  <!-- Placa diamantada del Hero (tread plate) en azul carbón: 16 relieves alternados ±45° con
+       variaciones leves de tono y de brillo por relieve para que el patrón no se perciba como retícula.
+       Generado a partir de un patrón determinista (seed 21). -->
+  <defs>
+    <linearGradient id="lugA" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#465b76" />
+      <stop offset="0.45" stop-color="#1f2e44" />
+      <stop offset="1" stop-color="#0b1524" />
+    </linearGradient>
+    <linearGradient id="lugB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3e536d" />
+      <stop offset="0.5" stop-color="#1b293d" />
+      <stop offset="1" stop-color="#0a1422" />
+    </linearGradient>
+    <linearGradient id="lugC" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4d6380" />
+      <stop offset="0.42" stop-color="#22324a" />
+      <stop offset="1" stop-color="#0c1726" />
+    </linearGradient>
+    <pattern id="grain" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(-20)">
+      <rect width="4" height="1" fill="#8aa4c2" opacity="0.028" />
+    </pattern>
+    <path id="lugShape" d="M-10 0 Q0 -3.4 10 0 Q0 3.4 -10 0Z" />
+    <path id="lugHi" d="M-8 -0.45 Q0 -3 8 -0.45" fill="none" stroke="#9db8d8" stroke-width="0.7" stroke-linecap="round" />
+    <path id="lugLo" d="M-8 0.6 Q0 2.9 8 0.6" fill="none" stroke="#02060c" stroke-width="0.7" stroke-linecap="round" />
+  </defs>
+  <rect width="96" height="96" fill="#101c2e" />
+  <rect width="96" height="96" fill="url(#grain)" />
+  <g fill="#03070d" opacity="0.7">
+    <use href="#lugShape" transform="translate(13.1 13.5) rotate(-45)" />
+    <use href="#lugShape" transform="translate(37.1 13.5) rotate(45)" />
+    <use href="#lugShape" transform="translate(61.1 13.5) rotate(-45)" />
+    <use href="#lugShape" transform="translate(85.1 13.5) rotate(45)" />
+    <use href="#lugShape" transform="translate(13.1 37.5) rotate(45)" />
+    <use href="#lugShape" transform="translate(37.1 37.5) rotate(-45)" />
+    <use href="#lugShape" transform="translate(61.1 37.5) rotate(45)" />
+    <use href="#lugShape" transform="translate(85.1 37.5) rotate(-45)" />
+    <use href="#lugShape" transform="translate(13.1 61.5) rotate(-45)" />
+    <use href="#lugShape" transform="translate(37.1 61.5) rotate(45)" />
+    <use href="#lugShape" transform="translate(61.1 61.5) rotate(-45)" />
+    <use href="#lugShape" transform="translate(85.1 61.5) rotate(45)" />
+    <use href="#lugShape" transform="translate(13.1 85.5) rotate(45)" />
+    <use href="#lugShape" transform="translate(37.1 85.5) rotate(-45)" />
+    <use href="#lugShape" transform="translate(61.1 85.5) rotate(45)" />
+    <use href="#lugShape" transform="translate(85.1 85.5) rotate(-45)" />
+  </g>
+  <g transform="translate(12 12) rotate(-45)">
+    <use href="#lugShape" fill="url(#lugC)" />
+    <use href="#lugHi" stroke-opacity="0.36" />
+    <use href="#lugLo" stroke-opacity="0.62" />
+  </g>
+  <g transform="translate(36 12) rotate(45)">
+    <use href="#lugShape" fill="url(#lugB)" />
+    <use href="#lugHi" stroke-opacity="0.39" />
+    <use href="#lugLo" stroke-opacity="0.66" />
+  </g>
+  <g transform="translate(60 12) rotate(-45)">
+    <use href="#lugShape" fill="url(#lugC)" />
+    <use href="#lugHi" stroke-opacity="0.51" />
+    <use href="#lugLo" stroke-opacity="0.58" />
+  </g>
+  <g transform="translate(84 12) rotate(45)">
+    <use href="#lugShape" fill="url(#lugA)" />
+    <use href="#lugHi" stroke-opacity="0.45" />
+    <use href="#lugLo" stroke-opacity="0.65" />
+  </g>
+  <g transform="translate(12 36) rotate(45)">
+    <use href="#lugShape" fill="url(#lugA)" />
+    <use href="#lugHi" stroke-opacity="0.41" />
+    <use href="#lugLo" stroke-opacity="0.6" />
+  </g>
+  <g transform="translate(36 36) rotate(-45)">
+    <use href="#lugShape" fill="url(#lugA)" />
+    <use href="#lugHi" stroke-opacity="0.35" />
+    <use href="#lugLo" stroke-opacity="0.64" />
+  </g>
+  <g transform="translate(60 36) rotate(45)">
+    <use href="#lugShape" fill="url(#lugC)" />
+    <use href="#lugHi" stroke-opacity="0.49" />
+    <use href="#lugLo" stroke-opacity="0.56" />
+  </g>
+  <g transform="translate(84 36) rotate(-45)">
+    <use href="#lugShape" fill="url(#lugB)" />
+    <use href="#lugHi" stroke-opacity="0.5" />
+    <use href="#lugLo" stroke-opacity="0.55" />
+  </g>
+  <g transform="translate(12 60) rotate(-45)">
+    <use href="#lugShape" fill="url(#lugB)" />
+    <use href="#lugHi" stroke-opacity="0.33" />
+    <use href="#lugLo" stroke-opacity="0.53" />
+  </g>
+  <g transform="translate(36 60) rotate(45)">
+    <use href="#lugShape" fill="url(#lugB)" />
+    <use href="#lugHi" stroke-opacity="0.49" />
+    <use href="#lugLo" stroke-opacity="0.61" />
+  </g>
+  <g transform="translate(60 60) rotate(-45)">
+    <use href="#lugShape" fill="url(#lugA)" />
+    <use href="#lugHi" stroke-opacity="0.33" />
+    <use href="#lugLo" stroke-opacity="0.64" />
+  </g>
+  <g transform="translate(84 60) rotate(45)">
+    <use href="#lugShape" fill="url(#lugB)" />
+    <use href="#lugHi" stroke-opacity="0.35" />
+    <use href="#lugLo" stroke-opacity="0.68" />
+  </g>
+  <g transform="translate(12 84) rotate(45)">
+    <use href="#lugShape" fill="url(#lugB)" />
+    <use href="#lugHi" stroke-opacity="0.36" />
+    <use href="#lugLo" stroke-opacity="0.63" />
+  </g>
+  <g transform="translate(36 84) rotate(-45)">
+    <use href="#lugShape" fill="url(#lugA)" />
+    <use href="#lugHi" stroke-opacity="0.44" />
+    <use href="#lugLo" stroke-opacity="0.5" />
+  </g>
+  <g transform="translate(60 84) rotate(45)">
+    <use href="#lugShape" fill="url(#lugA)" />
+    <use href="#lugHi" stroke-opacity="0.43" />
+    <use href="#lugLo" stroke-opacity="0.66" />
+  </g>
+  <g transform="translate(84 84) rotate(-45)">
+    <use href="#lugShape" fill="url(#lugC)" />
+    <use href="#lugHi" stroke-opacity="0.51" />
+    <use href="#lugLo" stroke-opacity="0.5" />
+  </g>
+</svg>

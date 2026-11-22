@@ -1,0 +1,361 @@
+diff --git a/src/components/site/BrandLogo.tsx b/src/components/site/BrandLogo.tsx
+index b9d31935..4d4b2a4f 100644
+--- a/src/components/site/BrandLogo.tsx
++++ b/src/components/site/BrandLogo.tsx
+@@ -1,79 +1,161 @@
+-const FONT = "Sora, ui-sans-serif, system-ui, sans-serif";
++import { cn } from "@/lib/utils";
++
++const DISPLAY_FONT = '"Anton", Impact, "Arial Black", sans-serif';
++const LABEL_FONT = '"Rajdhani", Arial, sans-serif';
+ 
+ export function BrandLogo({ className }: { className?: string }) {
+   return (
+     <svg
+-      viewBox="0 0 286 70"
++      viewBox="0 0 500 250"
+       role="img"
+       aria-label="KING CENTRAL GRÚAS"
+-      className={className}
++      className={cn("w-full h-auto", className)}
+       xmlns="http://www.w3.org/2000/svg"
+     >
+       <title>KING CENTRAL GRÚAS</title>
++      <defs>
++        <filter
++          id="brand-logo-shadow"
++          x="-10%"
++          y="-20%"
++          width="130%"
++          height="150%"
++        >
++          <feDropShadow
++            dx="3"
++            dy="3"
++            stdDeviation="1"
++            floodColor="#000000"
++            floodOpacity="0.55"
++          />
++        </filter>
++      </defs>
++
++      <path d="M0 0H240L0 240Z" fill="#0033FF" />
++
++      <rect
++        x="28"
++        y="70"
++        width="444"
++        height="120"
++        fill="#990000"
++        stroke="#5C0000"
++        strokeWidth="3"
++      />
+ 
+       <text
+-        x="2"
+-        y="36"
+-        textLength="66"
+-        lengthAdjust="spacing"
+-        fontFamily={FONT}
+-        fontSize="26"
+-        fontWeight="800"
+-        fill="var(--warm-white)"
+-      >
+-        KING
+-      </text>
+-      <text
+-        x="76"
+-        y="36"
+-        textLength="108"
+-        lengthAdjust="spacing"
+-        fontFamily={FONT}
+-        fontSize="26"
+-        fontWeight="800"
+-        fill="var(--warm-white)"
++        x="69.79"
++        y="160"
++        textLength="335.32"
++        lengthAdjust="spacingAndGlyphs"
++        fontFamily={DISPLAY_FONT}
++        fontSize="72"
++        fontWeight="400"
++        fill="#FFFFFF"
++        filter="url(#brand-logo-shadow)"
+       >
+-        CENTRA
++        KING CENTRA
+       </text>
+ 
+-      <g fill="var(--industrial-yellow)">
+-        <rect x="186.5" y="4" width="5.5" height="32" />
+-        <rect x="186.5" y="31" width="26" height="5" />
+-        <rect x="186.5" y="3" width="36" height="7" />
+-        <rect x="220" y="4.5" width="30" height="4.5" />
+-        <rect x="248" y="5.5" width="24" height="2.5" />
++      <g fill="#FFC107">
++        <rect x="402.37" y="50" width="9" height="110" />
++        <rect x="402.37" y="150" width="30.58" height="10" />
++      </g>
++
++      <g strokeLinecap="butt">
++        <line
++          x1="406.87"
++          y1="50"
++          x2="431"
++          y2="40"
++          stroke="#8A6A00"
++          strokeWidth="13"
++        />
++        <line
++          x1="406.87"
++          y1="50"
++          x2="431"
++          y2="40"
++          stroke="#FFC107"
++          strokeWidth="10"
++        />
++        <line
++          x1="426"
++          y1="42"
++          x2="450"
++          y2="33"
++          stroke="#8A6A00"
++          strokeWidth="10"
++        />
++        <line
++          x1="426"
++          y1="42"
++          x2="450"
++          y2="33"
++          stroke="#FFC107"
++          strokeWidth="7.5"
++        />
++        <line
++          x1="445"
++          y1="34"
++          x2="480"
++          y2="24"
++          stroke="#8A6A00"
++          strokeWidth="7.5"
++        />
++        <line
++          x1="445"
++          y1="34"
++          x2="480"
++          y2="24"
++          stroke="#FFC107"
++          strokeWidth="5"
++        />
+       </g>
+ 
+       <line
+-        x1="270"
+-        y1="7"
+-        x2="270"
+-        y2="17"
+-        stroke="var(--warm-white)"
+-        strokeWidth="1.5"
++        x1="480"
++        y1="24"
++        x2="480"
++        y2="38"
++        stroke="#8A6A00"
++        strokeWidth="2"
+       />
+-      <g
+-        stroke="var(--industrial-yellow)"
++
++      <rect
++        x="465"
++        y="38"
++        width="30"
++        height="30"
++        rx="2"
++        fill="#F4F1E8"
++        stroke="#8A6A00"
+         strokeWidth="2"
+-        fill="var(--industrial-yellow)"
+-        fillOpacity="0.14"
+-      >
+-        <rect x="262" y="17" width="16" height="12" rx="1" />
+-        <line x1="267.3" y1="17" x2="267.3" y2="29" strokeWidth="1" />
+-        <line x1="272.6" y1="17" x2="272.6" y2="29" strokeWidth="1" />
+-        <line x1="262" y1="23" x2="278" y2="23" strokeWidth="1" />
+-      </g>
++      />
++      <rect x="471" y="50" width="18" height="12" rx="1" fill="#2B2B2B" />
++      <circle cx="475" cy="54" r="1.4" fill="#FFC107" />
++      <circle cx="480" cy="54" r="1.4" fill="#FFC107" />
++      <circle cx="485" cy="54" r="1.4" fill="#FFC107" />
++      <rect
++        x="474"
++        y="57.5"
++        width="12"
++        height="2"
++        rx="0.5"
++        fill="#FFC107"
++        opacity="0.75"
++      />
+ 
+       <text
+-        x="102"
+-        y="62"
++        x="384"
++        y="186"
+         textLength="76"
+         lengthAdjust="spacing"
+-        fontFamily={FONT}
+-        fontSize="15"
++        fontFamily={LABEL_FONT}
++        fontSize="24"
+         fontWeight="700"
+-        letterSpacing="2.5"
+-        fill="var(--industrial-yellow)"
++        letterSpacing="2"
++        fill="#FFC107"
+       >
+         GRÚAS
+       </text>
+diff --git a/src/components/site/SiteHeader.tsx b/src/components/site/SiteHeader.tsx
+index ff8a6c24..e6037b9e 100644
+--- a/src/components/site/SiteHeader.tsx
++++ b/src/components/site/SiteHeader.tsx
+@@ -11,6 +11,8 @@ const links = [
+   ["Contacto", "#contacto"],
+ ] as const;
+ const SECTION_IDS = links.map(([, href]) => href.slice(1));
++const leftLinks = links.slice(0, 2);
++const rightLinks = links.slice(2);
+ 
+ function NavLink({
+   label,
+@@ -102,24 +104,13 @@ export function SiteHeader() {
+       data-compact={compact}
+     >
+       <div
+-        className={`mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-5 motion-safe:transition-[padding] motion-safe:duration-200 md:grid-cols-[1fr_auto_1fr] ${compact ? "py-2" : "py-3"}`}
++        className={`mx-auto grid max-w-6xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-5 motion-safe:transition-[padding] motion-safe:duration-200 ${compact ? "py-2" : "py-3"}`}
+       >
+-        <a
+-          href="#"
+-          onClick={() => setOpen(false)}
+-          aria-label="KING CENTRAL GRÚAS — inicio"
+-          className="flex min-w-0 items-center"
+-        >
+-          <BrandLogo
+-            className={`w-auto shrink-0 motion-safe:transition-[height] motion-safe:duration-200 ${compact ? "h-9" : "h-11"}`}
+-          />
+-        </a>
+-
+         <nav
+           aria-label="Navegación principal"
+-          className="hidden shrink-0 justify-self-center gap-5 text-sm md:flex"
++          className="hidden justify-self-start gap-5 text-sm md:col-start-1 md:flex"
+         >
+-          {links.map(([label, href]) => (
++          {leftLinks.map(([label, href]) => (
+             <NavLink
+               key={href}
+               label={label}
+@@ -130,19 +121,43 @@ export function SiteHeader() {
+           ))}
+         </nav>
+ 
+-        <div className="hidden md:block" aria-hidden />
+-
+-        <Button
+-          variant="ghost"
+-          size="icon"
+-          className="size-11 shrink-0 justify-self-end text-warm-white hover:bg-white/10 md:hidden"
+-          aria-label={open ? "Cerrar menú" : "Abrir menú"}
+-          aria-expanded={open}
+-          aria-controls="mobile-navigation"
+-          onClick={() => setOpen((value) => !value)}
++        <a
++          href="#"
++          onClick={() => setOpen(false)}
++          aria-label="KING CENTRAL GRÚAS — inicio"
++          className={`col-start-2 flex min-w-0 items-center justify-self-center motion-safe:transition-[width] motion-safe:duration-200 ${compact ? "w-24 md:w-28" : "w-28 md:w-36"}`}
+         >
+-          {open ? <X /> : <Menu />}
+-        </Button>
++          <BrandLogo className="w-full h-auto" />
++        </a>
++
++        <div className="col-start-3 flex items-center justify-self-end gap-3">
++          <nav
++            aria-label="Navegación secundaria"
++            className="hidden gap-5 text-sm md:flex"
++          >
++            {rightLinks.map(([label, href]) => (
++              <NavLink
++                key={href}
++                label={label}
++                href={href}
++                isActive={active === href.slice(1)}
++                variant="desktop"
++              />
++            ))}
++          </nav>
++
++          <Button
++            variant="ghost"
++            size="icon"
++            className="size-11 shrink-0 text-warm-white hover:bg-white/10 md:hidden"
++            aria-label={open ? "Cerrar menú" : "Abrir menú"}
++            aria-expanded={open}
++            aria-controls="mobile-navigation"
++            onClick={() => setOpen((value) => !value)}
++          >
++            {open ? <X /> : <Menu />}
++          </Button>
++        </div>
+       </div>
+       {open && (
+         <nav
+diff --git a/src/routes/__root.tsx b/src/routes/__root.tsx
+index 43fc4f78..01c573be 100644
+--- a/src/routes/__root.tsx
++++ b/src/routes/__root.tsx
+@@ -84,7 +84,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
+     links: [
+       { rel: "preconnect", href: "https://fonts.googleapis.com" },
+       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" },
++      {
++        rel: "stylesheet",
++        href: "https://fonts.googleapis.com/css2?family=Anton&family=Rajdhani:wght@500;600;700&family=Sora:wght@400;500;600;700;800&display=swap",
++      },
+       {
+         rel: "stylesheet",
+         href: appCss,
+diff --git a/vite.config.ts b/vite.config.ts
+index 6c7965d7..6f65a8ad 100644
+--- a/vite.config.ts
++++ b/vite.config.ts
+@@ -4,10 +4,25 @@
+ //     nitro (build-only using cloudflare as a default target), VITE_* env injection, @ path alias,
+ //     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
+ // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
++import { fileURLToPath } from "node:url";
+ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+ 
++const cloudflareWorkersDevShim = {
++  name: "cloudflare-workers-dev-shim",
++  apply: "serve" as const,
++  resolveId(id: string) {
++    if (id === "cloudflare:workers") {
++      return fileURLToPath(
++        new URL("./src/lib/cloudflare-workers-shim.ts", import.meta.url),
++      );
++    }
++    return null;
++  },
++};
++
+ export default defineConfig({
+   vite: {
++    plugins: [cloudflareWorkersDevShim],
+     build: {
+       rolldownOptions: {
+         external: ["cloudflare:workers"],

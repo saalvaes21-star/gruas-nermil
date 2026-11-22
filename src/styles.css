@@ -41,6 +41,9 @@
   --color-text-gray: var(--text-gray);
   --color-industrial-yellow: var(--industrial-yellow);
   --color-industrial-yellow-hover: var(--industrial-yellow-hover);
+  --color-brand-red: var(--brand-red);
+  --color-brand-red-bright: var(--brand-red-bright);
+  --color-brand-red-deep: var(--brand-red-deep);
   --color-technical-blue: var(--technical-blue);
   --color-whatsapp: var(--whatsapp);
 }
@@ -48,15 +51,17 @@
 :root {
   --radius: 1rem;
 
-  /* Industrial premium brand palette */
-  --industrial-black: #10161d;
-  --industrial-dark: #19232c;
-  --warm-white: #f5f3ec;
-  --light-surface: #e5eaec;
-  --text-gray: #596977;
-  --industrial-yellow: #f5ad00;
-  --industrial-yellow-hover: #dc9200;
-  --technical-blue: #2f7394;
+  --brand-red: #ff8a00;
+  --brand-red-bright: #ff9d28;
+  --brand-red-deep: #c96700;
+  --industrial-black: #111111;
+  --industrial-dark: #0b1736;
+  --warm-white: #ffffff;
+  --light-surface: #f1f3f5;
+  --text-gray: #66727c;
+  --industrial-yellow: #ff8a00;
+  --industrial-yellow-hover: #df7600;
+  --technical-blue: #0b1736;
   --whatsapp: #25d366;
 
   /* Default (dark) section tokens */
@@ -68,20 +73,21 @@
   --popover-foreground: var(--warm-white);
   --primary: var(--industrial-yellow);
   --primary-foreground: var(--industrial-black);
-  --sky: var(--technical-blue);
+  --sky: var(--industrial-yellow);
+  --eyebrow: var(--industrial-yellow);
   --secondary: oklch(1 0 0 / 8%);
   --secondary-foreground: var(--warm-white);
   --muted: oklch(1 0 0 / 6%);
-  --muted-foreground: oklch(0.72 0.02 260);
-  --accent: color-mix(in srgb, var(--technical-blue) 18%, transparent);
-  --accent-foreground: var(--technical-blue);
-  --destructive: oklch(0.65 0.2 25);
+  --muted-foreground: oklch(0.76 0.015 70);
+  --accent: color-mix(in srgb, var(--brand-red) 24%, transparent);
+  --accent-foreground: var(--industrial-yellow);
+  --destructive: var(--brand-red-bright);
   --destructive-foreground: oklch(0.99 0 0);
   --success: oklch(0.75 0.16 155);
-  --warning: oklch(0.8 0.14 80);
+  --warning: var(--industrial-yellow);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 14%);
-  --ring: var(--technical-blue);
+  --ring: var(--industrial-yellow);
   --gradient-primary: linear-gradient(
     135deg,
     var(--industrial-yellow),
@@ -116,7 +122,7 @@
     background: linear-gradient(
       90deg,
       var(--industrial-yellow) 0 62%,
-      var(--technical-blue) 62% 100%
+      var(--brand-red-bright) 62% 100%
     );
     content: "";
   }
@@ -126,33 +132,31 @@
   display: none;
 }
 
-.hero-industrial-overlay {
-  background:
-    linear-gradient(
-      90deg,
-      rgb(9 20 30 / 58%) 0%,
-      rgb(11 20 28 / 32%) 48%,
-      rgb(11 17 24 / 16%) 76%
-    ),
-    linear-gradient(
-      to top,
-      rgb(8 13 19 / 76%) 0%,
-      rgb(12 20 28 / 38%) 48%,
-      rgb(13 22 30 / 10%) 100%
-    );
+.primary-cta {
+  position: relative;
+  border-block: 1px solid color-mix(in srgb, var(--brand-red) 16%, transparent);
+  background-image: linear-gradient(90deg, transparent, rgb(252 202 1 / 12%), transparent);
+}
+
+.primary-cta::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0.3rem;
+  background: linear-gradient(var(--brand-red), var(--industrial-yellow));
+  content: "";
 }
 
 .assistant-trigger {
-  border: 1px solid color-mix(in srgb, var(--technical-blue) 70%, white);
-  background: linear-gradient(145deg, #315f78, var(--technical-blue));
+  border: 1px solid color-mix(in srgb, var(--brand-red-bright) 70%, white);
+  background: linear-gradient(145deg, var(--brand-red-bright), var(--brand-red));
   color: white;
   box-shadow:
-    0 12px 30px -14px color-mix(in srgb, var(--technical-blue) 80%, black),
+    0 12px 30px -14px color-mix(in srgb, var(--brand-red) 80%, black),
     0 1px 0 rgb(255 255 255 / 28%) inset;
 }
 
 .assistant-trigger:hover {
-  background: linear-gradient(145deg, #294f65, #315f78);
+  background: linear-gradient(145deg, #b00101, #8a0101);
 }
 
 .assistant-trigger:focus-visible {
@@ -160,57 +164,1075 @@
   outline-offset: 3px;
 }
 
-.industrial-header::after {
+/* Enlace "Saltar al contenido": fuera de la vista salvo con foco de teclado (:focus-visible),
+   centrado arriba para no cubrir el logotipo del header. */
+.skip-link {
+  position: fixed;
+  z-index: 60;
+  top: 0.75rem;
+  left: 50%;
+  padding: 0.6rem 1.1rem;
+  border-radius: 0.6rem;
+  background: var(--industrial-yellow);
+  box-shadow: 0 10px 24px -10px rgb(0 0 0 / 80%);
+  color: #111111;
+  font-size: 0.9rem;
+  font-weight: 700;
+  transform: translate(-50%, calc(-100% - 1.5rem));
+}
+
+.skip-link:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+  transform: translate(-50%, 0);
+}
+
+@media (max-width: 639px) {
+  .skip-link {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.82rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .skip-link { transition: transform 150ms ease; }
+}
+
+/* ---------- Sistema visual compartido de la portada ----------
+   Superficies: acero diamantado (Hero) → acero cepillado grafito (beneficios) → grafito liso
+   (servicios) → claro (unidades, proceso y formulario) → grafito oscuro (contacto y footer).
+   Todas las tarjetas comparten radio, borde, sombra, filo naranja superior y foco. */
+:root {
+  --ui-graphite-950: #14181d;
+  --ui-graphite-900: #1c2128;
+  --ui-graphite-800: #262c34;
+  --ui-text-muted: #4b5560;
+  --ui-border-light: #d6dce2;
+  --ui-border-dark: rgb(255 255 255 / 14%);
+  --ui-radius-card: 1rem;
+  --ui-radius-panel: 1.25rem;
+  --ui-shadow-light: 0 12px 28px -20px rgb(20 28 38 / 45%);
+  --ui-shadow-dark: 0 18px 32px -24px rgb(0 0 0 / 90%);
+  --ui-accent-edge: 3px solid var(--industrial-yellow);
+  --ui-focus: #c96700;
+
+  /* Materiales «titanio industrial» de las secciones posteriores al Hero. */
+  /* Paleta azul petróleo y acero luminoso. */
+  --ti-graphite: #152230;
+  --ti-graphite-deep: #0f1922;
+  --ti-graphite-panel: #1d3141;
+  --ti-graphite-contact: #1b2228;
+  --ti-petrol-light: #37657b;
+  --ti-petrol: #1d3d51;
+  --ti-petrol-deep: #102b3b;
+  --ti-ice-text: #d7e8f0;
+  --ti-steel-border: rgb(165 193 208 / 34%);
+  --ti-titanium: #c5dae5;
+  --ti-concrete: #e1edf2;
+  --ti-card: #f6fafc;
+  --ti-card-concrete: #f6fafc;
+  --ti-form-panel: #eaf2f6;
+  --ti-field: #ffffff;
+  --ti-text: #142638;
+  --ti-text-2: #3a5062;
+  --ti-border: #a5c1d0;
+  /* Filo de acero luminoso (plata azulada) para separar secciones y bordear placas. */
+  --ti-steel-edge: linear-gradient(90deg, #8fa9b8, #f1f7fa 22%, #a9c1ce 50%, #ffffff 78%, #8fa9b8);
+}
+
+/* ---------- Header + Hero industrial (ver docs/mockup/hero-aprobado.png) ---------- */
+
+:root {
+  --site-header-h: 4.25rem;
+  --hero-orange-fill: linear-gradient(180deg, #ffa035 0%, #f27c00 48%, #c85400 100%);
+}
+
+@media (min-width: 1024px) {
+  :root { --site-header-h: 4.75rem; }
+}
+
+@media (min-width: 1280px) {
+  :root { --site-header-h: 5.25rem; }
+}
+
+.industrial-header {
+  --ring: var(--brand-red);
+  transition: background-color 200ms ease, box-shadow 200ms ease;
+}
+
+/* En la parte superior el header es transparente y se apoya sobre el acero del Hero;
+   al hacer scroll adopta su propia placa diamantada con filo naranja. */
+.industrial-header[data-compact="true"] {
+  background-color: #0b1828;
+  background-image:
+    linear-gradient(180deg, rgb(255 255 255 / 6%), transparent 45%, rgb(0 0 0 / 40%)),
+    url("/assets/industrial/steel-light-variation.svg"),
+    url("/assets/industrial/steel-tread-plate.webp");
+  background-size: auto, 640px 640px, 256px 256px;
+  box-shadow:
+    0 2px 0 -0.5px #e57400,
+    0 3px 10px -3px rgb(255 138 0 / 35%),
+    0 16px 30px -18px rgb(0 0 0 / 90%);
+}
+
+.industrial-nav-pill {
+  padding: 0.3rem 0.5rem;
+  border: 3px solid transparent;
+  border-radius: 0.95rem;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 5%), transparent 40%) padding-box,
+    linear-gradient(180deg, rgb(19 32 51 / 88%), rgb(7 13 22 / 92%)) padding-box,
+    linear-gradient(180deg, #f7fafc 0%, #a3b2bf 20%, #3c4c5a 50%, #9fb0bd 78%, #e8eef2 100%) border-box;
+  box-shadow:
+    inset 0 0 0 1px rgb(0 0 0 / 65%),
+    inset 0 3px 10px rgb(0 0 0 / 70%),
+    0 0 0 1px rgb(0 0 0 / 55%),
+    0 12px 22px -14px rgb(0 0 0 / 95%);
+}
+
+/* Remaches discretos en los extremos del contenedor */
+.industrial-nav-pill::before,
+.industrial-nav-pill::after {
+  width: 0.45rem;
+  height: 0.45rem;
+  flex-shrink: 0;
+  margin-inline: 0.2rem;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 30%, #ffffff 0 12%, #c5d1da 32%, #5f7280 72%, #1b2934 100%);
+  box-shadow: 0 1px 1px rgb(0 0 0 / 70%);
+  content: "";
+}
+
+.industrial-nav-pill a {
+  min-height: 2.35rem;
+  padding-inline: 0.95rem;
+  border-radius: 0.6rem;
+  color: #ffffff;
+  font-family: "Rajdhani", var(--font-sans);
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+@media (max-width: 1279px) {
+  /* Entre 1024 y 1279 px la cápsula debe dejar espacio al CTA de WhatsApp. */
+  .industrial-nav-pill a {
+    padding-inline: 0.6rem;
+    font-size: 1rem;
+  }
+
+  .industrial-nav-pill::before,
+  .industrial-nav-pill::after { display: none; }
+}
+
+.industrial-nav-pill a[aria-current] {
+  background: var(--hero-orange-fill);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 50%),
+    inset 0 -2px 0 rgb(0 0 0 / 22%),
+    0 0 0 1px rgb(0 0 0 / 55%);
+  color: #111111;
+  text-shadow: 0 1px 0 rgb(255 255 255 / 25%);
+}
+
+.industrial-whatsapp {
+  border: 1px solid rgb(160 245 190 / 45%);
+  background: linear-gradient(180deg, #2fc566 0%, #188f46 42%, #0d6e31 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 45%),
+    inset 0 -2px 0 rgb(0 0 0 / 22%),
+    0 0 0 1px rgb(0 0 0 / 50%),
+    0 10px 18px -10px rgb(0 0 0 / 90%);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 50%);
+  transition: filter 160ms ease;
+}
+
+.industrial-whatsapp:hover { filter: brightness(1.08); }
+
+@media (min-width: 1280px) {
+  .industrial-nav-pill { padding: 0.35rem 0.6rem; }
+
+  .industrial-nav-pill a {
+    min-height: 2.6rem;
+    padding-inline: 0.95rem;
+    font-size: 1.2rem;
+  }
+
+  .industrial-header .industrial-whatsapp {
+    min-height: 3rem;
+    padding-inline: 1.4rem;
+    font-size: 1rem;
+  }
+}
+
+.hero-industrial {
+  margin-top: calc(-1 * var(--site-header-h));
+  padding-top: var(--site-header-h);
+  background-color: #0e1829;
+  /* Iluminación del acero: la primera capa actúa como ganancia de luz (color-dodge) sobre la textura,
+     de modo que aclara relieves y sombras en proporción y mantiene el volumen (un velo translúcido
+     lo aplanaba). La textura es steel-tread-plate-gastado-definido.webp: mismos relieves que
+     steel-tread-plate-gastado.webp (conservada), con base azul acero más luminosa y relieves mejor
+     iluminados (docs/tools/generate_tread_plate_definido.py). */
+  background-image:
+    linear-gradient(rgb(94 90 86), rgb(94 90 86)),
+    radial-gradient(70% 60% at 22% 42%, rgb(120 160 205 / 5%), transparent 70%),
+    radial-gradient(45% 40% at 80% 10%, rgb(120 160 205 / 10%), transparent 70%),
+    url("/assets/industrial/steel-light-variation.svg"),
+    url("/assets/industrial/steel-tread-plate-gastado-definido.webp");
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat, repeat;
+  background-size: auto, auto, auto, 640px 640px, 248px 260px;
+  background-blend-mode: color-dodge, normal, normal, normal, normal;
+}
+
+@media (min-width: 1024px) {
+  .hero-industrial { background-size: auto, auto, auto, 640px 640px, 248px 260px; }
+}
+
+.hero-industrial__texture,
+.industrial-overview__texture {
   position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hero-industrial__texture {
+  background:
+    linear-gradient(115deg, rgb(255 255 255 / 5%) 0 14%, transparent 32%),
+    radial-gradient(130% 110% at 50% 45%, transparent 55%, rgb(0 0 0 / 32%) 100%);
+}
+
+.hero-header-glow {
+  position: absolute;
+  z-index: 3;
+  top: var(--site-header-h);
   right: 0;
-  bottom: -1px;
   left: 0;
   height: 2px;
-  background: repeating-linear-gradient(
+  background: linear-gradient(
     90deg,
-    var(--industrial-yellow) 0 2rem,
-    transparent 2rem 3.25rem
+    transparent,
+    rgb(229 116 0 / 55%) 6%,
+    #ff8a00 16%,
+    #ffd08a 27%,
+    #ff8a00 38%,
+    rgb(229 116 0 / 50%) 58%,
+    #ff9a1f 78%,
+    #ffc477 86%,
+    rgb(229 116 0 / 45%) 95%,
+    transparent
   );
+  box-shadow: 0 0 10px 0 rgb(255 138 0 / 35%);
+  pointer-events: none;
+}
+
+.hero-corner-plate {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  width: clamp(3.25rem, 6vw, 5.75rem);
+  height: auto;
+  filter: brightness(0.78) drop-shadow(3px 5px 6px rgb(0 0 0 / 55%));
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.hero-corner-plate--top { top: 0; }
+
+.hero-corner-plate--bottom {
+  bottom: 1.375rem;
+  transform: scaleY(-1);
+}
+
+@media (max-width: 1023px) {
+  /* Con la foto apilada, la placa inferior chocaría con la banda del marco. */
+  .hero-corner-plate--bottom { display: none; }
+}
+
+/* Placa inferior de acero cepillado; los remaches se dibujan en CSS para que conserven
+   su tamaño real en cualquier ancho (el SVG estirado los reducía a 3 px en móvil). */
+.hero-steel-band {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1.375rem;
+  border-top: 1px solid rgb(255 255 255 / 35%);
+  background:
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 6%) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg, #c2d0da, #93a6b3 18%, #617583 48%, #3a4c58 76%, #16232d);
+  box-shadow: 0 -6px 16px -6px rgb(0 0 0 / 70%);
+  pointer-events: none;
+}
+
+.hero-copy {
+  /* Escala de separación de la columna izquierda (logo → título → distintivo → subtítulo → CTA). */
+  --hero-gap-logo: clamp(1.75rem, 3vw, 2.7rem);
+  --hero-gap-lg: clamp(1.5rem, 2.7vw, 2.45rem);
+  --hero-gap-md: clamp(1.25rem, 2vw, 1.8rem);
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Halo oscuro detrás del bloque de texto: separa el título de los relieves del acero. */
+.hero-copy::before {
+  position: absolute;
+  z-index: -1;
+  inset: 18% -6% 10%;
+  background: radial-gradient(closest-side, rgb(3 8 16 / 70%), rgb(3 8 16 / 38%) 60%, transparent);
   content: "";
-  opacity: 0.7;
+  pointer-events: none;
+}
+
+.hero-logo {
+  width: clamp(10.5rem, 16.5vw, 15.5rem);
+  height: auto;
+  filter: drop-shadow(0 14px 22px rgb(0 0 0 / 55%));
+}
+
+.hero-title {
+  margin-top: var(--hero-gap-logo);
+  font-family: "Poppins", var(--font-sans);
+  font-size: clamp(2.2rem, 10.6vw, 3.4rem);
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+}
+
+@media (min-width: 640px) {
+  .hero-title { font-size: clamp(3.4rem, 9vw, 4.6rem); }
+}
+
+/* En escritorio la columna de texto no pasa de ~546 px (contenedor de 1280 px): el tope evita que
+   «tus proyectos» se parta o alcance la punta del marco angular. */
+@media (min-width: 1024px) {
+  .hero-title { font-size: clamp(3.25rem, 4.95vw, 3.95rem); }
+}
+
+.hero-title__line {
+  display: block;
+  padding-inline: 0.12em;
+  background: linear-gradient(180deg, #ffffff 0%, #f1f4f7 42%, #b4c0ca 64%, #e9eef2 84%, #ffffff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  filter:
+    drop-shadow(0 0 1.5px rgb(0 0 0 / 85%))
+    drop-shadow(0 2px 0 rgb(0 0 0 / 88%))
+    drop-shadow(0 8px 12px rgb(0 0 0 / 66%))
+    drop-shadow(0 0 26px rgb(2 6 14 / 70%));
+}
+
+.hero-title__line + .hero-title__line { margin-top: 0.06em; }
+
+.hero-title__line.hero-title-accent {
+  background-image: linear-gradient(180deg, #ffb24a 0%, #ff8a00 50%, #e86a00 100%);
+}
+
+/* Flechas como acento secundario: más pequeñas y apagadas para no competir con el título. */
+.hero-title__chevrons {
+  display: inline-block;
+  width: 0.46em;
+  height: 0.46em;
+  margin-right: 0.12em;
+  color: #ff8a00;
+  opacity: 0.85;
+  vertical-align: 0.12em;
+}
+
+.hero-title-accent { color: var(--industrial-yellow); }
+
+/* Eyebrow usado en la segunda sección ("Aplicaciones", "Renta de equipo"). */
+.hero-kicker {
+  color: var(--industrial-yellow);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.hero-badge,
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(255 214 160 / 70%);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 30%) 0%, rgb(255 255 255 / 8%) 46%, transparent 50%),
+    var(--hero-orange-fill);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 55%),
+    inset 0 -3px 6px rgb(120 45 0 / 45%),
+    0 0 0 1px rgb(0 0 0 / 45%),
+    0 0 20px -8px rgb(255 138 0 / 60%),
+    0 12px 20px -12px rgb(0 0 0 / 90%);
+  color: #ffffff;
+  font-family: "Poppins", var(--font-sans);
+  font-style: italic;
+  font-weight: 700;
+  text-shadow:
+    0 1px 0 rgb(120 40 0 / 65%),
+    0 2px 4px rgb(0 0 0 / 35%);
+}
+
+.hero-badge {
+  gap: 0.55rem;
+  width: auto;
+  max-width: 100%;
+  margin-top: var(--hero-gap-lg);
+  padding: 0.38rem 1.35rem;
+  font-size: clamp(1.1rem, 1.75vw, 1.55rem);
+  line-height: 1.15;
+}
+
+.hero-badge__icon {
+  width: 1.05em;
+  height: 1.05em;
+  flex-shrink: 0;
+  stroke-width: 2;
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 35%));
+}
+
+/* Legibilidad del distintivo y del CTA del Hero: borde más definido, texto con más contraste y
+   sombra exterior moderada. Mismas dimensiones, forma, degradado y comportamiento. */
+.hero-copy .hero-badge,
+.hero-copy .hero-cta {
+  border-color: rgb(255 228 190 / 92%);
+  text-shadow:
+    0 1px 0 rgb(110 36 0 / 85%),
+    0 2px 5px rgb(0 0 0 / 45%);
+}
+
+.hero-copy .hero-badge {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 60%),
+    inset 0 -3px 7px rgb(120 45 0 / 55%),
+    0 0 0 1px rgb(0 0 0 / 60%),
+    0 0 18px -8px rgb(255 138 0 / 55%),
+    0 12px 20px -12px rgb(0 0 0 / 95%);
+}
+
+.hero-copy .hero-cta {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 60%),
+    inset 0 -3px 6px rgb(120 45 0 / 45%),
+    0 0 0 1px rgb(0 0 0 / 65%),
+    0 0 18px -8px rgb(255 138 0 / 55%),
+    0 16px 26px -12px rgb(0 0 0 / 95%);
+}
+
+.hero-subtitle {
+  margin-top: var(--hero-gap-md);
+  color: #ffffff;
+  font-family: "Poppins", var(--font-sans);
+  font-size: clamp(1rem, 1.5vw, 1.4rem);
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1.25;
+  text-shadow:
+    0 0 2px rgb(0 0 0 / 70%),
+    0 1px 0 rgb(0 0 0 / 75%),
+    0 2px 8px rgb(0 0 0 / 90%);
+}
+
+.hero-cta {
+  gap: 0.75rem;
+  width: min(100%, 19rem);
+  min-height: 3.35rem;
+  margin-top: var(--hero-gap-lg);
+  padding: 0.5rem 1.75rem;
+  font-size: clamp(1.15rem, 1.65vw, 1.55rem);
+  transition: filter 160ms ease, transform 160ms ease;
+}
+
+.hero-cta:hover { filter: brightness(1.08); }
+.hero-cta:focus-visible { outline: 2px solid var(--warm-white); outline-offset: 3px; }
+
+.hero-cta__icon {
+  width: 0.95em;
+  height: 0.95em;
+  stroke-width: 2.6;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-cta:hover { transform: translateY(-1px); }
+}
+
+.hero-equipment-cta {
+  border: 1px solid color-mix(in srgb, var(--industrial-yellow) 75%, white);
+  border-radius: 0.75rem;
+  background: var(--industrial-yellow);
+  box-shadow: 0 12px 28px -18px rgb(255 138 0 / 75%);
+  color: var(--industrial-black);
+  font-weight: 800;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.hero-equipment-cta:hover { background: var(--industrial-yellow-hover); }
+.hero-equipment-cta:focus-visible { outline: 2px solid var(--warm-white); outline-offset: 3px; }
+
+/* Marco angular: geometría en public/assets/industrial/photo-frame-angular.svg (1000 x 800). */
+.hero-photo-frame--angular {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 40rem;
+  margin-inline: auto;
+  aspect-ratio: 1000 / 800;
+  isolation: isolate;
+}
+
+@media (min-width: 1024px) {
+  /* La punta del chevrón entra en la columna del texto para unir ambas mitades. */
+  .hero-photo-frame--angular {
+    width: auto;
+    max-width: none;
+    margin-left: -9%;
+    margin-right: 0;
+  }
+}
+
+.hero-photo-frame--angular picture {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  clip-path: polygon(25.4% 2%, 98.4% 2%, 98.4% 98%, 7.4% 98%, 19.9% 66.6%, 9.9% 42.75%);
+}
+
+/* La fotografía original (1148 x 1371) trae bandas negras laterales de ~80 px. Se escala para que
+   el contenido útil (x 82–1070) ocupe del 6.8 % al 98.5 % del marco y se encuadra en vertical
+   (y ≈ 227–1090) para conservar canastilla, trabajadores, ruedas y estabilizadores completos. */
+.hero-photo-frame--angular .hero-photo {
+  position: absolute;
+  top: -26.4%;
+  left: -0.8%;
+  width: 106.5%;
+  max-width: none;
+  height: auto;
+}
+
+.hero-photo-frame__overlay {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter:
+    drop-shadow(0 0 5px rgb(255 138 0 / 8%))
+    drop-shadow(0 22px 34px rgb(0 0 0 / 60%));
+  pointer-events: none;
+}
+
+/* Zona bajo el Hero: azul industrial (#173B55 → #20516B) más luminoso que antes, con un brillo
+   amplio arriba y oscureciendo hacia azul carbón (#10283B) junto al banner. */
+.industrial-overview {
+  background-color: #173b55;
+  background-image:
+    radial-gradient(ellipse 80% 38% at 50% 22%, rgb(50 100 125 / 30%), transparent 75%),
+    linear-gradient(180deg, #173b55 0%, #1b4560 30%, #183f58 62%, #10283b 100%);
+}
+
+.industrial-overview__texture {
+  background:
+    linear-gradient(105deg, transparent 20%, rgb(148 163 184 / 8%) 50%, transparent 78%),
+    url("/assets/industrial/steel-diamond-plate.svg");
+  background-repeat: no-repeat, repeat;
+  background-size: auto, 56px 56px;
+  opacity: 0.035;
+}
+
+/* Franja de beneficios: una sola placa azul petróleo continua, dividida en tres, con filo
+   cromado luminoso y sombra exterior moderada. Sin patrones repetidos en la superficie. */
+.industrial-benefit-strip {
+  position: relative;
+  overflow: hidden;
+  border: 3px solid transparent;
+  border-radius: var(--ui-radius-panel);
+  background:
+    radial-gradient(ellipse 60% 120% at 50% 15%, rgb(130 190 215 / 9%), transparent 75%) padding-box,
+    linear-gradient(180deg, #3f7894 0%, #1f4c65 9%, #173f56 50%, #0e2a3e 100%) padding-box,
+    linear-gradient(180deg, #ffffff 0%, #c9d8e2 30%, #7f97a8 70%, #b9cbd7 100%) border-box;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 40%),
+    inset 0 -2px 0 rgb(0 0 0 / 45%),
+    inset 0 0 0 1px rgb(0 0 0 / 30%),
+    0 0 0 1px rgb(4 14 22 / 75%),
+    0 12px 20px -10px rgb(0 0 0 / 75%),
+    0 28px 46px -22px rgb(0 0 0 / 80%);
+}
+
+/* Tabletas y móviles: beneficios apilados (en 3 columnas a 768 px el texto quedaba en 4 líneas). */
+.industrial-benefit {
+  gap: 1rem;
+  padding: 1.25rem 1.35rem;
+}
+
+.industrial-benefit + .industrial-benefit {
+  border-top: 1px solid rgb(2 10 16 / 85%);
+  box-shadow: inset 0 1px 0 rgb(215 232 240 / 34%);
+}
+
+@media (min-width: 640px) {
+  .industrial-benefit { padding: 1.5rem 1.85rem; }
+}
+
+@media (min-width: 1024px) {
+  .industrial-benefit { gap: 0.75rem; padding: 1.9rem 1.05rem; }
+  .industrial-benefit + .industrial-benefit {
+    border-top: 0;
+    border-left: 1px solid rgb(2 10 16 / 85%);
+    box-shadow: inset 1px 0 0 rgb(215 232 240 / 34%);
+  }
+}
+
+@media (min-width: 1280px) {
+  .industrial-benefit { gap: 1rem; padding: 2rem 2.1rem; }
+}
+
+/* Placas de icono: +11 % de tamaño, borde naranja visible y profundidad con sombra interior. */
+.industrial-benefit__icon {
+  width: 4.3rem;
+  height: 4.3rem;
+  border: 2.5px solid #ffad48;
+  background: linear-gradient(180deg, #0b1c27, #050d13);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 190 110 / 22%),
+    inset 0 2px 7px rgb(0 0 0 / 70%),
+    0 0 0 1px rgb(0 0 0 / 60%),
+    0 3px 8px rgb(0 0 0 / 45%);
+  color: #ffad4d;
+  transition: border-color 200ms ease;
+}
+
+/* Símbolos +13,5 %. */
+.industrial-benefit__icon svg {
+  width: 2.3rem;
+  height: 2.3rem;
+  stroke-width: 2.25;
+}
+
+.industrial-benefit strong {
+  color: #ffffff;
+  font-size: 1.56rem;
+  font-weight: 800;
+  letter-spacing: -0.005em;
+  text-shadow: 0 1px 0 rgb(0 0 0 / 60%), 0 2px 8px rgb(0 0 0 / 50%);
+}
+
+.industrial-benefit strong + span {
+  color: #ffffff;
+  font-size: 1.02rem;
+  font-weight: 500;
+  line-height: 1.6;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 50%);
+  text-wrap: pretty;
+}
+
+/* Con ratón: el beneficio se ilumina levemente, sin moverse ni crecer. */
+@media (hover: hover) and (pointer: fine) {
+  .industrial-benefit { transition: background-color 200ms ease; }
+  .industrial-benefit:hover { background-color: rgb(255 255 255 / 6%); }
+  .industrial-benefit:hover .industrial-benefit__icon { border-color: #ffb45c; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .industrial-benefit,
+  .industrial-benefit__icon { transition: none; }
+}
+
+/* Panel de servicios: superficie azul grafito uniforme y opaca (la textura no la atraviesa). */
+/* Servicios: superficie grafito azulada (#1B2C3D) con degradado muy suave hacia azul petróleo
+   oscuro, sin textura detrás de los textos. */
+/* Servicios: superficie azul petróleo de profundidad media (#20516B → #173B55) con un reflejo
+   diagonal amplio de acero estructural, sin patrón detrás de los textos. */
+.industrial-services-panel {
+  position: relative;
+  border: 1px solid transparent;
+  border-top: var(--ui-accent-edge);
+  border-radius: 0.75rem;
+  background:
+    linear-gradient(115deg, transparent 15%, rgb(255 255 255 / 5%) 38%, transparent 60%) padding-box,
+    radial-gradient(ellipse 70% 45% at 50% 0%, rgb(80 140 170 / 22%), transparent 70%) padding-box,
+    linear-gradient(180deg, #22566f 0%, #1e4e67 45%, #18405a 100%) padding-box,
+    linear-gradient(180deg, #d4e1ea, #7f97a8 50%, #5d7586) border-box;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 14%),
+    inset 0 -1px 0 rgb(0 0 0 / 35%),
+    0 0 0 1px rgb(4 14 22 / 55%),
+    0 26px 46px -30px rgb(0 0 0 / 90%);
+  padding: 1.6rem 1rem 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .industrial-services-panel { padding: 2rem 1.5rem 1.75rem; }
+}
+
+@media (min-width: 1024px) {
+  .industrial-services-panel { padding: 2.2rem 2rem 2rem; }
+}
+
+.industrial-services-panel:focus-visible { outline: 2px solid var(--industrial-yellow); outline-offset: 3px; }
+
+/* ---------- Segunda sección: tarjetas de aplicaciones y banner ---------- */
+
+/* Título centrado: la barra decorativa global de los h2 también se centra. */
+.industrial-overview .text-center > h2::after { margin-inline: auto; }
+
+.industrial-categories-title { text-shadow: 0 2px 10px rgb(0 0 0 / 45%); }
+
+.industrial-category-card {
+  position: relative;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  background:
+    linear-gradient(180deg, #13304a, #10283b 45%, #0b1f30) padding-box,
+    linear-gradient(180deg, #f2f6f9, #93a8b7 40%, #4f6576 80%, #8ea3b2) border-box;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 10%),
+    0 0 0 1px rgb(0 0 0 / 45%),
+    0 6px 10px -6px rgb(0 0 0 / 60%),
+    0 24px 38px -24px rgb(0 0 0 / 90%);
+  transition: box-shadow 200ms ease, background 200ms ease;
+}
+
+/* Detalle naranja en el extremo superior izquierdo. */
+.industrial-category-card::after {
+  position: absolute;
+  z-index: 3;
+  top: -1px;
+  left: -1px;
+  width: 3.25rem;
+  height: 3px;
+  border-top-left-radius: 0.5rem;
+  background: var(--industrial-yellow);
+  content: "";
+  pointer-events: none;
+}
+
+/* Hover: el borde se aclara y la superficie se ilumina levemente, sin desplazamientos. */
+/* Hover: el bisel se aclara y la superficie se ilumina levemente, sin desplazamientos. */
+.industrial-category-card:hover {
+  background:
+    linear-gradient(180deg, #17374f, #122d43 45%, #0d2336) padding-box,
+    linear-gradient(180deg, #ffffff, #b4c4cf 40%, #6d8394 80%, #a8bac6) border-box;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 12%),
+    0 0 0 1px rgb(0 0 0 / 45%),
+    0 6px 10px -6px rgb(0 0 0 / 60%),
+    0 26px 40px -24px rgb(0 0 0 / 90%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .industrial-category-card { transition: none; }
+}
+
+.industrial-category-card .industrial-photo-frame {
+  border: 0;
+  border-bottom: 1px solid rgb(176 198 214 / 45%);
+  border-radius: 0;
+  box-shadow: 0 1px 0 rgb(0 0 0 / 55%);
+}
+
+.industrial-category-card .industrial-photo-frame::before { display: none; }
+
+/* Encuadre panorámico de las fotos de Servicios (originales de 1536 × 1024, sin modificar).
+   Contenedor 2:1 igual en las tres tarjetas; la imagen se ancla arriba con cover y se amplía 4/3,
+   de modo que se ve el 75 % del ancho y el 56 % superior de la foto: brazo, canastilla y
+   trabajadores, con solo la parte alta del camión. transform-origin X = 4 × borde izquierdo
+   deseado (en fracción del ancho); Y = 0 para conservar el cielo y la canastilla. */
+.industrial-category-card .industrial-photo-frame {
+  aspect-ratio: 2 / 1 !important;   /* sustituye el 16:10 que fija ReferenceSlot en línea */
+}
+
+.industrial-category-card .industrial-photo-frame img {
+  object-fit: cover;
+  transform: scale(1.3334);
+}
+
+/* Mantenimiento: brazo y canastilla junto a la nave → ventana x 12–87 % de la foto. */
+.industrial-category-card--mantenimiento .industrial-photo-frame img {
+  object-position: 50% 0%;
+  transform-origin: 48% 0%;
+}
+
+/* Iluminación: canastilla, brazo y luminaria → ventana x 15–90 %. */
+.industrial-category-card--iluminacion .industrial-photo-frame img {
+  object-position: 50% 0%;
+  transform-origin: 60% 0%;
+}
+
+/* Telecomunicaciones: brazo, canastilla y cámara en la fachada → ventana x 17–92 %. */
+.industrial-category-card--telecom .industrial-photo-frame img {
+  object-position: 50% 0%;
+  transform-origin: 68% 0%;
+}
+
+/* Cuerpo: placa oscura con la textura del Hero muy atenuada y dos remaches. */
+.industrial-category-card__body {
+  position: relative;
+  background: transparent;
+}
+
+.industrial-category-card__body p { color: #eaf2f6; }
+.industrial-category-card__body h3 { font-size: 1.2rem; letter-spacing: -0.005em; text-shadow: 0 1px 2px rgb(0 0 0 / 45%); }
+
+.industrial-category-card__icon {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(180deg, #172435, #0b131e) padding-box,
+    linear-gradient(180deg, #e9eff3, #6d7f8d 50%, #b9c6d0) border-box;
+  box-shadow:
+    inset 0 2px 6px rgb(0 0 0 / 60%),
+    0 0 0 1px rgb(0 0 0 / 45%);
+  color: var(--industrial-yellow);
+}
+
+/* CTA visible: botón contorneado naranja con el mismo texto y enlace. */
+.industrial-category-card__link {
+  border: 1px solid rgb(255 138 0 / 70%);
+  border-radius: 0.4rem;
+  background: rgb(255 138 0 / 8%);
+  padding-inline: 0.9rem;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.industrial-category-card__link:hover {
+  border-color: #ffad48;
+  background: rgb(255 138 0 / 16%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .industrial-category-card__link svg { transition: transform 160ms ease; }
+  .industrial-category-card__link:hover svg { transform: translateX(3px); }
+}
+
+/* Banner "Elevamos tus soluciones.": placa de acero con franja fotográfica en ángulo. */
+.industrial-solutions-banner {
+  --rivet: radial-gradient(circle at 35% 30%, #ffffff 0 12%, #c5d1da 32%, #5f7280 70%, #1b2934 100%);
+  position: relative;
+  display: grid;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid transparent;
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(60% 120% at 0% 100%, rgb(255 138 0 / 16%), transparent 60%) padding-box,
+    linear-gradient(180deg, rgb(14 24 38 / 86%), rgb(8 14 23 / 94%)) padding-box,
+    url("/assets/industrial/steel-tread-plate.webp") 0 0 / 200px 200px padding-box,
+    linear-gradient(180deg, #e9eff3, #7d8e9b 40%, #c3ced6 65%, #ff8a00) border-box;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 10%),
+    0 26px 44px -30px rgb(0 0 0 / 95%);
+}
+
+.industrial-solutions-banner::before,
+.industrial-solutions-banner::after {
+  position: absolute;
+  z-index: 2;
+  left: 0.85rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: var(--rivet);
+  box-shadow: 0 1px 1px rgb(0 0 0 / 75%);
+  content: "";
+}
+
+.industrial-solutions-banner::before { top: 0.85rem; }
+.industrial-solutions-banner::after { bottom: 0.85rem; }
+
+.industrial-solutions-banner__photo {
+  position: relative;
+  height: 10rem;
+  clip-path: polygon(0 0, 100% 0, 100% 82%, 0 100%);
+}
+
+.industrial-solutions-banner__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 42% 26%;
+  /* La foto original trae bandas negras laterales (~7 % por lado); se amplía para dejarlas fuera. */
+  transform: scale(1.18);
+}
+
+.industrial-solutions-banner__photo::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgb(8 14 23 / 55%));
+  content: "";
+}
+
+.industrial-solutions-banner__content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem 1.1rem;
+  padding: 1.25rem 1.25rem 1.5rem 2rem;
+}
+
+.industrial-solutions-banner__badge {
+  display: grid;
+  width: 3.5rem;
+  height: 3.5rem;
+  place-items: center;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, #ffa035, #e06c00) padding-box,
+    linear-gradient(180deg, #f1f4f6, #7b8b97 50%, #c9d3da) border-box;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 50%),
+    0 0 18px -6px rgb(255 138 0 / 70%);
+  color: #111111;
+}
+
+.industrial-solutions-banner__title {
+  margin-top: 0.4rem;
+  color: #ffffff;
+  font-family: "Poppins", var(--font-sans);
+  font-size: clamp(1.55rem, 3vw, 2.4rem);
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-shadow: 0 2px 6px rgb(0 0 0 / 55%);
+}
+
+.industrial-solutions-banner__cta {
+  grid-column: 1 / -1;
+  justify-self: start;
+  width: auto;
+  min-height: 3rem;
+  margin-top: 0.25rem;
+  padding: 0.5rem 1.6rem;
+  font-size: 1.1rem;
+}
+
+@media (min-width: 768px) {
+  .industrial-solutions-banner { min-height: 13rem; }
+
+  .industrial-solutions-banner__photo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 44%;
+    height: auto;
+    clip-path: polygon(16% 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .industrial-solutions-banner__photo::after {
+    background: linear-gradient(90deg, rgb(8 14 23 / 70%), transparent 40%);
+  }
+
+  /* Filo naranja sobre el corte en ángulo de la fotografía. */
+  .industrial-solutions-banner__photo::before {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background: linear-gradient(180deg, #ffb04a, #ff8a00 50%, #e06c00);
+    clip-path: polygon(16% 0, 17.4% 0, 1.4% 100%, 0 100%);
+    content: "";
+  }
+
+  .industrial-solutions-banner__content {
+    max-width: 58%;
+    padding: 1.75rem 2rem 1.75rem 2.5rem;
+  }
 }
 
 .industrial-band {
   position: relative;
-  border-top: 1px solid color-mix(in srgb, var(--technical-blue) 16%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--brand-red) 18%, transparent);
   box-shadow: 0 1px 0 rgb(255 255 255 / 18%) inset;
 }
 
-.industrial-band::after {
-  position: absolute;
-  top: -1px;
-  right: max(1rem, calc((100% - 64rem) / 2));
-  width: 2.75rem;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    var(--technical-blue) 0 68%,
-    var(--industrial-yellow) 68% 100%
-  );
-  content: "";
-  opacity: 0.72;
+/* Secciones claras de titanio: filo de acero satinado en lugar del filo naranja. */
+.fleet-band,
+.rental-band {
+  border-top: 0;
+  box-shadow: none;
 }
 
-.industrial-band::before {
+.fleet-band::before,
+.rental-band::before {
   position: absolute;
-  z-index: 1;
-  top: 50%;
-  left: max(0.45rem, calc((100% - 66rem) / 2));
-  width: 3px;
-  height: 2.75rem;
-  background: repeating-linear-gradient(
-    to bottom,
-    color-mix(in srgb, var(--technical-blue) 48%, transparent) 0 2px,
-    transparent 2px 7px
-  );
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  background: var(--ti-steel-edge);
+  box-shadow: 0 1px 0 rgb(32 43 54 / 18%);
   content: "";
-  opacity: 0.6;
-  transform: translateY(-50%);
+}
+
+/* Nuestras unidades: azul acero satinado con iluminación suave y continua (sin patrones). */
+/* Nuestras unidades: azul acero medio satinado (#345F76 → azul grisáceo), degradado amplio y
+   continuo, sin tramas. Encabezado claro; las fichas conservan superficie clara para leer. */
+.fleet-band {
+  --background: #345f76;
+  --card: #eaf2f6;
+  --foreground: #ffffff;
+  --muted-foreground: #dbe8ef;
+  --border: rgb(176 198 214 / 40%);
+  background-color: #345f76;
+  background-image:
+    radial-gradient(ellipse 70% 60% at 25% 10%, rgb(255 255 255 / 9%), transparent 70%),
+    linear-gradient(180deg, #3a6680 0%, #345f76 45%, #2b5065 100%);
+  background-size: auto;
+}
+
+.fleet-band #unidades > h2 { text-shadow: 0 2px 8px rgb(0 0 0 / 35%); }
+
+/* Fichas: superficie clara y texto oscuro dentro de la sección azul. */
+.fleet-band .fleet-card,
+.fleet-band .fleet-detail {
+  --foreground: var(--ti-text);
+  --muted-foreground: var(--ti-text-2);
+  --border: var(--ti-border);
+  color: var(--ti-text);
+}
+
+/* ¿Cómo rentar una grúa?: azul hielo suave, más claro que Unidades, con degradado amplio y continuo. */
+.rental-band {
+  --background: var(--ti-concrete);
+  --foreground: var(--ti-text);
+  --muted-foreground: var(--ti-text-2);
+  --border: var(--ti-border);
+  background-color: var(--ti-concrete);
+  background-image: linear-gradient(180deg, #e5f0f5 0%, #e1edf2 50%, #d4e5ed 100%);
+  background-size: auto;
+}
+
+.trust-bar {
+  position: relative;
+}
+
+.trust-bar::before {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(14rem, 35vw);
+  height: 2px;
+  background: linear-gradient(90deg, var(--brand-red), var(--industrial-yellow));
+  content: "";
+  transform: translateX(-50%);
 }
 
 /* Light band: locally overrides the same semantic tokens so every component
@@ -227,10 +1249,13 @@
   --secondary-foreground: var(--industrial-black);
   --muted: oklch(0 0 0 / 4%);
   --muted-foreground: var(--text-gray);
-  --accent: color-mix(in srgb, var(--technical-blue) 12%, transparent);
-  --accent-foreground: var(--technical-blue);
+  --sky: var(--brand-red);
+  --eyebrow: var(--brand-red);
+  --accent: color-mix(in srgb, var(--brand-red) 10%, transparent);
+  --accent-foreground: var(--brand-red);
   --border: oklch(0 0 0 / 10%);
   --input: oklch(0 0 0 / 14%);
+  --ring: var(--brand-red);
   background-color: var(--background);
   background-image:
     linear-gradient(oklch(0 0 0 / 2.5%) 1px, transparent 1px),
@@ -252,10 +1277,13 @@
   --secondary-foreground: var(--industrial-black);
   --muted: oklch(0 0 0 / 5%);
   --muted-foreground: var(--text-gray);
-  --accent: color-mix(in srgb, var(--technical-blue) 12%, transparent);
-  --accent-foreground: var(--technical-blue);
+  --sky: var(--brand-red);
+  --eyebrow: var(--brand-red);
+  --accent: color-mix(in srgb, var(--brand-red) 10%, transparent);
+  --accent-foreground: var(--brand-red);
   --border: oklch(0 0 0 / 10%);
   --input: oklch(0 0 0 / 14%);
+  --ring: var(--brand-red);
   background-color: var(--background);
   background-image: linear-gradient(
     135deg,
@@ -270,7 +1298,7 @@
 @utility panel {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 1.25rem;
+  border-radius: 1rem;
   box-shadow:
     0 1px 0 color-mix(in srgb, white 70%, transparent) inset,
     0 14px 30px -26px color-mix(in srgb, var(--industrial-black) 50%, transparent);
@@ -281,26 +1309,41 @@
   background-image:
     radial-gradient(
       circle at calc(100% - 14px) 14px,
-      color-mix(in srgb, var(--technical-blue) 32%, transparent) 0 1.5px,
+      color-mix(in srgb, var(--brand-red) 36%, transparent) 0 1.5px,
       transparent 2px
     ),
     linear-gradient(
       145deg,
-      color-mix(in srgb, var(--technical-blue) 3%, transparent),
+      color-mix(in srgb, var(--brand-red) 4%, transparent),
       transparent 38%
     );
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
 }
 
-@media (max-width: 419px) {
-  .industrial-band::after {
-    right: 1rem;
-    width: 2.25rem;
+@media (hover: hover) {
+  .panel:hover {
+    border-color: color-mix(in srgb, var(--brand-red) 25%, var(--border));
+    box-shadow:
+      0 1px 0 color-mix(in srgb, white 70%, transparent) inset,
+      0 18px 30px -28px color-mix(in srgb, var(--industrial-black) 70%, transparent);
+    transform: translateY(-2px);
   }
 }
 
-@media (max-width: 639px) {
-  .industrial-band::before {
-    display: none;
+.service-card {
+  min-height: 100%;
+}
+
+.service-card img {
+  transition: transform 220ms ease;
+}
+
+@media (hover: hover) {
+  .service-card:hover img {
+    transform: scale(1.025);
   }
 }
 
@@ -373,6 +1416,46 @@
     opacity: 0.6;
   }
 }
+
+.hero-secondary-cta {
+  border: 1px solid rgb(255 255 255 / 55%);
+  border-radius: 0.75rem;
+  color: var(--warm-white);
+  font-weight: 700;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+.hero-secondary-cta:hover {
+  border-color: var(--industrial-yellow);
+  background: rgb(255 255 255 / 10%);
+  color: var(--industrial-yellow);
+}
+
+.hero-secondary-cta:focus-visible {
+  outline: 2px solid var(--industrial-yellow);
+  outline-offset: 2px;
+}
+
+.hero-section .hero-secondary-cta {
+  border-color: color-mix(in srgb, var(--industrial-dark) 45%, transparent);
+  color: var(--industrial-dark);
+}
+
+.hero-section .hero-secondary-cta:hover {
+  border-color: var(--industrial-yellow);
+  background: color-mix(in srgb, var(--industrial-yellow) 10%, transparent);
+  color: var(--industrial-dark);
+}
+
+
+@media (max-width: 389px) {
+  .hero-benefits {
+    gap-inline: 0.75rem;
+  }
+}
 @utility btn-whatsapp {
   background: var(--whatsapp);
   color: #ffffff;
@@ -399,7 +1482,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: color-mix(in srgb, var(--technical-blue) 78%, var(--foreground));
+  color: var(--eyebrow);
 }
 @utility field {
   width: 100%;
@@ -420,7 +1503,7 @@
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--industrial-yellow) 38%, var(--border));
   border-radius: 0.875rem;
-  background: color-mix(in srgb, var(--technical-blue) 8%, var(--card));
+  background: color-mix(in srgb, var(--brand-red) 8%, var(--card));
   padding: 0.85rem 1rem 0.85rem 1.25rem;
 }
 
@@ -436,16 +1519,264 @@
   content: "";
 }
 
-.crane-360-stage {
-  background-color: #0b1117;
-  background-image:
-    linear-gradient(rgb(255 255 255 / 5%) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(255 255 255 / 5%) 1px, transparent 1px),
-    radial-gradient(circle at 50% 48%, rgb(39 120 160 / 22%), transparent 58%);
-  background-size:
-    24px 24px,
-    24px 24px,
-    100% 100%;
+/* ---------- Nuestras unidades: tarjetas blancas con detalles grafito y naranja ---------- */
+
+/* Descripción destacada de la sección (≈18 px en móvil, ≈20 px en tableta, ≈22 px en escritorio). */
+#unidades > h2 + p {
+  max-width: 46rem;
+  color: #e3eef4;
+  font-size: clamp(1.0625rem, 1.03rem + 0.38vw, 1.4rem);
+  line-height: 1.55;
+}
+
+.fleet-card {
+  position: relative;
+  border: 1px solid transparent;
+  border-radius: 0.6rem;
+  background:
+    linear-gradient(180deg, #f3f8fb, #e5eef3) padding-box,
+    linear-gradient(180deg, #ffffff, #93a9b8 55%, #6b8293) border-box;
+  box-shadow:
+    0 0 0 1px rgb(10 30 45 / 35%),
+    0 22px 40px -22px rgb(6 20 32 / 75%);
+}
+
+.fleet-card--selected {
+  box-shadow:
+    0 0 0 2px var(--industrial-yellow),
+    0 22px 40px -22px rgb(6 20 32 / 75%);
+}
+
+.fleet-card__media {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 3px solid var(--industrial-yellow);
+  background: #e7edf1;
+}
+
+.fleet-card__selected {
+  position: absolute;
+  z-index: 2;
+  top: 0.8rem;
+  right: 0.8rem;
+  border: 1px solid rgb(255 255 255 / 50%);
+  border-radius: 999px;
+  background: var(--industrial-yellow);
+  box-shadow: 0 6px 16px rgb(11 23 54 / 16%);
+  color: var(--industrial-black);
+  font-size: 0.67rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.9rem;
+  padding-inline: 0.65rem;
+  text-transform: uppercase;
+}
+
+.fleet-card__placeholder {
+  display: grid;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  place-content: center;
+  gap: 0.6rem;
+  background: #e7edf1;
+  color: var(--text-gray);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.fleet-card__content { padding: 1.25rem 1.25rem 1.4rem; }
+
+.fleet-card__title {
+  color: var(--ti-text);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.fleet-card__label {
+  color: var(--ti-text);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.fleet-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+/* Botones de las fichas: mismas píldoras que el resto de acciones de la página. */
+.fleet-card__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 2.9rem;
+  border-radius: 999px;
+  padding-inline: 1.3rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: filter 150ms ease, background-color 150ms ease;
+}
+
+.fleet-card__button:focus-visible { outline: 2px solid var(--ui-focus); outline-offset: 2px; }
+
+.fleet-card__button--primary {
+  border: 1px solid color-mix(in srgb, var(--industrial-yellow) 75%, black);
+  background: var(--gradient-primary);
+  color: var(--industrial-black);
+  font-weight: 800;
+}
+
+.fleet-card__button--primary:hover { filter: brightness(1.05); }
+
+.fleet-card__button--ghost {
+  border: 1px solid #7f95a4;
+  background: #ffffff;
+  color: var(--ti-text);
+}
+
+.fleet-card__button--ghost:hover { background: var(--ti-form-panel); }
+
+/* Una sola unidad publicada: tarjeta horizontal de ancho contenido (foto y datos equilibrados). */
+@media (min-width: 768px) {
+  .fleet-grid--single .fleet-card {
+    display: grid;
+    max-width: 62rem;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr);
+  }
+
+  .fleet-grid--single .fleet-card__media { border-right: 3px solid var(--industrial-yellow); border-bottom: 0; }
+  .fleet-grid--single .fleet-card__content { justify-content: center; padding: 2rem 2.25rem; }
+  .fleet-grid--single .fleet-card__title { font-size: 1.65rem; }
+}
+
+/* Galería de fotos de la unidad: formato cuadrado estable (la foto es vertical y así se ven
+   canastilla, trabajadores y ruedas). */
+.unit-gallery {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  touch-action: pan-y;
+}
+
+.unit-gallery__track {
+  display: flex;
+  height: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .unit-gallery__track { transition: transform 320ms ease; }
+}
+
+.unit-gallery__slide {
+  flex: 0 0 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.unit-gallery > .unit-gallery__image,
+.unit-gallery__slide > .unit-gallery__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 52%;
+  transform: scale(var(--photo-zoom, 1));
+  user-select: none;
+}
+
+.unit-gallery--multiple:focus-visible { outline: 3px solid var(--ui-focus); outline-offset: -3px; }
+
+.unit-gallery__arrow {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 70%);
+  border-radius: 999px;
+  background: rgb(20 24 29 / 72%);
+  color: #ffffff;
+  transform: translateY(-50%);
+}
+
+.unit-gallery__arrow:hover { background: rgb(20 24 29 / 88%); }
+.unit-gallery__arrow:focus-visible { outline: 2px solid var(--industrial-yellow); outline-offset: 2px; }
+.unit-gallery__arrow--prev { left: 0.75rem; }
+.unit-gallery__arrow--next { right: 0.75rem; }
+
+.unit-gallery__dots {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 50%;
+  display: flex;
+  gap: 0.15rem;
+  border-radius: 999px;
+  background: rgb(20 24 29 / 55%);
+  padding: 0.15rem 0.35rem;
+  transform: translateX(-50%);
+}
+
+/* Área táctil de 24 px con un punto visible de 8 px. */
+.unit-gallery__dot {
+  display: grid;
+  width: 1.5rem;
+  height: 1.5rem;
+  place-items: center;
+}
+
+.unit-gallery__dot::before {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 55%);
+  content: "";
+}
+
+.unit-gallery__dot[aria-current="true"]::before { background: var(--industrial-yellow); }
+.unit-gallery__dot:focus-visible { outline: 2px solid var(--industrial-yellow); outline-offset: -2px; border-radius: 999px; }
+
+.fleet-detail {
+  position: relative;
+  overflow: hidden;
+  max-width: 62rem;
+  border: 1px solid rgb(10 30 45 / 35%);
+  border-top: var(--ui-accent-edge);
+  border-radius: 0.6rem;
+  background: linear-gradient(180deg, #f3f8fb, #e5eef3);
+  box-shadow: 0 22px 40px -22px rgb(6 20 32 / 75%);
+}
+
+.fleet-detail__icon {
+  box-shadow: 0 10px 20px -14px var(--industrial-dark);
+}
+
+.footer-crane-art {
+  position: absolute;
+  right: max(1rem, calc((100% - 60rem) / 2));
+  bottom: -2.5rem;
+  width: 16rem;
+  color: var(--warm-white);
+  opacity: 0.09;
+  pointer-events: none;
+}
+
+@media (max-width: 639px) {
+  .footer-crane-art {
+    right: -1rem;
+    width: 11rem;
+    opacity: 0.07;
+  }
+}
+
+@media (hover: hover) {
+  .fleet-card:hover { border-color: color-mix(in srgb, var(--industrial-yellow) 62%, var(--ui-border-light)); }
 }
 
 .industrial-lock-stage {
@@ -602,4 +1933,2102 @@
     animation: none;
     transform: translateX(-50%) translateY(0.3rem);
   }
+}
+
+/* ---------- Secciones inferiores: unidad, cobertura, proceso de renta y footer ---------- */
+
+.fleet-specs {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.fleet-specs > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0.85rem;
+}
+
+.fleet-specs > div + div { border-top: 1px solid var(--border); }
+.fleet-specs dt { color: var(--foreground); font-weight: 600; }
+.fleet-specs dd { color: var(--muted-foreground); text-align: right; }
+
+.fleet-application {
+  border: 1px solid color-mix(in srgb, var(--industrial-yellow) 40%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--industrial-yellow) 8%, transparent);
+  color: var(--industrial-dark);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.35rem 0.8rem;
+}
+
+.rental-step { position: relative; }
+
+.rental-step__number {
+  color: var(--brand-red-deep);
+  font-family: "Poppins", var(--font-sans);
+  font-size: 2.4rem;
+  font-style: italic;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* Conector discontinuo entre pasos en escritorio. */
+@media (min-width: 768px) {
+  .rental-step:not(:last-child)::after {
+    position: absolute;
+    top: 2.35rem;
+    right: -1rem;
+    width: 1rem;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, var(--industrial-yellow) 0 4px, transparent 4px 7px);
+    content: "";
+  }
+}
+
+.rental-quote-toggle {
+  margin-top: 1.25rem;
+  font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+}
+
+
+/* Formulario desplegable: siempre montado (conserva respuestas y fotos). Al abrirse ocupa su
+   altura de inmediato para que el desplazamiento a #cotizar sea exacto, y aparece con un fundido. */
+.quote-drawer {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transform: translateY(-0.5rem);
+}
+
+.quote-drawer[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transform: none;
+}
+
+/* Ancho de lectura cómodo para el formulario (≈ 800 px). */
+.quote-drawer__inner {
+  min-height: 0;
+  max-width: 50rem;
+  margin-inline: auto;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .quote-drawer[data-open="true"] {
+    transition:
+      opacity 280ms ease,
+      transform 280ms ease;
+  }
+}
+
+/* Contacto y footer: grafito neutro y sobrio (sin el azul de la portada ni texturas). */
+.site-footer {
+  background:
+    radial-gradient(ellipse 60% 70% at 0% 0%, rgb(55 101 123 / 22%), transparent 70%),
+    var(--ti-graphite-contact);
+}
+
+/* Filo cromado superior que cierra la página. */
+.site-footer::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  background: var(--ti-steel-edge);
+  content: "";
+}
+
+.contact-method {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.85rem 1rem;
+  border: 1px solid var(--ti-steel-border);
+  border-top: var(--ui-accent-edge);
+  border-radius: var(--ui-radius-card);
+  background:
+    linear-gradient(135deg, rgb(55 101 123 / 28%), transparent 55%),
+    linear-gradient(180deg, #2b343e, #252d36);
+  box-shadow: var(--ui-shadow-dark);
+  padding: 1.1rem 1.15rem;
+}
+
+.contact-method__icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 0.85rem;
+  border-color: rgb(55 101 123 / 70%);
+  background: var(--ti-petrol-deep);
+  color: var(--industrial-yellow);
+}
+
+.contact-method--whatsapp .contact-method__icon { color: #2fd16b; }
+
+.contact-method__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 2.9rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--industrial-yellow) 75%, black);
+  background: var(--gradient-primary);
+  color: var(--industrial-black);
+  font-size: 0.95rem;
+  font-weight: 800;
+  transition: filter 150ms ease;
+}
+
+.contact-method__action:hover { filter: brightness(1.06); }
+.contact-method__action:focus-visible { outline: 2px solid var(--warm-white); outline-offset: 3px; }
+
+/* WhatsApp conserva su verde; el resto de acciones usan el naranja de la marca. */
+.contact-method--whatsapp .contact-method__action {
+  border-color: rgb(160 245 190 / 45%);
+  background: linear-gradient(180deg, #2fc566 0%, #188f46 42%, #0d6e31 100%);
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 45%);
+}
+
+.footer-bottom { border-top: 1px solid rgb(255 255 255 / 10%); }
+
+.footer-nav a {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 2.25rem;
+  border-radius: 0.375rem;
+  transition: color 150ms ease;
+}
+
+.footer-nav a:hover { color: var(--warm-white); }
+.footer-nav a:focus-visible { outline: 2px solid var(--industrial-yellow); outline-offset: 2px; }
+
+/* Proceso de renta y formulario sobre superficie clara: campos con borde visible y fondo blanco. */
+.rental-band .quote-drawer .field {
+  border-color: #8fb0c2;
+  background: var(--ti-field);
+}
+
+/* Panel exterior en gris acero claro, delimitado respecto al concreto del proceso. */
+.rental-band .quote-drawer .panel {
+  border: 1px solid #7fa3b7;
+  border-top: 3px solid var(--ti-petrol-light);
+  background-color: var(--ti-form-panel);
+  background-image: none;
+  box-shadow: 0 16px 32px -20px rgb(16 43 59 / 45%);
+}
+
+/* Tokens locales del formulario: pista de progreso y textos secundarios con más contraste. */
+.rental-band .quote-drawer {
+  --secondary: #b3c9d6;
+  /* Texto de acento (paso activo, «Editar») legible sobre el gris acero del panel. */
+  --sky: #9a4a00;
+  --muted-foreground: var(--ti-text-2);
+  --card-foreground: var(--ti-text);
+}
+
+.rental-band .quote-drawer .eyebrow { color: var(--sky); }
+
+/* Opciones (botones de selección) con borde visible y estado activo inequívoco. */
+.rental-band .quote-drawer button[aria-pressed="false"] {
+  border-color: var(--ti-border);
+  background: var(--ti-field);
+  color: var(--ti-text);
+}
+
+.rental-band .quote-drawer button[aria-pressed="true"] {
+  border-color: var(--brand-red-deep);
+  background: #fff3e6;
+  box-shadow: inset 0 0 0 1px var(--brand-red-deep);
+  color: var(--industrial-black);
+  font-weight: 700;
+}
+
+.rental-band .rental-step {
+  border: 1px solid var(--ti-border);
+  border-top: var(--ui-accent-edge);
+  border-radius: var(--ui-radius-card);
+  background: var(--ti-card-concrete);
+  box-shadow: var(--ui-shadow-light);
+}
+
+.contact-method__email { word-break: keep-all; overflow-wrap: normal; }
+
+/* En tableta (dos columnas), una tarjeta impar final ocupa todo el ancho. */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .contact-methods > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+
+/* Correo pendiente de activación: se muestra el marcador, sin enlace mailto operativo. */
+.contact-method__pending {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: 100%;
+  min-height: 2.9rem;
+  border: 1px dashed rgb(255 255 255 / 35%);
+  border-radius: 999px;
+  color: rgb(255 255 255 / 78%);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+/* ======================================================================================
+   Secciones inferiores — distribución de materiales (2026-11-14)
+   Hero y beneficios: sin cambios. Servicios: acero satinado plateado. Nuestras unidades:
+   grafito industrial. ¿Cómo rentar una grúa?: plata suave. Contacto: grafito profundo.
+   ====================================================================================== */
+:root {
+  --mat-steel: #bccbd4;
+  --mat-silver: #d7e0e5;
+  --mat-graphite: #263641;
+  --mat-graphite-deep: #17232d;
+  --mat-ice: #f3f8fb;
+  --mat-ink: #17232d;
+  --mat-ink-2: #34444f;
+  --mat-chrome-edge: linear-gradient(90deg, #8d9faa, #f4f7f9 25%, #aebcc5 50%, #ffffff 75%, #8d9faa);
+  /* Cepillado fino no periódico (ruido estirado en horizontal), muy tenue. */
+  --mat-brushed: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='300'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.004 0.9' numOctaves='2' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.32 -0.12'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23b)'/%3E%3C/svg%3E");
+}
+
+/* ---------- Fase A · Categoría de Servicios: banda de acero satinado a todo el ancho ---------- */
+.industrial-services-panel {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  border: 0;
+  border-radius: 0;
+  background:
+    var(--mat-brushed) 0 0 / 600px 300px,
+    linear-gradient(112deg, transparent 18%, rgb(255 255 255 / 30%) 40%, transparent 62%),
+    linear-gradient(180deg, #cad7df 0%, #bccbd4 45%, #adbdc8 100%);
+  background-blend-mode: soft-light, normal, normal;
+  box-shadow:
+    inset 0 3px 0 -1px #ffffff,
+    inset 0 -1px 0 rgb(0 0 0 / 18%),
+    0 0 0 1px rgb(6 18 28 / 55%),
+    0 18px 34px -24px rgb(0 0 0 / 80%);
+  padding: 2.1rem max(1rem, calc((100vw - 72rem) / 2 + 1.25rem)) 2.4rem;
+}
+
+/* Filo cromado arriba y abajo, con un acento naranja corto centrado arriba. */
+.industrial-services-panel::before,
+.industrial-services-panel::after {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 3px;
+  background: var(--mat-chrome-edge);
+  content: "";
+  pointer-events: none;
+}
+
+.industrial-services-panel::before { top: 0; }
+.industrial-services-panel::after { bottom: 0; }
+
+@media (min-width: 1024px) {
+  .industrial-services-panel { padding-top: 2.4rem; padding-bottom: 2.75rem; }
+}
+
+.industrial-services-panel .industrial-categories-title {
+  color: var(--mat-ink);
+  text-shadow: 0 1px 0 rgb(255 255 255 / 55%);
+}
+
+.industrial-services-panel .industrial-categories-head p { color: var(--mat-ink-2); }
+
+/* Tarjetas: blanco hielo y acero claro con bisel metálico y sombra moderada. */
+.industrial-category-card {
+  background:
+    linear-gradient(180deg, #f8fbfc 0%, #edf3f6 55%, #e1e9ee 100%) padding-box,
+    linear-gradient(180deg, #ffffff, #9fb1bd 45%, #6f8491 85%, #a3b4bf) border-box;
+  box-shadow:
+    inset 0 1px 0 #ffffff,
+    0 0 0 1px rgb(15 30 40 / 18%),
+    0 4px 8px -4px rgb(15 30 40 / 35%),
+    0 20px 34px -22px rgb(15 30 40 / 60%);
+}
+
+.industrial-category-card:hover {
+  background:
+    linear-gradient(180deg, #ffffff 0%, #f2f7f9 55%, #e6edf1 100%) padding-box,
+    linear-gradient(180deg, #ffffff, #c2cfd8 45%, #8095a3 85%, #b8c6cf) border-box;
+  box-shadow:
+    inset 0 1px 0 #ffffff,
+    0 0 0 1px rgb(15 30 40 / 22%),
+    0 6px 10px -4px rgb(15 30 40 / 35%),
+    0 24px 38px -22px rgb(15 30 40 / 65%);
+}
+
+.industrial-category-card .industrial-photo-frame {
+  border-bottom: 1px solid rgb(15 30 40 / 25%);
+  box-shadow: 0 1px 0 #ffffff;
+}
+
+.industrial-category-card__body h3 {
+  color: var(--mat-ink);
+  text-shadow: none;
+}
+
+.industrial-category-card__body p { color: var(--mat-ink-2); }
+
+.industrial-category-card__icon {
+  background:
+    linear-gradient(180deg, #24343f, #17232d) padding-box,
+    linear-gradient(180deg, #ffffff, #7f93a0 55%, #4a5d69) border-box;
+  box-shadow:
+    inset 0 2px 5px rgb(0 0 0 / 55%),
+    0 2px 5px rgb(15 30 40 / 30%);
+  color: #ff9a1f;
+}
+
+/* CTA de cotización: botón naranja definido (mismo texto y enlace). */
+.industrial-category-card__link {
+  border: 1px solid color-mix(in srgb, var(--industrial-yellow) 70%, black);
+  background: var(--gradient-primary);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 35%), 0 3px 8px -4px rgb(120 50 0 / 60%);
+  color: var(--industrial-black);
+}
+
+.industrial-category-card__link:hover {
+  border-color: color-mix(in srgb, var(--industrial-yellow) 70%, black);
+  background: var(--gradient-primary);
+  filter: brightness(1.06);
+}
+
+.industrial-category-card__link:focus-visible { outline: 2px solid var(--mat-ink); outline-offset: 2px; }
+
+/* ---------- Fase B · Nuestras unidades: grafito industrial ---------- */
+.fleet-band {
+  --background: var(--mat-graphite);
+  background-color: var(--mat-graphite);
+  background-image:
+    linear-gradient(115deg, transparent 20%, rgb(255 255 255 / 4%) 42%, transparent 64%),
+    linear-gradient(180deg, #2b3c48 0%, #263641 45%, #1f2e39 100%);
+}
+
+.fleet-band::before { background: var(--mat-chrome-edge); }
+
+.fleet-card {
+  background:
+    linear-gradient(180deg, #f6fafc, #e5eef3) padding-box,
+    linear-gradient(180deg, #ffffff, #9fb1bd 55%, #6f8491) border-box;
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 45%),
+    0 24px 44px -22px rgb(0 0 0 / 85%);
+}
+
+.fleet-detail {
+  background: linear-gradient(180deg, #f6fafc, #e5eef3);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 40%), 0 24px 44px -22px rgb(0 0 0 / 85%);
+}
+
+/* ---------- Fase C · ¿Cómo rentar una grúa?: plata suave ---------- */
+.rental-band {
+  --background: var(--mat-silver);
+  --foreground: var(--mat-ink);
+  --muted-foreground: var(--mat-ink-2);
+  --border: #9aabb6;
+  background-color: var(--mat-silver);
+  background-image:
+    linear-gradient(112deg, transparent 20%, rgb(255 255 255 / 35%) 42%, transparent 64%),
+    linear-gradient(180deg, #e1e8ec 0%, #d7e0e5 50%, #cbd5db 100%);
+}
+
+.rental-band::before { background: var(--mat-chrome-edge); }
+
+.rental-band .rental-step {
+  border: 1px solid #a9b8c2;
+  border-top: var(--ui-accent-edge);
+  background: linear-gradient(180deg, #f8fbfc, #eef3f6);
+  box-shadow: inset 0 1px 0 #ffffff, 0 14px 26px -18px rgb(15 30 40 / 55%);
+}
+
+.rental-band .rental-step h3 { color: var(--mat-ink); }
+
+/* Formulario: superficies neutras con buen contraste (lógica sin cambios). */
+.rental-band .quote-drawer {
+  --secondary: #b4c1ca;
+  --muted-foreground: var(--mat-ink-2);
+  --card-foreground: var(--mat-ink);
+  --sky: #8f4500;
+}
+
+.rental-band .quote-drawer .panel {
+  border: 1px solid #8fa1ad;
+  border-top: 3px solid var(--industrial-yellow);
+  background: linear-gradient(180deg, #f6f9fb, #ecf1f4);
+  box-shadow: inset 0 1px 0 #ffffff, 0 18px 34px -22px rgb(15 30 40 / 55%);
+}
+
+.rental-band .quote-drawer .field {
+  border-color: #7f919d;
+  background: #ffffff;
+  color: var(--mat-ink);
+}
+
+.rental-band .quote-drawer .field:focus { outline: 2px solid #c96700; outline-offset: 1px; }
+
+.rental-band .quote-drawer label,
+.rental-band .quote-drawer legend { color: var(--mat-ink); }
+
+.rental-band .quote-drawer button[aria-pressed="false"] {
+  border-color: #91a3af;
+  background: #ffffff;
+  color: var(--mat-ink);
+}
+
+.rental-band .quote-drawer button[aria-pressed="false"]:hover { border-color: #c96700; }
+
+.rental-band .quote-drawer button[aria-pressed="true"] {
+  border-color: #c96700;
+  background: #fff1e0;
+  box-shadow: inset 0 0 0 1px #c96700;
+  color: var(--industrial-black);
+}
+
+/* ---------- Fase D · Contacto: grafito profundo ---------- */
+.site-footer {
+  background:
+    linear-gradient(115deg, transparent 20%, rgb(255 255 255 / 3%) 42%, transparent 64%),
+    linear-gradient(180deg, #1b2833 0%, #17232d 50%, #121c24 100%);
+}
+
+.site-footer::before { background: var(--mat-chrome-edge); }
+
+.contact-method {
+  border: 1px solid transparent;
+  border-top: 0;
+  background:
+    linear-gradient(180deg, #2a3a46, #22303b) padding-box,
+    linear-gradient(180deg, #c9d6de, #5d6f7b 55%, #3d4c57) border-box;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 10%),
+    0 0 0 1px rgb(0 0 0 / 45%),
+    0 18px 30px -20px rgb(0 0 0 / 90%);
+}
+
+.contact-method__icon {
+  border-color: rgb(255 255 255 / 18%);
+  background: linear-gradient(180deg, #1b2731, #121b22);
+  box-shadow: inset 0 2px 5px rgb(0 0 0 / 55%);
+}
+
+.contact-method--whatsapp { box-shadow: inset 0 3px 0 #25d366, 0 0 0 1px rgb(0 0 0 / 45%), 0 18px 30px -20px rgb(0 0 0 / 90%); }
+.contact-method--phone { box-shadow: inset 0 3px 0 var(--industrial-yellow), 0 0 0 1px rgb(0 0 0 / 45%), 0 18px 30px -20px rgb(0 0 0 / 90%); }
+.contact-method--email { box-shadow: inset 0 3px 0 #9fb5c4, 0 0 0 1px rgb(0 0 0 / 45%), 0 18px 30px -20px rgb(0 0 0 / 90%); }
+
+.contact-method--phone .contact-method__icon { color: #ff9a1f; }
+.contact-method--email .contact-method__icon { color: #c9d8e2; }
+
+.contact-method--email .contact-method__pending {
+  border: 1px solid rgb(201 216 226 / 55%);
+  background: rgb(201 216 226 / 8%);
+  color: #dfe8ee;
+}
+
+/* ---------- Ajuste integral (2026-11-14 · 2): beneficios más luminosos y tarjetas más amplias ---------- */
+
+/* Beneficios: placa azul petróleo más luminosa que el fondo exterior (#173B55), con bisel cromado. */
+.industrial-benefit-strip {
+  background:
+    radial-gradient(ellipse 60% 120% at 50% 12%, rgb(150 205 230 / 12%), transparent 75%) padding-box,
+    linear-gradient(180deg, #4d89a5 0%, #31687f 11%, #2a5d74 50%, #1f4b61 100%) padding-box,
+    linear-gradient(180deg, #ffffff 0%, #d2dfe7 30%, #869db0 70%, #c3d3de 100%) border-box;
+}
+
+/* Servicios: contenido más ancho (≈78rem) para tarjetas más amplias. */
+.industrial-services-panel {
+  padding-inline: max(1rem, calc((100vw - 78rem) / 2 + 1.25rem));
+}
+
+/* Encabezado con más jerarquía, directamente sobre el acero (sin caja). */
+.industrial-services-panel .industrial-categories-title {
+  font-size: clamp(1.85rem, 1.25rem + 1.9vw, 2.75rem);
+  letter-spacing: -0.03em;
+}
+
+.industrial-services-panel .industrial-categories-head p {
+  max-width: 40rem;
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);
+  font-weight: 500;
+}
+
+.industrial-services-panel .industrial-categories-head + div {
+  margin-top: 2rem;
+  gap: 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .industrial-services-panel .industrial-categories-head + div { margin-top: 2.25rem; gap: 1.5rem; }
+}
+
+/* Composición de la tarjeta: icono junto al título, descripción debajo y botón alineado al pie. */
+.industrial-category-card__body {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+  align-items: center;
+  column-gap: 0.85rem;
+  padding: 1.25rem 1.35rem 1.4rem;
+}
+
+.industrial-category-card__icon { width: 2.85rem; height: 2.85rem; }
+
+.industrial-category-card__body h3 {
+  margin-top: 0;
+  font-size: 1.22rem;
+  line-height: 1.25;
+}
+
+.industrial-category-card__body p {
+  grid-column: 1 / -1;
+  align-self: start;
+  margin-top: 0.85rem;
+  font-size: 0.95rem;
+}
+
+.industrial-category-card__link {
+  grid-column: 1 / -1;
+  justify-self: start;
+  margin-top: 1.1rem;
+  min-height: 2.75rem;
+  padding-inline: 1.1rem;
+  font-size: 0.95rem;
+}
+
+@media (min-width: 1024px) {
+  .industrial-category-card__body { padding: 1.4rem 1.6rem 1.6rem; }
+}
+
+/* Tarjetas estrechas (3 columnas entre 768 y 1179 px): icono sobre el título para que los títulos
+   largos no se corten. */
+@media (min-width: 768px) and (max-width: 1179px) {
+  .industrial-category-card__body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr auto;
+    padding: 1.1rem 1.1rem 1.25rem;
+  }
+
+  .industrial-category-card__body h3 {
+    margin-top: 0.75rem;
+    font-size: 1.06rem;
+  }
+
+  .industrial-category-card__link { padding-inline: 0.85rem; font-size: 0.9rem; }
+}
+
+/* ======================================================================================
+   Ajuste según docs/mockup/mockup-rey-central-aprobado.png (2026-11-14 · 3)
+   Zona bajo el Hero (beneficios + Servicios + banner) sobre acero plateado cepillado;
+   tarjetas blancas con bisel cromado, foto panorámica cerrada sobre la canastilla.
+   ====================================================================================== */
+.industrial-overview {
+  background-color: #c3d0d8;
+  background-image:
+    var(--mat-brushed),
+    linear-gradient(112deg, transparent 15%, rgb(255 255 255 / 34%) 38%, transparent 58%),
+    linear-gradient(68deg, transparent 55%, rgb(255 255 255 / 22%) 75%, transparent 92%),
+    linear-gradient(180deg, #cfdae1 0%, #c0ced6 40%, #b3c3cd 100%);
+  background-size: 600px 300px, auto, auto, auto;
+  background-blend-mode: soft-light, normal, normal, normal;
+}
+
+.industrial-overview__texture { opacity: 0; }
+
+/* Servicios ya no es una banda propia: comparte el acero de la zona; solo conserva el filo
+   cromado superior como separador respecto a la placa de beneficios. */
+.industrial-services-panel {
+  background: transparent;
+  box-shadow: none;
+}
+
+.industrial-services-panel::after { display: none; }
+
+/* Placa de beneficios: remaches en las esquinas, títulos itálicos y separadores claros. */
+.industrial-benefit-strip {
+  --rivet-dot: radial-gradient(circle, #f4f7f9 0 1.6px, #8c9ca7 2.4px, #3b4a55 3.4px, transparent 4px);
+  background:
+    var(--rivet-dot) left 9px top 9px / 9px 9px no-repeat padding-box,
+    var(--rivet-dot) right 9px top 9px / 9px 9px no-repeat padding-box,
+    var(--rivet-dot) left 9px bottom 9px / 9px 9px no-repeat padding-box,
+    var(--rivet-dot) right 9px bottom 9px / 9px 9px no-repeat padding-box,
+    radial-gradient(ellipse 60% 120% at 50% 12%, rgb(150 205 230 / 12%), transparent 75%) padding-box,
+    linear-gradient(180deg, #4a85a1 0%, #2c637b 11%, #24576f 50%, #173f55 100%) padding-box,
+    linear-gradient(180deg, #ffffff 0%, #d2dfe7 30%, #869db0 70%, #c3d3de 100%) border-box;
+}
+
+.industrial-benefit strong {
+  font-family: "Poppins", var(--font-sans);
+  font-style: italic;
+}
+
+@media (min-width: 1024px) {
+  .industrial-benefit + .industrial-benefit {
+    border-left: 2px solid rgb(225 236 242 / 55%);
+    box-shadow: inset 2px 0 0 rgb(0 0 0 / 30%);
+  }
+}
+
+/* Encabezado de Servicios: itálica azul marino con barras de señalización a ambos lados. */
+.industrial-services-panel .industrial-categories-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  color: #102b46;
+  font-family: "Poppins", var(--font-sans);
+  font-style: italic;
+  font-weight: 800;
+  text-shadow: 0 1px 0 rgb(255 255 255 / 60%);
+}
+
+.industrial-services-panel .industrial-categories-title::before,
+.industrial-services-panel .industrial-categories-title::after {
+  display: block;
+  flex: none;
+  width: 1.45em;
+  height: 0.62em;
+  margin: 0;
+  background: repeating-linear-gradient(115deg, #ff8a00 0 0.2em, transparent 0.2em 0.36em);
+  content: "";
+}
+
+.industrial-services-panel .industrial-categories-head p {
+  max-width: 52rem;
+  color: #1c2c38;
+  font-weight: 600;
+}
+
+/* Tarjetas: superficie blanca con bisel cromado grueso y triángulo naranja en la esquina. */
+.industrial-category-card {
+  border-width: 3px;
+  border-radius: 0.65rem;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #f4f8fa 60%, #e8eff3 100%) padding-box,
+    linear-gradient(160deg, #ffffff 0%, #c6d3dc 25%, #7c909d 55%, #e3ebf0 80%, #93a6b2 100%) border-box;
+  box-shadow:
+    inset 0 1px 0 #ffffff,
+    0 0 0 1px rgb(15 30 40 / 30%),
+    0 6px 10px -5px rgb(15 30 40 / 40%),
+    0 22px 34px -20px rgb(15 30 40 / 60%);
+}
+
+.industrial-category-card:hover {
+  background:
+    linear-gradient(180deg, #ffffff 0%, #f7fafb 60%, #edf3f6 100%) padding-box,
+    linear-gradient(160deg, #ffffff 0%, #dbe5eb 25%, #94a8b5 55%, #f1f5f8 80%, #a9bac5 100%) border-box;
+}
+
+.industrial-category-card::after {
+  top: 0;
+  left: 0;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 0;
+  background: linear-gradient(135deg, #ffa53a, #f07800);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+/* Foto panorámica (2,6:1) cerrada sobre canastilla, trabajador y brazo. Escala 1,75 → se ve el
+   57 % del ancho y la franja superior (≈4–37 %) de la foto original, sin modificar el archivo. */
+.industrial-category-card .industrial-photo-frame { aspect-ratio: 2.6 / 1 !important; }
+
+.industrial-category-card .industrial-photo-frame img {
+  object-position: 50% 0%;
+  transform: scale(1.75);
+}
+
+.industrial-category-card--mantenimiento .industrial-photo-frame img { transform-origin: 82% 16%; }
+.industrial-category-card--iluminacion .industrial-photo-frame img { transform-origin: 86% 16%; }
+.industrial-category-card--telecom .industrial-photo-frame img { transform-origin: 86% 16%; }
+
+/* Cuerpo: icono naranja sin placa junto al título itálico; botón en píldora. */
+.industrial-category-card__icon {
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: #f07800;
+}
+
+.industrial-category-card__icon svg {
+  width: 2.1rem;
+  height: 2.1rem;
+  stroke-width: 2.2;
+}
+
+.industrial-category-card__body h3 {
+  color: #102b46;
+  font-family: "Poppins", var(--font-sans);
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.industrial-category-card__body p { color: #1c2c38; margin-top: 0.6rem; }
+
+.industrial-category-card__link {
+  border-radius: 999px;
+  padding-inline: 1.35rem;
+  font-family: "Poppins", var(--font-sans);
+  font-style: italic;
+  font-weight: 700;
+}
+
+@media (min-width: 1180px) {
+  .industrial-category-card__body h3 { font-size: 1.32rem; }
+}
+
+/* Icono con contraste gráfico ≥ 3:1 sobre la tarjeta blanca. */
+.industrial-category-card__icon { color: #c96700; }
+
+/* En pantallas estrechas el título ocupa dos líneas: se ocultan las barras laterales. */
+@media (max-width: 519px) {
+  .industrial-services-panel .industrial-categories-title::before,
+  .industrial-services-panel .industrial-categories-title::after { display: none; }
+}
+
+/* ======================================================================================
+   Corrección visual según docs/mockup/mockup-rey-central-aprobado.png (2026-11-14 · 4)
+   Medido a 1440 px contra el mockup: placa de beneficios más compacta con bisel cromado,
+   acero cepillado visible, tarjetas ≈40 % más bajas (icono a la izquierda; título, texto y
+   botón en una columna), fotos panorámicas por tarjeta y menos aire entre componentes.
+   ====================================================================================== */
+
+/* --- Zona: acero satinado con cepillado horizontal visible y reflejos amplios --- */
+.industrial-overview {
+  --brush-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='240'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0012 1.1' numOctaves='3' seed='9'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.42 -0.15'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23b)'/%3E%3C/svg%3E");
+  --brush-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='240'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0018 1.3' numOctaves='3' seed='23'/%3E%3CfeColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.18 0 0 0 0 0.24 0 0 0 0.3 -0.12'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23b)'/%3E%3C/svg%3E");
+  background-color: #bfccd5;
+  background-image:
+    var(--brush-light),
+    var(--brush-dark),
+    linear-gradient(104deg, transparent 8%, rgb(255 255 255 / 42%) 30%, rgb(255 255 255 / 8%) 44%, transparent 52%),
+    linear-gradient(76deg, transparent 54%, rgb(255 255 255 / 30%) 72%, transparent 88%),
+    radial-gradient(ellipse 70% 55% at 50% 0%, rgb(255 255 255 / 30%), transparent 70%),
+    linear-gradient(180deg, #d3dde4 0%, #c3d0d8 38%, #b6c5cf 72%, #a9bac5 100%);
+  background-size: 900px 240px, 900px 240px, auto, auto, auto, auto;
+  background-blend-mode: normal;
+  box-shadow: inset 0 3px 0 -1px rgb(255 255 255 / 85%), inset 0 -2px 0 rgb(20 35 45 / 25%);
+}
+
+.industrial-overview > .relative { padding-top: 1.25rem; padding-bottom: 1.75rem; }
+
+@media (min-width: 1024px) {
+  .industrial-overview > .relative { padding-top: 1.4rem; padding-bottom: 2rem; }
+}
+
+/* --- A. Placa de beneficios: petróleo satinado, bisel cromado de 4 px y separadores interiores --- */
+.industrial-benefit-strip {
+  border-width: 4px;
+  border-radius: 0.9rem;
+  background:
+    var(--rivet-dot) left 8px top 8px / 9px 9px no-repeat padding-box,
+    var(--rivet-dot) right 8px top 8px / 9px 9px no-repeat padding-box,
+    var(--rivet-dot) left 8px bottom 8px / 9px 9px no-repeat padding-box,
+    var(--rivet-dot) right 8px bottom 8px / 9px 9px no-repeat padding-box,
+    linear-gradient(180deg, rgb(255 255 255 / 16%) 0%, rgb(255 255 255 / 4%) 46%, transparent 47%) padding-box,
+    radial-gradient(ellipse 55% 140% at 50% 0%, rgb(140 200 228 / 16%), transparent 72%) padding-box,
+    linear-gradient(180deg, #3f7a96 0%, #275c74 30%, #1d4b62 62%, #133649 100%) padding-box,
+    linear-gradient(180deg, #ffffff 0%, #e4ecf1 22%, #95a9b7 52%, #f2f6f8 74%, #7d93a2 100%) border-box;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 45%),
+    inset 0 -2px 0 rgb(0 0 0 / 40%),
+    0 0 0 1px rgb(30 48 60 / 70%),
+    0 8px 14px -8px rgb(10 25 35 / 70%),
+    0 20px 34px -22px rgb(10 25 35 / 75%);
+}
+
+.industrial-benefit { gap: 0.9rem; padding: 0.95rem 1.4rem; }
+.industrial-benefit__icon { width: 3.4rem; height: 3.4rem; border-width: 2px; border-radius: 0.8rem; }
+.industrial-benefit__icon svg { width: 1.95rem; height: 1.95rem; }
+.industrial-benefit strong { font-size: 1.32rem; line-height: 1.2; }
+.industrial-benefit strong + span { color: rgb(240 247 250 / 92%); font-size: 0.92rem; line-height: 1.45; }
+
+@media (min-width: 640px) {
+  .industrial-benefit { padding: 1rem 1.9rem; }
+}
+
+@media (min-width: 1024px) {
+  .industrial-benefit { gap: 1rem; padding: 1rem 1.5rem; align-items: center; justify-content: center; }
+  .industrial-benefit + .industrial-benefit { position: relative; border-left: 0; box-shadow: none; }
+  .industrial-benefit + .industrial-benefit::before {
+    position: absolute;
+    top: 20%;
+    bottom: 20%;
+    left: 0;
+    width: 2px;
+    background: linear-gradient(180deg, transparent, rgb(232 241 246 / 85%) 18%, rgb(232 241 246 / 85%) 82%, transparent);
+    box-shadow: 1px 0 0 rgb(0 0 0 / 35%);
+    content: "";
+  }
+}
+
+/* --- B. Servicios: sin caja propia; filo cromado fino bajo la placa y espacios reducidos --- */
+.industrial-services-panel {
+  margin-top: 1.25rem;
+  padding-top: 1.6rem;
+  padding-bottom: 0.25rem;
+}
+
+.industrial-services-panel::before { height: 2px; box-shadow: 0 1px 0 rgb(40 60 75 / 22%); }
+
+@media (min-width: 1024px) {
+  .industrial-services-panel { padding-top: 1.75rem; padding-bottom: 0.25rem; }
+}
+
+.industrial-overview .industrial-solutions-banner { margin-top: 1.75rem; }
+
+/* --- C. Encabezado --- */
+.industrial-services-panel .industrial-categories-head p {
+  max-width: 62rem;
+  margin-top: 0.45rem;
+  color: #15283a;
+}
+
+.industrial-services-panel .industrial-categories-head + div { margin-top: 1.5rem; gap: 1rem; }
+
+@media (min-width: 1024px) {
+  .industrial-services-panel .industrial-categories-head + div { margin-top: 1.6rem; gap: 1.1rem; }
+}
+
+/* --- E. Tarjetas: bisel cromado de 4 px y cuerpo de acero claro --- */
+.industrial-category-card {
+  border-width: 4px;
+  border-radius: 0.75rem;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #f3f7f9 45%, #e2eaef 100%) padding-box,
+    linear-gradient(180deg, #ffffff 0%, #e6edf2 20%, #9aaebb 50%, #f4f7f9 72%, #8196a4 100%) border-box;
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 90%),
+    0 0 0 1px rgb(38 56 70 / 55%),
+    0 7px 12px -6px rgb(15 30 40 / 50%),
+    0 22px 34px -20px rgb(15 30 40 / 65%);
+}
+
+.industrial-category-card:hover {
+  background:
+    linear-gradient(180deg, #ffffff 0%, #f7fafb 45%, #e9f0f4 100%) padding-box,
+    linear-gradient(180deg, #ffffff 0%, #f0f5f8 20%, #acbec9 50%, #ffffff 72%, #93a8b5 100%) border-box;
+}
+
+.industrial-category-card::after { width: 2.4rem; height: 2.4rem; }
+
+/* Filo entre foto y cuerpo: línea cromada y acento naranja corto. */
+.industrial-category-card .industrial-photo-frame {
+  border: 0;
+  border-radius: 0.45rem 0.45rem 0 0;
+  box-shadow: 0 2px 0 #ffffff, 0 3px 0 rgb(40 60 75 / 30%);
+}
+
+/* Cuerpo: icono en la columna izquierda; título, descripción y botón alineados a la derecha. */
+.industrial-category-card__body {
+  grid-template-columns: 2.6rem minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+  align-items: start;
+  column-gap: 0.85rem;
+  padding: 1rem 1.25rem 1.15rem 1rem;
+}
+
+.industrial-category-card__icon { grid-row: 1 / -1; width: 2.6rem; height: 2.6rem; color: #e06d00; }
+.industrial-category-card__icon svg { width: 2.25rem; height: 2.25rem; stroke-width: 2.1; }
+
+.industrial-category-card__body h3 { grid-column: 2; margin-top: 0.1rem; font-size: 1.2rem; line-height: 1.2; }
+
+.industrial-category-card__body p {
+  grid-column: 2;
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.industrial-category-card__link {
+  grid-column: 2;
+  align-self: end;
+  margin-top: 0.85rem;
+  min-height: 2.4rem;
+  padding-inline: 1.15rem;
+  border: 1px solid #b85a00;
+  background: linear-gradient(180deg, #ffa83c 0%, #ff8a00 48%, #ef7400 100%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 45%), 0 3px 6px -2px rgb(150 70 0 / 55%);
+  color: #10233a;
+  font-size: 0.92rem;
+}
+
+.industrial-category-card__link:hover { background: linear-gradient(180deg, #ffb658 0%, #ff9614 48%, #f57d00 100%); }
+
+@media (min-width: 1180px) {
+  .industrial-category-card__body h3 { font-size: 1.22rem; }
+}
+
+/* 768–1023 px: tres columnas estrechas → icono sobre el título para no cortar «Telecomunicaciones». */
+@media (min-width: 768px) and (max-width: 1179px) {
+  .industrial-category-card__body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr auto;
+    padding: 0.9rem 1rem 1.05rem;
+  }
+
+  .industrial-category-card__icon { grid-row: auto; }
+  .industrial-category-card__body h3,
+  .industrial-category-card__body p,
+  .industrial-category-card__link { grid-column: 1; }
+  .industrial-category-card__body h3 { margin-top: 0.5rem; font-size: 1.06rem; }
+}
+
+@media (min-width: 1024px) and (max-width: 1179px) {
+  .industrial-category-card__body {
+    grid-template-columns: 2.4rem minmax(0, 1fr);
+    grid-template-rows: auto 1fr auto;
+  }
+
+  .industrial-category-card__icon { grid-row: 1 / -1; width: 2.4rem; height: 2.4rem; }
+  .industrial-category-card__icon svg { width: 2rem; height: 2rem; }
+  .industrial-category-card__body h3,
+  .industrial-category-card__body p,
+  .industrial-category-card__link { grid-column: 2; }
+  .industrial-category-card__body h3 { margin-top: 0.1rem; }
+}
+
+/* --- D. Fotos panorámicas (2,9:1). Ventana visible por foto, sin modificar los archivos:
+   escala 1,42 → 70 % del ancho y ≈36 % superior de la imagen; el origen coloca brazo,
+   canastilla y trabajador en el encuadre. --- */
+.industrial-category-card .industrial-photo-frame { aspect-ratio: 2.9 / 1 !important; }
+
+.industrial-category-card .industrial-photo-frame img { object-position: 50% 0%; transform: scale(1.42); }
+.industrial-category-card--mantenimiento .industrial-photo-frame img { transform-origin: 84% 6%; }
+.industrial-category-card--iluminacion .industrial-photo-frame img { transform-origin: 80% 0%; }
+.industrial-category-card--telecom .industrial-photo-frame img { transform-origin: 78% 4%; }
+
+@media (max-width: 767px) {
+  .industrial-category-card .industrial-photo-frame { aspect-ratio: 2.5 / 1 !important; }
+  .industrial-category-card .industrial-photo-frame img { transform: scale(1.3); }
+}
+
+/* 768–1023 px: tarjetas de ≈230 px; foto menos panorámica y botón en una sola línea. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .industrial-category-card .industrial-photo-frame { aspect-ratio: 2 / 1 !important; }
+  .industrial-category-card .industrial-photo-frame img { transform: scale(1.25); }
+  .industrial-category-card__link { gap: 0.3rem; padding-inline: 0.8rem; font-size: 0.82rem; white-space: nowrap; }
+}
+
+/* ======================================================================================
+   Acero satinado y proporciones (2026-11-14 · 5)
+   Medido a 1440 px: contenedor 1152, placa/banner 1112, rejilla de tarjetas 1208 (márgenes 116).
+   - Fondo: sin vetas largas (causaban el efecto «persiana»); degradados amplios + grano fino
+     de vetas cortas y muy tenues sobre #B8C8D2.
+   - Rejilla de tarjetas hasta 82rem (1312 px a 1440): misma relación tarjetas/placa (≈1,18)
+     que el mockup y mejor uso del ancho sin agrandar en exceso las tarjetas.
+   ====================================================================================== */
+.industrial-overview {
+  --steel-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.018 0.85' numOctaves='2' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.17 -0.055'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  --steel-grain-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.022 0.9' numOctaves='2' seed='31' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.22 0 0 0 0 0.28 0 0 0 0.12 -0.04'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  position: relative;
+  background-color: #b8c8d2;
+  background-image:
+    var(--steel-grain),
+    var(--steel-grain-dark),
+    linear-gradient(103deg, transparent 12%, rgb(255 255 255 / 20%) 34%, rgb(255 255 255 / 6%) 46%, transparent 58%),
+    radial-gradient(ellipse 55% 38% at 28% 14%, rgb(255 255 255 / 30%), transparent 72%),
+    radial-gradient(ellipse 48% 42% at 80% 58%, rgb(255 255 255 / 16%), transparent 72%),
+    radial-gradient(ellipse 70% 30% at 50% 100%, rgb(70 95 112 / 14%), transparent 75%),
+    linear-gradient(180deg, #c9d6de 0%, #bdcbd4 32%, #b8c8d2 62%, #adbec9 100%);
+  background-size: 480px 480px, 480px 480px, auto, auto, auto, auto, auto;
+  box-shadow: inset 0 3px 0 -1px rgb(255 255 255 / 80%);
+}
+
+/* Separador metálico fino hacia Nuestras unidades (grafito). */
+.industrial-overview::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(180deg, #f4f7f9 0 1px, #8d9fab 1px 2px, #33444f 2px);
+  content: "";
+  pointer-events: none;
+}
+
+/* Filo cromado bajo la placa: más fino y discreto. */
+.industrial-services-panel::before {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #eef3f6 12%, #ffffff 50%, #eef3f6 88%, transparent);
+  box-shadow: 0 1px 0 rgb(60 80 95 / 22%);
+}
+
+/* --- Beneficios: petróleo más profundo para destacar sobre el acero; iconos nítidos sin halo --- */
+.industrial-benefit-strip {
+  background:
+    var(--rivet-dot) left 8px top 8px / 9px 9px no-repeat padding-box,
+    var(--rivet-dot) right 8px top 8px / 9px 9px no-repeat padding-box,
+    var(--rivet-dot) left 8px bottom 8px / 9px 9px no-repeat padding-box,
+    var(--rivet-dot) right 8px bottom 8px / 9px 9px no-repeat padding-box,
+    linear-gradient(180deg, rgb(255 255 255 / 14%) 0%, rgb(255 255 255 / 3%) 45%, transparent 46%) padding-box,
+    radial-gradient(ellipse 50% 130% at 50% 0%, rgb(120 190 222 / 14%), transparent 72%) padding-box,
+    linear-gradient(180deg, #367190 0%, #21566f 30%, #164259 64%, #0e2e40 100%) padding-box,
+    linear-gradient(180deg, #ffffff 0%, #e8eff3 20%, #8fa4b2 50%, #f5f8fa 72%, #74899a 100%) border-box;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 40%),
+    inset 0 -2px 0 rgb(0 0 0 / 40%),
+    0 0 0 1px rgb(24 40 52 / 75%),
+    0 6px 12px -6px rgb(10 25 35 / 60%),
+    0 18px 30px -20px rgb(10 25 35 / 60%);
+}
+
+.industrial-benefit__icon {
+  border-color: #ff9d2e;
+  background: linear-gradient(180deg, #0d202c, #07131b);
+  box-shadow: inset 0 2px 5px rgb(0 0 0 / 60%), 0 0 0 1px rgb(0 0 0 / 55%);
+  color: #ffa640;
+}
+
+.industrial-benefit strong + span { color: #eef5f8; font-size: 0.95rem; }
+
+@media (min-width: 1024px) {
+  .industrial-benefit { padding: 1.05rem 1.6rem; }
+}
+
+/* --- Servicios: rejilla hasta 82rem y tarjetas de acero claro --- */
+.industrial-services-panel {
+  padding-inline: max(1rem, calc((100vw - 82rem) / 2));
+}
+
+@media (min-width: 1024px) {
+  .industrial-services-panel .industrial-categories-head + div { gap: 1.35rem; }
+}
+
+.industrial-category-card {
+  background:
+    linear-gradient(180deg, #fdfefe 0%, #f2f6f8 50%, #e4ebf0 100%) padding-box,
+    linear-gradient(180deg, #ffffff 0%, #e6edf2 20%, #9aaebb 50%, #f4f7f9 72%, #8196a4 100%) border-box;
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 90%),
+    0 0 0 1px rgb(38 56 70 / 45%),
+    0 6px 10px -6px rgb(15 30 40 / 40%),
+    0 18px 28px -20px rgb(15 30 40 / 50%);
+}
+
+@media (min-width: 1180px) {
+  .industrial-category-card__body { padding: 1.1rem 1.5rem 1.25rem 1.15rem; column-gap: 1rem; }
+  .industrial-category-card__body p { margin-top: 0.4rem; font-size: 0.95rem; }
+  .industrial-category-card__link { margin-top: 1rem; }
+}
+
+/* Fotos ≥1024 px: encuadre algo más alto (2,6:1, escala 1,3) para que la etiqueta «Imagen de
+   referencia» quede bajo la canastilla y no la tape (medido: 0 px² de solape en 1024–1440). */
+@media (min-width: 1024px) {
+  .industrial-category-card .industrial-photo-frame { aspect-ratio: 2.6 / 1 !important; }
+  .industrial-category-card .industrial-photo-frame img { transform: scale(1.3); }
+  .industrial-category-card--mantenimiento .industrial-photo-frame img { transform-origin: 86% 15%; }
+  .industrial-category-card--iluminacion .industrial-photo-frame img { transform-origin: 84% 15%; }
+  .industrial-category-card--telecom .industrial-photo-frame img { transform-origin: 82% 15%; }
+}
+
+/* ======================================================================================
+   Franja de beneficios — refinamiento (2026-11-14 · 6)
+   Mismo petróleo y misma estructura. Degradado sin corte (el brillo superior terminaba en
+   seco al 46 % y dibujaba una línea), parte inferior menos oscura, bisel más suave, separadores
+   grabados que se desvanecen en los extremos y contenido centrado en vertical en todos los anchos.
+   ====================================================================================== */
+.industrial-benefit-strip {
+  background:
+    var(--rivet-dot) left 8px top 8px / 9px 9px no-repeat padding-box,
+    var(--rivet-dot) right 8px top 8px / 9px 9px no-repeat padding-box,
+    var(--rivet-dot) left 8px bottom 8px / 9px 9px no-repeat padding-box,
+    var(--rivet-dot) right 8px bottom 8px / 9px 9px no-repeat padding-box,
+    linear-gradient(180deg, rgb(255 255 255 / 11%) 0%, rgb(255 255 255 / 4%) 38%, rgb(255 255 255 / 0%) 64%) padding-box,
+    linear-gradient(100deg, transparent 18%, rgb(190 228 244 / 6%) 44%, transparent 70%) padding-box,
+    linear-gradient(180deg, #3a7693 0%, #2c6884 24%, #225b75 52%, #1b4e67 80%, #17445b 100%) padding-box,
+    linear-gradient(180deg, #ffffff 0%, #e9f0f4 18%, #a8b9c5 46%, #eef3f6 70%, #8a9fad 100%) border-box;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 36%),
+    inset 0 -1px 0 rgb(0 0 0 / 30%),
+    inset 0 -14px 20px -16px rgb(4 20 30 / 45%),
+    0 0 0 1px rgb(24 40 52 / 65%),
+    0 6px 12px -6px rgb(10 25 35 / 55%),
+    0 18px 30px -20px rgb(10 25 35 / 55%);
+}
+
+/* Icono y texto centrados entre sí; misma separación (1 rem) en todos los anchos. */
+.industrial-benefit { position: relative; align-items: center; gap: 1rem; }
+
+/* Separadores grabados: línea oscura + filo claro, desvanecidos en los extremos. */
+.industrial-benefit + .industrial-benefit { border-top: 0; border-left: 0; box-shadow: none; }
+
+.industrial-benefit + .industrial-benefit::before {
+  position: absolute;
+  top: 0;
+  right: 7%;
+  left: 7%;
+  height: 2px;
+  background: linear-gradient(180deg, rgb(4 18 28 / 55%) 0 1px, rgb(200 228 240 / 30%) 1px 2px);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  box-shadow: none;
+  content: "";
+}
+
+@media (min-width: 1024px) {
+  .industrial-benefit + .industrial-benefit::before {
+    top: 16%;
+    right: auto;
+    bottom: 16%;
+    left: 0;
+    width: 2px;
+    height: auto;
+    background: linear-gradient(90deg, rgb(4 18 28 / 55%) 0 1px, rgb(200 228 240 / 34%) 1px 2px);
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 20%, #000 80%, transparent);
+    mask-image: linear-gradient(180deg, transparent, #000 20%, #000 80%, transparent);
+  }
+}
+
+/* ======================================================================================
+   Franja de beneficios — Diseño G «Consola industrial» (2026-11-14 · 7)
+   Una sola placa: marco cromado robusto, chasis azul carbón visible como canal interior y tres
+   compartimentos petróleo hundidos, separados por barras de acero inclinadas que llegan al marco.
+   Iconos en placas oscuras con aro naranja metálico y bisel cromado. Sin botones ni enlaces.
+   ====================================================================================== */
+.industrial-benefit-strip {
+  --g-gutter: 6px;
+  --g-divider: 14px;
+  --g-brushed: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02 0.9' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.16 -0.07'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23b)'/%3E%3C/svg%3E");
+  gap: var(--g-gutter);
+  padding: var(--g-gutter);
+  border-width: 5px;
+  border-radius: 1rem;
+  background:
+    var(--rivet-dot) left 5px top 5px / 9px 9px no-repeat padding-box,
+    var(--rivet-dot) right 5px top 5px / 9px 9px no-repeat padding-box,
+    var(--rivet-dot) left 5px bottom 5px / 9px 9px no-repeat padding-box,
+    var(--rivet-dot) right 5px bottom 5px / 9px 9px no-repeat padding-box,
+    linear-gradient(180deg, #102a3a, #0a1e2b) padding-box,
+    linear-gradient(180deg, #ffffff 0%, #e3eaef 14%, #9eb0bd 40%, #f3f6f8 62%, #c3d0d9 80%, #6f8595 100%) border-box;
+  box-shadow:
+    inset 0 0 0 1px rgb(2 10 16 / 80%),
+    inset 0 1px 0 1px rgb(255 255 255 / 10%),
+    0 0 0 1px rgb(24 40 52 / 70%),
+    0 2px 0 1px rgb(255 255 255 / 35%),
+    0 8px 14px -6px rgb(10 25 35 / 55%),
+    0 22px 34px -22px rgb(10 25 35 / 60%);
+}
+
+@media (min-width: 1024px) {
+  .industrial-benefit-strip { column-gap: var(--g-divider); }
+}
+
+/* Compartimentos: petróleo metálico cepillado, hundido en el chasis. */
+.industrial-benefit {
+  border-radius: 0.6rem;
+  background:
+    var(--g-brushed) 0 0 / 400px 400px,
+    linear-gradient(180deg, rgb(255 255 255 / 12%) 0%, rgb(255 255 255 / 3%) 42%, rgb(255 255 255 / 0%) 70%),
+    linear-gradient(180deg, #3a7693 0%, #2c6884 30%, #225b75 62%, #1b4e67 100%);
+  box-shadow:
+    inset 0 0 0 1px rgb(3 14 22 / 70%),
+    inset 0 2px 0 rgb(255 255 255 / 14%),
+    inset 0 -2px 0 rgb(0 0 0 / 28%),
+    inset 0 6px 10px -6px rgb(0 0 0 / 35%);
+}
+
+/* Barra de acero entre compartimentos: horizontal en columna y, en escritorio, inclinada y
+   prolongada hasta el marco para conservar la continuidad de la placa. */
+.industrial-benefit + .industrial-benefit::before {
+  position: absolute;
+  top: calc(-1 * var(--g-gutter));
+  right: calc(-1 * var(--g-gutter));
+  bottom: auto;
+  left: calc(-1 * var(--g-gutter));
+  width: auto;
+  height: var(--g-gutter);
+  background: linear-gradient(180deg, #061219 0 1px, #dfe7ec 1px, #8ea2af 50%, #3c4f5c calc(100% - 1px), #061219 calc(100% - 1px));
+  -webkit-mask-image: none;
+  mask-image: none;
+  box-shadow: none;
+  transform: none;
+  content: "";
+}
+
+@media (min-width: 1024px) {
+  .industrial-benefit + .industrial-benefit::before {
+    top: calc(-1 * var(--g-gutter) - 2px);
+    right: auto;
+    bottom: calc(-1 * var(--g-gutter) - 2px);
+    left: calc(-1 * var(--g-divider));
+    width: var(--g-divider);
+    height: auto;
+    background: linear-gradient(90deg, #061219 0 1px, #5d7280 1px, #e4ebf0 38%, #a7b8c4 62%, #3c4f5c calc(100% - 1px), #061219 calc(100% - 1px));
+    box-shadow: 2px 0 3px rgb(0 0 0 / 35%), -1px 0 2px rgb(0 0 0 / 30%);
+    transform: skewX(-14deg);
+  }
+}
+
+/* Contenido: icono protagonista y título con más jerarquía. */
+.industrial-benefit { gap: 1.05rem; padding: 0.75rem 1.4rem; }
+
+@media (min-width: 640px) {
+  .industrial-benefit { padding: 0.8rem 1.75rem; }
+}
+
+@media (min-width: 1024px) {
+  .industrial-benefit { padding: 0.5rem 1.35rem 0.5rem 1.6rem; justify-content: flex-start; }
+}
+
+.industrial-benefit__icon {
+  position: relative;
+  width: 4rem;
+  height: 4rem;
+  border: 3px solid transparent;
+  border-radius: 0.95rem;
+  background:
+    radial-gradient(circle at 50% 38%, #17303f 0%, #0b1a24 58%, #050d13 100%) padding-box,
+    linear-gradient(160deg, #ffd08a 0%, #ff9d2e 28%, #c96400 58%, #ffb257 82%, #e07800 100%) border-box;
+  box-shadow:
+    inset 0 3px 7px rgb(0 0 0 / 70%),
+    inset 0 -1px 0 rgb(255 255 255 / 8%),
+    0 0 0 2px #c3d0d9,
+    0 0 0 3px rgb(4 14 22 / 85%),
+    0 4px 6px -1px rgb(0 0 0 / 55%);
+  color: #ffa640;
+}
+
+.industrial-benefit__icon svg {
+  width: 2.25rem;
+  height: 2.25rem;
+  stroke-width: 2.2;
+  filter: drop-shadow(0 1px 0 rgb(0 0 0 / 70%)) drop-shadow(0 -1px 0 rgb(255 214 160 / 18%));
+}
+
+.industrial-benefit strong { font-size: 1.45rem; line-height: 1.15; }
+.industrial-benefit strong + span { margin-top: 0.2rem; color: #f1f7fa; font-size: 0.95rem; line-height: 1.42; }
+
+/* Realce con ratón: superficie algo más luminosa y aro del icono más vivo; sin movimiento. */
+@media (hover: hover) and (pointer: fine) {
+  .industrial-benefit { transition: background-color 200ms ease, box-shadow 200ms ease; }
+  .industrial-benefit:hover {
+    background-color: rgb(255 255 255 / 6%);
+    box-shadow:
+      inset 0 0 0 1px rgb(3 14 22 / 70%),
+      inset 0 2px 0 rgb(255 255 255 / 20%),
+      inset 0 -2px 0 rgb(0 0 0 / 28%),
+      inset 0 6px 10px -6px rgb(0 0 0 / 30%),
+      inset 0 0 24px rgb(150 210 235 / 10%);
+  }
+  .industrial-benefit__icon { transition: box-shadow 200ms ease; }
+  .industrial-benefit:hover .industrial-benefit__icon {
+    box-shadow:
+      inset 0 3px 7px rgb(0 0 0 / 70%),
+      inset 0 -1px 0 rgb(255 255 255 / 8%),
+      0 0 0 2px #dfe7ec,
+      0 0 0 3px rgb(4 14 22 / 85%),
+      0 0 10px rgb(255 157 46 / 30%),
+      0 4px 6px -1px rgb(0 0 0 / 55%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .industrial-benefit,
+  .industrial-benefit__icon { transition: none; }
+}
+
+/* Diseño G — remaches en las esquinas exteriores de la placa (sobre los compartimentos extremos),
+   altura de escritorio igual a la anterior (113 px) y columnas más compactas entre 1024 y 1279 px. */
+.industrial-benefit {
+  --g-surface:
+    var(--g-brushed) 0 0 / 400px 400px,
+    linear-gradient(180deg, rgb(255 255 255 / 12%) 0%, rgb(255 255 255 / 3%) 42%, rgb(255 255 255 / 0%) 70%),
+    linear-gradient(180deg, #3a7693 0%, #2c6884 30%, #225b75 62%, #1b4e67 100%);
+  background: var(--g-surface);
+}
+
+.industrial-benefit:first-child {
+  background:
+    var(--rivet-dot) left 7px top 7px / 9px 9px no-repeat,
+    var(--rivet-dot) right 7px top 7px / 9px 9px no-repeat,
+    var(--g-surface);
+}
+
+.industrial-benefit:last-child {
+  background:
+    var(--rivet-dot) left 7px bottom 7px / 9px 9px no-repeat,
+    var(--rivet-dot) right 7px bottom 7px / 9px 9px no-repeat,
+    var(--g-surface);
+}
+
+@media (min-width: 1024px) {
+  .industrial-benefit:first-child {
+    background:
+      var(--rivet-dot) left 7px top 7px / 9px 9px no-repeat,
+      var(--rivet-dot) left 7px bottom 7px / 9px 9px no-repeat,
+      var(--g-surface);
+  }
+
+  .industrial-benefit:last-child {
+    background:
+      var(--rivet-dot) right 7px top 7px / 9px 9px no-repeat,
+      var(--rivet-dot) right 7px bottom 7px / 9px 9px no-repeat,
+      var(--g-surface);
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .industrial-benefit { gap: 0.85rem; padding: 11.5px 1rem 11.5px 1.15rem; }
+  .industrial-benefit__icon { width: 3.5rem; height: 3.5rem; }
+  .industrial-benefit__icon svg { width: 2rem; height: 2rem; }
+  .industrial-benefit strong { font-size: 1.3rem; }
+  .industrial-benefit strong + span { font-size: 0.9rem; }
+}
+
+@media (min-width: 1280px) {
+  .industrial-benefit { padding: 9px 1.35rem 9px 1.6rem; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .industrial-benefit:hover { background-color: rgb(255 255 255 / 6%); }
+}
+
+/* Diseño G — misma altura total que la franja anterior en tableta (267 px) y móvil (313 px). */
+@media (max-width: 639px) {
+  .industrial-benefit { padding-block: 10px; }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .industrial-benefit { padding-block: 10.8px; }
+  .industrial-benefit__icon { width: 3.5rem; height: 3.5rem; }
+  .industrial-benefit__icon svg { width: 2rem; height: 2rem; }
+}
+
+/* Diseño G — altura exacta de la franja anterior: compartimentos de altura fija con el contenido
+   centrado (113 px en escritorio, 267,172 px en tableta y 313,344 px en móvil, medidos). */
+.industrial-benefit { min-height: 93.115px; padding-block: 0; }
+
+@media (min-width: 640px) {
+  .industrial-benefit { min-height: 77.724px; padding-block: 0; }
+}
+
+@media (min-width: 1024px) {
+  .industrial-benefit { min-height: 91px; padding-block: 0; }
+}
+
+/* Móviles estrechos: icono y márgenes algo menores para que las descripciones quepan en dos líneas. */
+@media (max-width: 419px) {
+  .industrial-benefit { gap: 0.85rem; padding-inline: 1rem; }
+  .industrial-benefit__icon { width: 3.5rem; height: 3.5rem; }
+  .industrial-benefit__icon svg { width: 2rem; height: 2rem; }
+}
+
+/* Ajuste de 1/64 px (unidad de maquetación del navegador) en el último compartimento para igualar
+   exactamente la altura anterior en columna. */
+@media (max-width: 1023px) {
+  .industrial-benefit:last-child { min-height: 93.125px; }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .industrial-benefit:last-child { min-height: 77.735px; }
+}
+
+/* ======================================================================================
+   Separador del Hero y consola G refinada (2026-11-14 · 8)
+   ====================================================================================== */
+
+/* Separador sobre la consola: acero cromado limpio (sin el rayado repetido cada 3 px), con bisel
+   superior e inferior, canal azul carbón central y filo naranja fino. Misma altura (22 px). */
+.hero-steel-band {
+  border-top: 1px solid rgb(255 255 255 / 45%);
+  background:
+    linear-gradient(90deg, transparent 4%, rgb(255 138 0 / 70%) 28%, rgb(255 168 70 / 85%) 50%, rgb(255 138 0 / 70%) 72%, transparent 96%) 0 10px / 100% 1px no-repeat,
+    radial-gradient(ellipse 38% 160% at 26% 0%, rgb(255 255 255 / 22%), transparent 70%),
+    radial-gradient(ellipse 30% 160% at 78% 0%, rgb(255 255 255 / 12%), transparent 70%),
+    linear-gradient(180deg,
+      #d9e2e8 0, #b3c2cc 2px, #95a8b5 5px, #7a8e9b 8px,
+      #12212c 8px, #1b2f3d 10px, #12212c 12px,
+      #6c808e 12px, #8799a6 14px, #687c8a 17px, #3f515d 20px, #1c2a34 100%);
+  box-shadow: inset 0 -1px 0 rgb(0 0 0 / 55%), 0 -6px 16px -6px rgb(0 0 0 / 70%);
+}
+
+/* --- Consola: separadores diagonales más finos e integrados en el bisel --- */
+.industrial-benefit-strip { --g-divider: 10px; }
+
+@media (min-width: 1024px) {
+  .industrial-benefit + .industrial-benefit::before {
+    background: linear-gradient(90deg, #04101a 0 1px, #47596a 1px, #a9b9c4 40%, #d3dde4 52%, #7a8d9a 70%, #2b3b47 calc(100% - 1px), #04101a calc(100% - 1px));
+    box-shadow: 1px 0 2px rgb(0 0 0 / 40%), -1px 0 1px rgb(0 0 0 / 35%);
+  }
+}
+
+.industrial-benefit + .industrial-benefit::before {
+  background: linear-gradient(180deg, #04101a 0 1px, #a9b9c4 1px, #d3dde4 45%, #7a8d9a 75%, #04101a calc(100% - 1px));
+}
+
+/* --- Compartimentos: acero petróleo satinado (sin vetas), bisel interior y reflejo localizado;
+   cada compartimento con su punto de luz (izquierda / centro / derecha) para diferenciarlos. --- */
+.industrial-benefit {
+  --g-glint: 22% 0%;
+  --g-surface:
+    radial-gradient(ellipse 55% 75% at var(--g-glint), rgb(190 232 248 / 9%), transparent 72%),
+    linear-gradient(180deg, rgb(255 255 255 / 7%) 0%, rgb(255 255 255 / 2%) 40%, rgb(0 0 0 / 0%) 62%, rgb(0 0 0 / 10%) 100%),
+    linear-gradient(180deg, #33708d 0%, #2b6682 34%, #235c76 66%, #1d5069 100%);
+  box-shadow:
+    inset 0 0 0 1px rgb(2 12 20 / 75%),
+    inset 1px 2px 0 rgb(255 255 255 / 16%),
+    inset -1px -2px 0 rgb(0 0 0 / 30%),
+    inset 0 8px 12px -8px rgb(0 0 0 / 45%),
+    inset 0 -6px 10px -8px rgb(0 0 0 / 35%);
+}
+
+.industrial-benefit:nth-child(2) { --g-glint: 50% 0%; }
+.industrial-benefit:nth-child(3) { --g-glint: 80% 0%; }
+
+/* --- Placas de icono: negro azulado profundo, aro naranja industrial, bisel cromado fino --- */
+.industrial-benefit__icon {
+  border-width: 2.5px;
+  background:
+    radial-gradient(circle at 50% 35%, #132a38 0%, #08151e 55%, #03090e 100%) padding-box,
+    linear-gradient(160deg, #ffc477 0%, #ff9a2a 30%, #c25f00 60%, #f99a35 85%, #d97200 100%) border-box;
+  box-shadow:
+    inset 0 3px 8px rgb(0 0 0 / 75%),
+    inset 0 -1px 0 rgb(255 255 255 / 7%),
+    0 0 0 1.5px #b7c5cf,
+    0 0 0 2.5px rgb(3 12 20 / 90%),
+    0 3px 5px -1px rgb(0 0 0 / 60%);
+  color: #ffa53c;
+}
+
+.industrial-benefit__icon svg {
+  filter: drop-shadow(0 1px 0 rgb(0 0 0 / 80%)) drop-shadow(0 -1px 0 rgb(255 220 170 / 22%));
+}
+
+/* --- Tipografía: sombra corta y más separación entre título y descripción --- */
+.industrial-benefit strong { text-shadow: 0 1px 0 rgb(0 0 0 / 55%), 0 2px 4px rgb(0 0 0 / 35%); }
+.industrial-benefit strong + span { margin-top: 0.3rem; color: #f3f8fb; text-shadow: 0 1px 1px rgb(0 0 0 / 45%); }
+
+/* El realce con ratón usa la misma pila de sombras con un brillo interior suave. */
+@media (hover: hover) and (pointer: fine) {
+  .industrial-benefit:hover {
+    background-color: rgb(255 255 255 / 6%);
+    box-shadow:
+      inset 0 0 0 1px rgb(2 12 20 / 75%),
+      inset 1px 2px 0 rgb(255 255 255 / 22%),
+      inset -1px -2px 0 rgb(0 0 0 / 30%),
+      inset 0 8px 12px -8px rgb(0 0 0 / 40%),
+      inset 0 0 26px rgb(150 210 235 / 12%);
+  }
+  .industrial-benefit:hover .industrial-benefit__icon {
+    box-shadow:
+      inset 0 3px 8px rgb(0 0 0 / 75%),
+      inset 0 -1px 0 rgb(255 255 255 / 7%),
+      0 0 0 1.5px #dfe7ec,
+      0 0 0 2.5px rgb(3 12 20 / 90%),
+      0 0 10px rgb(255 157 46 / 28%),
+      0 3px 5px -1px rgb(0 0 0 / 60%);
+  }
+}
+
+/* Consola G: bisel interior algo más marcado (chaflán claro arriba-izquierda, oscuro abajo-derecha). */
+.industrial-benefit {
+  box-shadow:
+    inset 0 0 0 1px rgb(2 12 20 / 80%),
+    inset 2px 3px 0 -1px rgb(255 255 255 / 20%),
+    inset -2px -3px 0 -1px rgb(0 0 0 / 38%),
+    inset 0 10px 14px -10px rgb(0 0 0 / 50%),
+    inset 0 -8px 12px -10px rgb(0 0 0 / 40%);
+}
+
+/* ======================================================================================
+   Consola industrial según especificación aprobada (2026-11-14 · 9)
+   Marco cromado con esquinas biseladas, compartimentos con esquinas angulares, separadores
+   estructurales con filo naranja, placas de icono octagonales y línea naranja bajo cada título.
+   Las esquinas angulares usan `corner-shape: bevel` (las sombras siguen la forma); sin soporte,
+   se mantienen esquinas redondeadas. Alturas idénticas a la versión anterior.
+   ====================================================================================== */
+
+/* --- Marco exterior --- */
+.industrial-benefit-strip {
+  border-radius: 1.1rem;
+  background:
+    linear-gradient(90deg, transparent 22%, rgb(255 138 0 / 75%) 42%, rgb(255 170 80 / 90%) 50%, rgb(255 138 0 / 75%) 58%, transparent 78%) 0 1px / 100% 1px no-repeat padding-box,
+    linear-gradient(90deg, transparent 22%, rgb(255 138 0 / 60%) 42%, rgb(255 160 60 / 75%) 50%, rgb(255 138 0 / 60%) 58%, transparent 78%) 0 calc(100% - 1px) / 100% 1px no-repeat padding-box,
+    linear-gradient(180deg, #0f2838, #081a26) padding-box,
+    linear-gradient(180deg, #ffffff 0%, #eef3f6 10%, #c2cfd8 28%, #8da0ad 46%, #e9eff3 60%, #b6c4ce 78%, #5d7282 100%) border-box;
+  box-shadow:
+    inset 0 0 0 1px rgb(2 10 16 / 85%),
+    inset 0 2px 0 1px rgb(255 255 255 / 8%),
+    0 0 0 1px rgb(20 34 46 / 75%),
+    0 1px 0 1px rgb(255 255 255 / 40%),
+    0 10px 14px -8px rgb(6 18 28 / 60%),
+    0 26px 36px -24px rgb(6 18 28 / 65%);
+}
+
+/* --- Compartimentos: petróleo oscuro satinado, bisel interior, reflejo superior --- */
+.industrial-benefit {
+  border-radius: 0.7rem;
+  --g-surface:
+    radial-gradient(ellipse 60% 70% at var(--g-glint), rgb(190 232 248 / 9%), transparent 72%),
+    linear-gradient(180deg, rgb(255 255 255 / 9%) 0, rgb(255 255 255 / 9%) 1px, rgb(255 255 255 / 4%) 2px, rgb(255 255 255 / 1%) 45%, rgb(0 0 0 / 0%) 60%, rgb(0 0 0 / 16%) 100%),
+    linear-gradient(180deg, #2f6886 0%, #275d78 34%, #1f526b 66%, #19465d 100%);
+  box-shadow:
+    inset 0 0 0 1px rgb(2 12 20 / 85%),
+    inset 2px 3px 0 -1px rgb(255 255 255 / 18%),
+    inset -2px -3px 0 -1px rgb(0 0 0 / 40%),
+    inset 0 12px 14px -12px rgb(0 0 0 / 55%),
+    inset 0 -10px 12px -10px rgb(0 0 0 / 45%);
+}
+
+/* --- Separadores estructurales: cara cromada iluminada, cara lateral oscura y filo naranja --- */
+@media (min-width: 1024px) {
+  .industrial-benefit-strip { --g-divider: 12px; }
+  .industrial-benefit + .industrial-benefit::before {
+    background:
+      linear-gradient(90deg, transparent 0 calc(62% - 0.5px), rgb(255 150 40 / 90%) calc(62% - 0.5px) calc(62% + 0.5px), transparent calc(62% + 0.5px)),
+      linear-gradient(90deg, #04101a 0 1px, #c8d4dc 1px, #eef3f6 22%, #a8b8c3 45%, #5e7280 58%, #2c3c48 80%, #04101a calc(100% - 1px));
+    box-shadow: 2px 0 3px rgb(0 0 0 / 45%), -1px 0 1px rgb(0 0 0 / 35%);
+  }
+}
+
+.industrial-benefit + .industrial-benefit::before {
+  background:
+    linear-gradient(180deg, transparent 0 calc(60% - 0.5px), rgb(255 150 40 / 85%) calc(60% - 0.5px) calc(60% + 0.5px), transparent calc(60% + 0.5px)),
+    linear-gradient(180deg, #04101a 0 1px, #dfe7ec 1px, #a8b8c3 45%, #4a5d6b 80%, #04101a calc(100% - 1px));
+}
+
+/* --- Placas de icono octagonales --- */
+.industrial-benefit__icon {
+  border-radius: 1.17rem;
+  border-width: 2.5px;
+  background:
+    radial-gradient(circle at 50% 30%, rgb(255 150 50 / 14%), transparent 55%) padding-box,
+    radial-gradient(circle at 50% 38%, #142c3a 0%, #08151e 55%, #02080d 100%) padding-box,
+    linear-gradient(160deg, #ffc477 0%, #ff9a2a 30%, #c25f00 60%, #f99a35 85%, #d97200 100%) border-box;
+  box-shadow:
+    inset 0 3px 8px rgb(0 0 0 / 75%),
+    inset 0 0 10px rgb(255 140 30 / 14%),
+    0 0 0 2px #c9d5dd,
+    0 0 0 3px #6f8492,
+    0 0 0 4px rgb(3 12 20 / 90%),
+    0 4px 6px -1px rgb(0 0 0 / 60%);
+}
+
+@media (max-width: 419px), (min-width: 640px) and (max-width: 1279px) {
+  .industrial-benefit__icon { border-radius: 1.02rem; }
+}
+
+/* --- Título con línea naranja --- */
+.industrial-benefit strong { color: #ffffff; text-shadow: 0 1px 0 rgb(0 0 0 / 65%), 0 2px 3px rgb(0 0 0 / 40%); }
+
+.industrial-benefit strong::after {
+  display: block;
+  width: 2.25rem;
+  height: 3px;
+  margin-top: 0.3rem;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #ffb04d, #ff8a00 60%, rgb(255 138 0 / 35%));
+  box-shadow: 0 0 6px rgb(255 138 0 / 35%);
+  content: "";
+}
+
+.industrial-benefit strong + span { margin-top: 0.35rem; }
+
+@media (max-width: 1023px) {
+  .industrial-benefit strong::after { height: 2px; margin-top: 0.22rem; }
+  .industrial-benefit strong + span { margin-top: 0.25rem; }
+}
+
+/* --- Esquinas angulares (marco, compartimentos y placas octagonales) --- */
+@supports (corner-shape: bevel) {
+  .industrial-benefit-strip,
+  .industrial-benefit,
+  .industrial-benefit__icon { corner-shape: bevel; }
+}
+
+/* --- Realce con cursor: superficie y marco del icono, sin desplazamientos --- */
+@media (hover: hover) and (pointer: fine) {
+  .industrial-benefit:hover {
+    background-color: rgb(255 255 255 / 5%);
+    box-shadow:
+      inset 0 0 0 1px rgb(2 12 20 / 85%),
+      inset 2px 3px 0 -1px rgb(255 255 255 / 26%),
+      inset -2px -3px 0 -1px rgb(0 0 0 / 40%),
+      inset 0 12px 14px -12px rgb(0 0 0 / 45%),
+      inset 0 0 26px rgb(150 210 235 / 12%);
+  }
+  .industrial-benefit:hover .industrial-benefit__icon {
+    box-shadow:
+      inset 0 3px 8px rgb(0 0 0 / 75%),
+      inset 0 0 12px rgb(255 140 30 / 24%),
+      0 0 0 2px #eef3f6,
+      0 0 0 3px #8ea2b0,
+      0 0 0 4px rgb(3 12 20 / 90%),
+      0 0 12px rgb(255 157 46 / 30%),
+      0 4px 6px -1px rgb(0 0 0 / 60%);
+  }
+}
+
+/* Consola: más aire sobre el título en escritorio (bloque de texto algo más compacto). */
+@media (min-width: 1024px) {
+  .industrial-benefit strong { line-height: 1.05; }
+  .industrial-benefit strong::after { margin-top: 0.25rem; }
+  .industrial-benefit strong + span { margin-top: 0.28rem; }
+}
+
+/* ======================================================================================
+   Consola industrial según docs/mockup/consola-industrial-aprobada.png (2026-11-14 · 10)
+   - Marco: extremos en punta (bisel 30 × 34 px) con filo naranja fino y continuo por dentro.
+   - Escritorio: compartimentos en paralelogramo (clip-path) que siguen la inclinación de 14° de
+     los separadores; los separadores son pseudo-elementos de la consola (no se recortan).
+   - Placas octagonales con aro cromado, 8 remaches redondos y contorno naranja interior.
+   Alturas idénticas a la versión anterior (los compartimentos conservan su altura fija).
+   ====================================================================================== */
+.industrial-benefit-strip {
+  border-radius: 30px / 34px;
+  background:
+    linear-gradient(180deg, #0c2331, #071824) padding-box,
+    linear-gradient(180deg, #ffffff 0%, #eef3f6 10%, #c2cfd8 28%, #8da0ad 46%, #e9eff3 60%, #b6c4ce 78%, #5d7282 100%) border-box;
+  box-shadow:
+    inset 0 0 0 1px rgb(2 10 16 / 90%),
+    inset 0 0 0 2px rgb(255 140 30 / 72%),
+    inset 0 0 6px 2px rgb(255 138 0 / 14%),
+    0 0 0 1px rgb(20 34 46 / 75%),
+    0 1px 0 1px rgb(255 255 255 / 40%),
+    0 10px 14px -8px rgb(6 18 28 / 60%),
+    0 26px 36px -24px rgb(6 18 28 / 65%);
+}
+
+/* Compartimentos: petróleo oscuro satinado como en el mockup. */
+.industrial-benefit {
+  --g-surface:
+    radial-gradient(ellipse 60% 70% at var(--g-glint), rgb(170 220 240 / 8%), transparent 72%),
+    linear-gradient(180deg, rgb(255 255 255 / 8%) 0, rgb(255 255 255 / 8%) 1px, rgb(255 255 255 / 3%) 2px, rgb(255 255 255 / 0%) 45%, rgb(0 0 0 / 0%) 60%, rgb(0 0 0 / 18%) 100%),
+    linear-gradient(180deg, #1c536b 0%, #174a60 36%, #123f53 70%, #0f3546 100%);
+}
+
+/* Remaches de los compartimentos extremos (móvil: arriba y abajo). */
+.industrial-benefit:first-child {
+  background:
+    var(--rivet-dot) left 18px top 7px / 9px 9px no-repeat,
+    var(--rivet-dot) right 18px top 7px / 9px 9px no-repeat,
+    var(--g-surface);
+}
+
+.industrial-benefit:last-child {
+  background:
+    var(--rivet-dot) left 18px bottom 7px / 9px 9px no-repeat,
+    var(--rivet-dot) right 18px bottom 7px / 9px 9px no-repeat,
+    var(--g-surface);
+}
+
+@media (min-width: 1024px) {
+  .industrial-benefit-strip {
+    --g-slant: 22.7px;   /* 91 px de alto × tan 14° */
+    --g-gap: 10px;
+    column-gap: 0;
+  }
+
+  /* Paralelogramos: el borde derecho del 1.º y del 2.º y el izquierdo del 2.º y del 3.º siguen la
+     diagonal; el 2.º y el 3.º se solapan (margen negativo) para dejar un canal de 10 px. */
+  .industrial-benefit:nth-child(1) {
+    border-radius: 19px 0.6rem 0.6rem 19px / 23px 0.6rem 0.6rem 23px;
+    padding-right: calc(var(--g-slant) + 0.6rem);
+    clip-path: polygon(0 0, 100% 0, calc(100% - var(--g-slant)) 100%, 0 100%);
+  }
+
+  .industrial-benefit:nth-child(2) {
+    margin-left: calc(var(--g-gap) - var(--g-slant));
+    padding-right: calc(var(--g-slant) + 0.6rem);
+    padding-left: calc(var(--g-slant) + 0.5rem);
+    clip-path: polygon(var(--g-slant) 0, 100% 0, calc(100% - var(--g-slant)) 100%, 0 100%);
+  }
+
+  .industrial-benefit:nth-child(3) {
+    border-radius: 0.6rem 19px 19px 0.6rem / 0.6rem 23px 23px 0.6rem;
+    margin-left: calc(var(--g-gap) - var(--g-slant));
+    padding-left: calc(var(--g-slant) + 0.5rem);
+    clip-path: polygon(var(--g-slant) 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .industrial-benefit:first-child {
+    background:
+      var(--rivet-dot) left 8px top 22px / 9px 9px no-repeat,
+      var(--rivet-dot) left 8px bottom 22px / 9px 9px no-repeat,
+      var(--g-surface);
+  }
+
+  .industrial-benefit:last-child {
+    background:
+      var(--rivet-dot) right 8px top 22px / 9px 9px no-repeat,
+      var(--rivet-dot) right 8px bottom 22px / 9px 9px no-repeat,
+      var(--g-surface);
+  }
+
+  /* Los separadores ya no dependen de los compartimentos (recortados): se dibujan en la consola. */
+  .industrial-benefit + .industrial-benefit::before { display: none; }
+
+  .industrial-benefit-strip::before,
+  .industrial-benefit-strip::after {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    width: var(--g-gap);
+    background:
+      linear-gradient(90deg, #04101a 0 1px, #1d2d39 1px, #2c3d4a 30%, #d6e0e6 46%, #f2f6f8 52%, #8396a3 64%, #ff8a1a 64% 76%, #a24f00 76% 84%, #04101a 84%);
+    box-shadow: 1px 0 2px rgb(0 0 0 / 45%);
+    transform: skewX(-14deg);
+    content: "";
+    pointer-events: none;
+  }
+
+  .industrial-benefit-strip::before { left: calc(6px + (100% - 12px) / 3 - var(--g-slant) / 2); }
+  .industrial-benefit-strip::after { left: calc(6px + 2 * (100% - 12px) / 3 - var(--g-slant) / 2); }
+}
+
+/* --- Placas octagonales: aro cromado con 8 remaches, cara negro azulada y contorno naranja --- */
+.industrial-benefit__icon {
+  --ic: 4rem;
+  --ic-c: calc(var(--ic) * 0.29);
+  --bolt: radial-gradient(circle, #f6f9fb 0 0.7px, #9aabb7 1.3px, #26343f 2px, transparent 2.4px);
+  border-width: 5px;
+  border-radius: var(--ic-c);
+  background:
+    var(--bolt) calc(var(--ic-c) + 1px) 0 / 5px 5px no-repeat border-box,
+    var(--bolt) calc(var(--ic) - var(--ic-c) - 6px) 0 / 5px 5px no-repeat border-box,
+    var(--bolt) calc(var(--ic-c) + 1px) calc(var(--ic) - 5px) / 5px 5px no-repeat border-box,
+    var(--bolt) calc(var(--ic) - var(--ic-c) - 6px) calc(var(--ic) - 5px) / 5px 5px no-repeat border-box,
+    var(--bolt) 0 calc(var(--ic-c) + 1px) / 5px 5px no-repeat border-box,
+    var(--bolt) 0 calc(var(--ic) - var(--ic-c) - 6px) / 5px 5px no-repeat border-box,
+    var(--bolt) calc(var(--ic) - 5px) calc(var(--ic-c) + 1px) / 5px 5px no-repeat border-box,
+    var(--bolt) calc(var(--ic) - 5px) calc(var(--ic) - var(--ic-c) - 6px) / 5px 5px no-repeat border-box,
+    radial-gradient(circle at 50% 40%, rgb(255 140 30 / 16%), transparent 60%) padding-box,
+    radial-gradient(circle at 50% 38%, #10222e 0%, #08141c 58%, #02080d 100%) padding-box,
+    linear-gradient(160deg, #ffffff 0%, #c9d5dd 22%, #7e92a0 48%, #e6edf1 66%, #a3b4c0 82%, #5b6f7d 100%) border-box;
+  box-shadow:
+    inset 0 0 0 1px rgb(3 10 16 / 90%),
+    inset 0 0 0 3px #ff8a1a,
+    inset 0 0 0 4px rgb(120 50 0 / 80%),
+    inset 0 4px 9px rgb(0 0 0 / 70%),
+    inset 0 0 12px rgb(255 140 30 / 22%),
+    0 0 0 1px rgb(3 12 20 / 85%),
+    0 4px 6px -1px rgb(0 0 0 / 60%);
+}
+
+@media (max-width: 419px), (min-width: 640px) and (max-width: 1279px) {
+  .industrial-benefit__icon { --ic: 3.5rem; border-radius: var(--ic-c); }
+}
+
+.industrial-benefit__icon svg { filter: drop-shadow(0 1px 0 rgb(0 0 0 / 80%)) drop-shadow(0 0 3px rgb(255 140 30 / 35%)); }
+
+/* --- Línea naranja más larga bajo el título --- */
+.industrial-benefit strong::after { width: 4.25rem; background: linear-gradient(90deg, #ffb04d, #ff8a00 55%, rgb(255 138 0 / 25%)); }
+
+@media (max-width: 1279px) {
+  .industrial-benefit strong::after { width: 3.6rem; }
+}
+
+/* Realce con cursor: también el aro cromado del icono (misma pila de sombras). */
+@media (hover: hover) and (pointer: fine) {
+  .industrial-benefit:hover .industrial-benefit__icon {
+    box-shadow:
+      inset 0 0 0 1px rgb(3 10 16 / 90%),
+      inset 0 0 0 3px #ffa040,
+      inset 0 0 0 4px rgb(120 50 0 / 80%),
+      inset 0 4px 9px rgb(0 0 0 / 70%),
+      inset 0 0 14px rgb(255 140 30 / 32%),
+      0 0 0 1px rgb(3 12 20 / 85%),
+      0 0 10px rgb(255 157 46 / 28%),
+      0 4px 6px -1px rgb(0 0 0 / 60%);
+  }
+}
+
+/* Consola: marco cromado más grueso como en el mockup (8 px) a costa del canal interior (3 px);
+   la suma (11 px por lado) y la separación entre filas en móvil (6 px) no cambian. */
+.industrial-benefit-strip {
+  padding: 3px;
+  border-width: 8px;
+  background:
+    linear-gradient(180deg, #0c2331, #071824) padding-box,
+    linear-gradient(180deg, #ffffff 0%, #f1f5f8 12%, #b9c7d1 30%, #7f93a1 44%, #dfe7ec 56%, #ffffff 62%, #aab9c4 78%, #556a79 100%) border-box;
+  box-shadow:
+    inset 0 0 0 1px rgb(2 10 16 / 90%),
+    inset 0 0 0 2px rgb(255 140 30 / 75%),
+    inset 0 0 6px 2px rgb(255 138 0 / 14%),
+    0 0 0 1px rgb(20 34 46 / 80%),
+    0 1px 0 1px rgb(255 255 255 / 40%),
+    0 10px 14px -8px rgb(6 18 28 / 60%),
+    0 26px 36px -24px rgb(6 18 28 / 65%);
+}
+
+@media (min-width: 1024px) {
+  .industrial-benefit-strip::before { left: calc(3px + (100% - 6px) / 3 - var(--g-slant) / 2); }
+  .industrial-benefit-strip::after { left: calc(3px + 2 * (100% - 6px) / 3 - var(--g-slant) / 2); }
+}
+
+/* ======================================================================================
+   Mockup final docs/mockup/mockup-final-rey-central.png (2026-11-14 · 11)
+   - Hero: dos distintivos con palomita bajo el eslogan (sin distintivo ni CTA independientes).
+   - Header compacto: misma placa diamantada que el Hero (antes usaba otra textura).
+   - Fondos: azul petróleo de acero cepillado tras la consola, en Nuestras unidades y en
+     Contacto/footer; ¿Cómo rentar una grúa? en acero plateado cepillado con placas
+     diamantadas diagonales en los extremos. Separadores cromados con acentos naranjas.
+   Logo, fotografías, marco angular, consola, Servicios y banner conservan su diseño.
+   ====================================================================================== */
+:root {
+  /* Grano corto y tenue de acero cepillado (sin vetas largas que generen bandas). */
+  --petrol-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.016 0.9' numOctaves='2' seed='13' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.75 0 0 0 0 0.9 0 0 0 0 1 0 0 0 0.11 -0.035'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  --petrol-grain-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02 0.95' numOctaves='2' seed='41' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0.04 0 0 0 0 0.07 0 0 0 0.16 -0.05'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  /* Azul petróleo: reflejos diagonales «/» suaves en los extremos y viñeta de profundidad. */
+  --petrol-steel:
+    var(--petrol-grain) 0 0 / 480px 480px,
+    var(--petrol-grain-dark) 0 0 / 480px 480px,
+    linear-gradient(118deg, transparent 0 4%, rgb(150 215 240 / 13%) 9%, rgb(150 215 240 / 4%) 13%, transparent 17%),
+    linear-gradient(118deg, transparent 80%, rgb(150 215 240 / 4%) 85%, rgb(150 215 240 / 12%) 90%, transparent 95%),
+    radial-gradient(ellipse 60% 75% at 50% 35%, rgb(40 130 170 / 20%), transparent 72%),
+    radial-gradient(140% 120% at 50% 40%, transparent 50%, rgb(0 14 24 / 50%) 100%),
+    linear-gradient(180deg, #0f5879 0%, #0b4c6a 45%, #073b53 100%);
+  /* Separador cromado de 7 px con línea y destellos naranjas hacia los extremos. */
+  --chrome-separator:
+    radial-gradient(ellipse 7% 260% at 9% 100%, rgb(255 150 40 / 75%), transparent 70%),
+    radial-gradient(ellipse 7% 260% at 91% 100%, rgb(255 150 40 / 75%), transparent 70%),
+    linear-gradient(90deg, #e57400 0 6%, rgb(229 116 0 / 55%) 16%, transparent 30% 70%, rgb(229 116 0 / 55%) 84%, #e57400 94%) left bottom / 100% 2px no-repeat,
+    linear-gradient(90deg, transparent, rgb(255 255 255 / 45%) 50%, transparent),
+    linear-gradient(180deg, #ffffff 0%, #e2e9ee 22%, #93a7b5 50%, #4c6070 78%, #1d2b36 100%);
+}
+
+/* ---------- Hero: distintivos con palomita ---------- */
+.hero-checks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  row-gap: 0.55rem;
+  margin-top: var(--hero-gap-md);
+  color: #ffffff;
+  font-family: "Poppins", var(--font-sans);
+  font-size: clamp(0.85rem, 3.85vw, 1.05rem);
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1.2;
+  text-shadow:
+    0 0 2px rgb(0 0 0 / 70%),
+    0 1px 0 rgb(0 0 0 / 75%),
+    0 2px 8px rgb(0 0 0 / 90%);
+}
+
+@media (min-width: 640px) {
+  .hero-checks { font-size: clamp(1rem, 1.45vw, 1.3rem); }
+}
+
+.hero-checks__item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding-inline: 0.75em;
+  white-space: nowrap;
+}
+
+.hero-checks__item:first-child { padding-left: 0; }
+.hero-checks__item:last-child { padding-right: 0; }
+
+/* Línea divisoria vertical fina entre ambos distintivos. */
+.hero-checks__item + .hero-checks__item::before {
+  position: absolute;
+  top: -0.2em;
+  bottom: -0.2em;
+  left: 0;
+  width: 1.5px;
+  background: linear-gradient(180deg, transparent, rgb(255 236 214 / 80%) 18%, rgb(255 236 214 / 80%) 82%, transparent);
+  box-shadow: 1px 0 1px rgb(0 0 0 / 45%);
+  content: "";
+}
+
+.hero-checks__icon {
+  display: grid;
+  width: 1.3em;
+  height: 1.3em;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 999px;
+  background: radial-gradient(circle at 36% 30%, #ffc36e 0%, #ff9a1f 45%, #e06c00 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 55%),
+    inset 0 -2px 3px rgb(120 45 0 / 45%),
+    0 0 0 1px rgb(0 0 0 / 45%),
+    0 3px 6px rgb(0 0 0 / 50%);
+  color: #151a1f;
+}
+
+.hero-checks__icon svg { width: 62%; height: 62%; filter: none; }
+
+/* ---------- Header compacto: misma placa diamantada e iluminación que el Hero ---------- */
+.industrial-header[data-compact="true"] {
+  background-color: #0e1829;
+  background-image:
+    linear-gradient(180deg, rgb(255 255 255 / 5%), transparent 45%, rgb(0 0 0 / 32%)),
+    linear-gradient(rgb(94 90 86), rgb(94 90 86)),
+    url("/assets/industrial/steel-light-variation.svg"),
+    url("/assets/industrial/steel-tread-plate-gastado-definido.webp");
+  background-repeat: no-repeat, no-repeat, repeat, repeat;
+  background-size: auto, auto, 640px 640px, 248px 260px;
+  background-blend-mode: normal, color-dodge, normal, normal;
+}
+
+/* ---------- Consola sobre azul petróleo; Servicios conserva su acero satinado ---------- */
+.industrial-overview { isolation: isolate; }
+
+/* Zona azul desde el Hero hasta el filo superior del panel de Servicios (la sección la recorta). */
+.industrial-services-panel::after {
+  display: block;
+  position: absolute;
+  z-index: -1;
+  top: auto;
+  right: 0;
+  bottom: 100%;
+  left: 0;
+  height: 60rem;
+  background: var(--petrol-steel);
+  background-position: 0 100%;
+  content: "";
+  pointer-events: none;
+}
+
+.industrial-services-panel { margin-top: 1.5rem; }
+
+.industrial-services-panel::before {
+  height: 7px;
+  background: var(--chrome-separator);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 40%);
+}
+
+/* El separador de Nuestras unidades sustituye al filo inferior de la sección. */
+.industrial-overview::after { display: none; }
+
+/* ---------- Separadores cromados entre secciones ---------- */
+.fleet-band::before,
+.rental-band::before,
+.site-footer::before {
+  z-index: 1;
+  height: 7px;
+  background: var(--chrome-separator);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 40%);
+}
+
+/* ---------- Nuestras unidades: azul petróleo y ficha con corte diagonal naranja ---------- */
+.fleet-band {
+  --background: #0b4c6a;
+  background: var(--petrol-steel);
+  background-color: #0b4c6a;
+}
+
+@media (min-width: 768px) {
+  /* Conserva el ancho (y la altura cuadrada) de la foto: el filo pasa a ser del color de la ficha. */
+  .fleet-grid--single .fleet-card__media {
+    border-right: 3px solid;
+    border-image: linear-gradient(180deg, #f6fafc, #e5eef3) 1;
+  }
+
+  /* Cuña del color de la ficha con filo naranja: transición diagonal entre foto y datos. */
+  .fleet-grid--single .fleet-card__media::after {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 2.75rem;
+    background:
+      linear-gradient(to top left, transparent calc(50% - 4px), #ff8a00 calc(50% - 4px) calc(50% - 1px), #c25a00 calc(50% - 1px) 50%, transparent 50%),
+      linear-gradient(180deg, #f6fafc, #e5eef3);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+    content: "";
+    pointer-events: none;
+  }
+
+  .fleet-grid--single .unit-gallery__arrow--next { right: 2.25rem; }
+}
+
+/* ---------- ¿Cómo rentar una grúa?: acero plateado cepillado ---------- */
+.rental-band {
+  background-color: #cfd8de;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012 0.9' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.3 -0.09'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.016 0.95' numOctaves='2' seed='29' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.2 0 0 0 0 0.26 0 0 0 0 0.32 0 0 0 0.2 -0.06'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
+    linear-gradient(104deg, transparent 10%, rgb(255 255 255 / 34%) 32%, rgb(255 255 255 / 8%) 46%, transparent 58%),
+    radial-gradient(ellipse 50% 60% at 78% 40%, rgb(255 255 255 / 22%), transparent 72%),
+    linear-gradient(180deg, #dfe6eb 0%, #cdd7de 48%, #bcc8d1 100%);
+  background-size: 480px 480px, 480px 480px, auto, auto, auto;
+}
+
+.rental-band .rental-step {
+  border: 1px solid rgb(240 138 36 / 85%);
+  border-top: var(--ui-accent-edge);
+  box-shadow:
+    inset 0 1px 0 #ffffff,
+    0 0 0 1px rgb(255 255 255 / 55%),
+    0 14px 26px -18px rgb(15 30 40 / 60%);
+}
+
+/* Placas diamantadas en los extremos con filo diagonal naranja (solo donde hay margen libre). */
+@media (min-width: 1280px) {
+  .rental-band > div::before,
+  .rental-band > div::after {
+    position: absolute;
+    top: 0;
+    width: calc((100% - 72rem) / 2 - 1.5rem);
+    height: min(100%, 28rem);
+    background-color: #0e1829;
+    background-image:
+      linear-gradient(var(--wedge-dir), transparent calc(50% - 7px), #ffffff calc(50% - 7px) calc(50% - 6px), #ff8a1a calc(50% - 6px) calc(50% - 2px), #8a3f00 calc(50% - 2px) 50%, transparent 50%),
+      linear-gradient(rgb(94 90 86), rgb(94 90 86)),
+      url("/assets/industrial/steel-tread-plate-gastado-definido.webp");
+    background-repeat: no-repeat, no-repeat, repeat;
+    background-size: auto, auto, 248px 260px;
+    background-blend-mode: normal, color-dodge, normal;
+    content: "";
+    pointer-events: none;
+  }
+
+  .rental-band > div::before {
+    --wedge-dir: to bottom right;
+    left: 0;
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+  }
+
+  .rental-band > div::after {
+    --wedge-dir: to top left;
+    right: 0;
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  }
+}
+
+/* ---------- Contacto y footer: azul petróleo y tarjetas con filo del color de su canal ---------- */
+.site-footer {
+  background: var(--petrol-steel);
+  background-color: #0b4c6a;
+}
+
+.contact-method {
+  background:
+    linear-gradient(180deg, #123e55, #0b2e41) padding-box,
+    linear-gradient(180deg, #c9d6de, #5d6f7b 55%, #3d4c57) border-box;
+}
+
+.contact-method__icon { background: linear-gradient(180deg, #0b2533, #06161f); }
+
+.contact-method--whatsapp { box-shadow: inset 0 0 0 2px #25d366, 0 0 14px -6px rgb(37 211 102 / 55%), 0 0 0 1px rgb(0 0 0 / 45%), 0 18px 30px -20px rgb(0 0 0 / 90%); }
+.contact-method--phone { box-shadow: inset 0 0 0 2px var(--industrial-yellow), 0 0 14px -6px rgb(255 138 0 / 55%), 0 0 0 1px rgb(0 0 0 / 45%), 0 18px 30px -20px rgb(0 0 0 / 90%); }
+.contact-method--email { box-shadow: inset 0 0 0 2px #9fb5c4, 0 0 0 1px rgb(0 0 0 / 45%), 0 18px 30px -20px rgb(0 0 0 / 90%); }
+
+.footer-bottom {
+  border-top: 0;
+  background: linear-gradient(90deg, transparent, rgb(206 222 232 / 55%) 18%, rgb(255 255 255 / 80%) 50%, rgb(206 222 232 / 55%) 82%, transparent) top / 100% 1px no-repeat;
 }

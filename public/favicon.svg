@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Rey Central Grúas">
+  <rect width="64" height="64" fill="#0F172A"/>
+  <path d="M32 5 54 17.5v29L32 59 10 46.5v-29L32 5Z" fill="#16243A" stroke="#F59E0B" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M20 22h24M20 32h24M20 42h24" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/>
+  <path d="M23 19v27M41 19v27" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/>
+  <path d="M27 25h10v14H27z" fill="#0F172A" stroke="#F8FAFC" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M31 28h4M31 32h4M31 36h4" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

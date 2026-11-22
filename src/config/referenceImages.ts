@@ -5,9 +5,6 @@ import serviceFachadasImg from "@/assets/reference/service-fachadas.webp";
 import serviceCamarasImg from "@/assets/reference/service-camaras.webp";
 import serviceIndustrialImg from "@/assets/reference/service-industrial.webp";
 import whyChooseUsImg from "@/assets/reference/why-choose-us.webp";
-import exampleFachadaImg from "@/assets/reference/example-fachada.webp";
-import exampleAnuncioImg from "@/assets/reference/example-anuncio.webp";
-import exampleAlturaImg from "@/assets/reference/example-altura.webp";
 
 // Catálogo central de las fotografías de referencia.
 // Para sustituir un slot por una foto real del negocio más adelante:
@@ -23,10 +20,7 @@ export type ReferenceImageKey =
   | "service-fachadas"
   | "service-camaras"
   | "service-industrial"
-  | "why-choose-us"
-  | "example-fachada"
-  | "example-anuncio"
-  | "example-altura";
+  | "why-choose-us";
 
 export interface ReferenceImage {
   slot: ReferenceImageKey;
@@ -69,20 +63,5 @@ export const referenceImages: Record<ReferenceImageKey, ReferenceImage> = {
     slot: "why-choose-us",
     src: whyChooseUsImg,
     alt: "Operación profesional de grúa con canastilla en entorno urbano",
-  },
-  "example-fachada": {
-    slot: "example-fachada",
-    src: exampleFachadaImg,
-    alt: "Ejemplo de trabajo de mantenimiento de fachada con grúa de canastilla",
-  },
-  "example-anuncio": {
-    slot: "example-anuncio",
-    src: exampleAnuncioImg,
-    alt: "Ejemplo de instalación de anuncio mediante grúa con canastilla",
-  },
-  "example-altura": {
-    slot: "example-altura",
-    src: exampleAlturaImg,
-    alt: "Ejemplo de trabajo técnico en altura con grúa de canastilla",
   },
 };

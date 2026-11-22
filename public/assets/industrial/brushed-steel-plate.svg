@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="36" viewBox="0 0 1440 36" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <linearGradient id="plateMetal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c2d0da" />
+      <stop offset="0.16" stop-color="#93a6b3" />
+      <stop offset="0.46" stop-color="#617583" />
+      <stop offset="0.74" stop-color="#3a4c58" />
+      <stop offset="1" stop-color="#16232d" />
+    </linearGradient>
+    <linearGradient id="plateSheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.18" />
+      <stop offset="0.42" stop-color="#ffffff" stop-opacity="0.04" />
+      <stop offset="1" stop-color="#000000" stop-opacity="0.18" />
+    </linearGradient>
+    <pattern id="plateBrush" width="6" height="3" patternUnits="userSpaceOnUse">
+      <rect width="6" height="3" fill="none" />
+      <rect width="6" height="1" fill="#ffffff" opacity="0.045" />
+    </pattern>
+    <radialGradient id="rivetMetal" cx="34%" cy="28%" r="78%">
+      <stop offset="0" stop-color="#f2f7fa" />
+      <stop offset="0.32" stop-color="#bccbd6" />
+      <stop offset="0.68" stop-color="#647887" />
+      <stop offset="1" stop-color="#16232d" />
+    </radialGradient>
+    <g id="roundRivet">
+      <circle r="5.6" fill="#08121b" opacity="0.8" />
+      <circle r="4.5" fill="url(#rivetMetal)" stroke="#e3edf3" stroke-opacity="0.35" stroke-width="0.6" />
+      <circle cx="-1.2" cy="-1.4" r="1.2" fill="#ffffff" opacity="0.5" />
+    </g>
+  </defs>
+  <rect width="1440" height="36" rx="3" fill="url(#plateMetal)" />
+  <rect width="1440" height="36" rx="3" fill="url(#plateBrush)" />
+  <rect width="1440" height="36" rx="3" fill="url(#plateSheen)" />
+  <rect x="0.5" y="0.5" width="1439" height="1.2" fill="#ffffff" opacity="0.3" />
+  <rect x="0.5" y="34.3" width="1439" height="1.2" fill="#000000" opacity="0.5" />
+  <g>
+    <use href="#roundRivet" transform="translate(34 11)" />
+    <use href="#roundRivet" transform="translate(34 25)" />
+    <use href="#roundRivet" transform="translate(1406 11)" />
+    <use href="#roundRivet" transform="translate(1406 25)" />
+  </g>
+</svg>
